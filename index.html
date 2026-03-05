@@ -3142,10 +3142,10 @@ function initRpaCanvas() {
       ctx.arc(cx, cy, r2, 0, Math.PI * 2);
       ctx.arc(cx, cy, r1, Math.PI * 2, 0, true);
       ctx.closePath();
-      ctx.fillStyle = 'rgba(255,255,255,0.015)';
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.lineWidth = 0.8;
       ctx.stroke();
 
       // Tick marks + labels
@@ -3154,26 +3154,26 @@ function initRpaCanvas() {
         const inner = { x: cx + r1 * Math.cos(a), y: cy + r1 * Math.sin(a) };
         const outer = { x: cx + r2 * Math.cos(a), y: cy + r2 * Math.sin(a) };
 
-        ctx.globalAlpha = ringAlpha * 0.15;
+        ctx.globalAlpha = ringAlpha * 0.3;
         ctx.beginPath(); ctx.moveTo(inner.x, inner.y); ctx.lineTo(outer.x, outer.y);
-        ctx.strokeStyle = '#fff'; ctx.lineWidth = 0.3; ctx.stroke();
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 0.5; ctx.stroke();
 
         // Labels (only every Nth to avoid clutter)
         const showLabel = (rk === 'daily' && i % 3 === 0) || (rk === 'monthly' && (i % 5 === 0 || i === 0)) || rk === 'yearly';
         if (showLabel) {
           const lp = { x: cx + (r2 + 12) * Math.cos(a), y: cy + (r2 + 12) * Math.sin(a) };
-          ctx.globalAlpha = ringAlpha * 0.4;
-          ctx.font = `${rk === 'yearly' ? 9 : 7}px 'Share Tech Mono',monospace`;
-          ctx.fillStyle = '#8a9aaa';
+          ctx.globalAlpha = ringAlpha * 0.7;
+          ctx.font = `${rk === 'yearly' ? 10 : 8}px 'Share Tech Mono',monospace`;
+          ctx.fillStyle = '#a0b0c0';
           ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
           ctx.fillText(info.tickLabel(i), lp.x, lp.y);
         }
       }
 
       // Ring label
-      ctx.globalAlpha = ringAlpha * 0.3;
-      ctx.font = "600 10px 'Rajdhani',sans-serif";
-      ctx.fillStyle = '#6a8090';
+      ctx.globalAlpha = ringAlpha * 0.6;
+      ctx.font = "600 11px 'Rajdhani',sans-serif";
+      ctx.fillStyle = '#8aa0b0';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(info.label, cx + labelR * Math.cos(-Math.PI / 2), cy + labelR * Math.sin(-Math.PI / 2));
     });
