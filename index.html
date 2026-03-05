@@ -3009,21 +3009,27 @@ function initRadarCanvas() {
     if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw || 1; ctx.stroke(); }
   }
 
-  // Draw text along an arc (curved label inside the ring)
-  function arcLabel(text, angle, r, color, alpha, fontSize) {
-    const lx = cx + r * Math.cos(angle);
-    const ly = cy + r * Math.sin(angle);
-    ctx.save();
-    ctx.translate(lx, ly);
-    let rot = angle + Math.PI / 2;
-    if (rot > Math.PI / 2 && rot < Math.PI * 1.5) rot += Math.PI;
-    ctx.rotate(rot);
+  // Draw horizontal label with a connecting line to its source point
+  function ringLabel(text, angle, r, color, alpha) {
+    const sx = cx + r * Math.cos(angle);
+    const sy = cy + r * Math.sin(angle);
+    // Push label outward, always horizontal
+    const labelR = r + 22;
+    const lx = cx + labelR * Math.cos(angle);
+    const ly = cy + labelR * Math.sin(angle);
+
+    // Connecting line
+    ctx.globalAlpha = alpha * 0.3;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(lx, ly);
+    ctx.strokeStyle = color; ctx.lineWidth = 0.8; ctx.stroke();
+
+    // Label text — horizontal, readable
     ctx.globalAlpha = alpha;
-    ctx.font = `600 ${fontSize || 8}px 'Rajdhani',sans-serif`;
+    ctx.font = "600 11px 'Rajdhani',sans-serif";
     ctx.fillStyle = color;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText(text, 0, 0);
-    ctx.restore();
+    ctx.textAlign = lx > cx ? 'left' : 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, lx + (lx > cx ? 4 : -4), ly);
   }
 
   // Channel state
@@ -3137,9 +3143,9 @@ function initRadarCanvas() {
           ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI * 2); ctx.fill();
         }
 
-        // Label curved along the arc
+        // Label — horizontal, readable
         const labelAngle = (sa + ea) / 2;
-        arcLabel(ch.icon + ' ' + ch.name, labelAngle, midR, ch.color, alpha * 0.65, 7);
+        ringLabel(ch.icon + ' ' + ch.name, labelAngle, r2, ch.color, alpha * 0.75);
 
       } else if (ch.type === 'passive') {
         // Passive point: steady glow dot
@@ -3157,8 +3163,8 @@ function initRadarCanvas() {
         ctx.beginPath(); ctx.arc(px, py, 4 + pulse * 12, 0, Math.PI * 2);
         ctx.strokeStyle = ch.color; ctx.lineWidth = 1; ctx.stroke();
 
-        // Label along ring
-        arcLabel(ch.icon + ' ' + ch.name, a, (r1 + r2) / 2 + (r2 - r1) * 0.45, ch.color, alpha * 0.6, 7);
+        // Label — horizontal
+        ringLabel(ch.icon + ' ' + ch.name, a, r2, ch.color, alpha * 0.7);
 
       } else {
         // Active: pulsing dot that fires periodically
@@ -3189,9 +3195,9 @@ function initRadarCanvas() {
           ctx.beginPath(); ctx.arc(px, py, 20, 0, Math.PI * 2); ctx.fill();
         }
 
-        // Label along ring (visible on ping)
+        // Label pops up on ping
         if (isPinging) {
-          arcLabel(ch.icon + ' ' + ch.name, a, midR + (r2 - r1) * 0.45, ch.color, alpha * 0.6, 7);
+          ringLabel(ch.icon + ' ' + ch.name, a, r2, ch.color, alpha * 0.7);
         }
       }
     });
