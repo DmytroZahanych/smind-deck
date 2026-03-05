@@ -2071,9 +2071,7 @@ function stopNetwork() {
     cancelAnimationFrame(networkAnimId);
     networkAnimId = null;
   }
-  // Free GPU memory
-  const c = document.getElementById('networkCanvas');
-  if (c) { c.width = 0; c.height = 0; }
+  networkInitialized = false;
 }
 
 // ─── Slide enter animations ───
@@ -2760,6 +2758,7 @@ let goalsLoop = null;
 
 function stopGoals() {
   if (goalsAnimId) { cancelAnimationFrame(goalsAnimId); goalsAnimId = null; }
+  goalsInitialized = false;
 }
 
 // ─── Orbital Model (slide 3) ───
@@ -2943,9 +2942,7 @@ function initOrbitalCanvas() {
 
 function stopOrbital() {
   if (orbitalAnimId) { cancelAnimationFrame(orbitalAnimId); orbitalAnimId = null; }
-  // Free GPU memory
-  const c = document.getElementById('orbitalCanvas');
-  if (c) { c.width = 0; c.height = 0; }
+  orbitalInitialized = false;
 }
 
 function animateInfra() {
@@ -3259,6 +3256,7 @@ let rpaLoop = null;
 
 function stopRpa() {
   if (rpaAnimId) { cancelAnimationFrame(rpaAnimId); rpaAnimId = null; }
+  rpaInitialized = false;
 }
 
 function animateSlide9() { initRpaCanvas(); }
@@ -3595,6 +3593,7 @@ let dimsLoop = null;
 
 function stopDims() {
   if (dimsAnimId) { cancelAnimationFrame(dimsAnimId); dimsAnimId = null; }
+  dimsInitialized = false;
 }
 
 function animateSlide11() {
