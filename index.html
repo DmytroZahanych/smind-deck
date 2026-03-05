@@ -3181,7 +3181,10 @@ const dimensions = [
 ];
 const dimColors = ["#ca8a4a", "#d4a45a", "#4a8aca", "#ca6a8a", "#ca8a4a", "#8a6aca", "#8a6aca", "#4a8aca", "#6aca8a", "#6aca8a", "#6a5aca", "#d4a45a", "#ca8a4a", "#4a8aca", "#4acaaa", "#ca8a4a", "#d4a45a", "#8a6aca", "#ca6a8a", "#d4a45a", "#d4a45a", "#d4a45a", "#ca6a8a", "#8a6aca", "#4acaaa", "#6a5aca", "#4acaaa", "#8a6aca", "#d4a45a", "#d4a45a", "#4a8aca", "#ca8a4a", "#6aca8a", "#4acaaa", "#ca6a8a", "#4acaaa", "#ca8a4a", "#4a8aca", "#6a5aca", "#8a6aca", "#4acaaa", "#6aca8a", "#6aca8a", "#4acaaa", "#4acaaa", "#8a6aca", "#4a8aca", "#8a6aca", "#ca6a8a", "#ca8a4a", "#4acaaa", "#6aca8a", "#4a8aca", "#4a8aca", "#4a8aca", "#6aca8a", "#ca6a8a", "#4acaaa", "#d4a45a", "#d4a45a", "#4acaaa", "#4acaaa", "#4acaaa", "#ca6a8a", "#ca6a8a", "#8a6aca", "#8a6aca", "#4acaaa", "#4acaaa", "#d4a45a", "#8a6aca", "#6aca8a", "#4a8aca", "#4a8aca", "#4a8aca"];
 
-(function buildConstellation() {
+let constellationBuilt = false;
+function buildConstellation() {
+  if (constellationBuilt) return;
+  constellationBuilt = true;
   const cc = document.getElementById('constellationContainer');
   const rect = cc.getBoundingClientRect();
   const w = Math.round(rect.width) || 560, h = Math.round(rect.height) || 500;
@@ -3230,10 +3233,11 @@ const dimColors = ["#ca8a4a", "#d4a45a", "#4a8aca", "#ca6a8a", "#ca8a4a", "#8a6a
     svg += `</g>`;
   });
   svg += `</svg>`;
-  cc.insertAdjacentHTML('afterbegin', svg);
-})();
+    cc.insertAdjacentHTML('afterbegin', svg);
+}
 
 function animateSlide11() {
+  buildConstellation();
   const nodes = document.querySelectorAll('#constellationContainer .dim-node');
   const lines = document.querySelectorAll('#constellationContainer .dim-line');
   const note = document.getElementById('dimNote');
