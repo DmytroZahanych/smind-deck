@@ -4329,22 +4329,7 @@ const remindersData = [
   { icon: "💶", text: "Pay monthly taxes — check WhatsApp from Carla", time: "20th", color: "#d4a030" },
   { icon: "🛡️", text: "Transfer €130 to Nastya for insurance", time: "25th", color: "#c95a8a" },
 ];
-const notifList = document.getElementById('notifList');
-remindersData.forEach(r => {
-  const el = document.createElement('div');
-  el.className = 'notif-card';
-  el.style.borderColor = r.color + '22';
-  el.innerHTML = `<span class="notif-icon">${r.icon}</span><span class="notif-text">${r.text}</span><span class="notif-time" style="color:${r.color};border-color:${r.color}44">${r.time}</span>`;
-  notifList.appendChild(el);
-});
-
-function animateSlide15() {
-  const cards = notifList.querySelectorAll('.notif-card');
-  cards.forEach(c => c.classList.remove('visible'));
-  requestAnimationFrame(() => {
-    cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), 150 + i * 140));
-  });
-}
+// notifications slide removed
 
 // ─── Comparison slide removed ───
 
