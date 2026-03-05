@@ -728,9 +728,18 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 13 — Sensing radar
+   SLIDE 13 — AI Core Map
    ════════════════════════════════════ */
 #slide13 canvas {
+  position: absolute;
+  right: 0; top: 0;
+  width: 62%; height: 100%;
+}
+
+/* ════════════════════════════════════
+   SLIDE 14 — Sensing radar
+   ════════════════════════════════════ */
+#slide14 canvas {
   position: absolute;
   right: 0; top: 0;
   width: 62%; height: 100%;
@@ -1392,17 +1401,24 @@ html, body {
   <div class="rpa-counter"><div class="num" id="rpaNum">0</div><div class="lbl">automated jobs</div></div>
 </div>
 
-<!-- ═══ SLIDE 13 ═══ -->
-<!-- ═══ SLIDE 13 — Sensing radar (passive + active) ═══ -->
+<!-- ═══ SLIDE 13 — AI Core Map ═══ -->
 <div class="slide" id="slide13">
+  <div class="left">
+    <h1>And at the heart of it all, there is an <em>AI</em> in charge of it all</h1>
+  </div>
+  <canvas id="coreMapCanvas"></canvas>
+</div>
+
+<!-- ═══ SLIDE 14 — Sensing radar (passive + active) ═══ -->
+<div class="slide" id="slide14">
   <div class="left">
     <h1>Every day, it pulls data from my devices — and <em>asks</em> what it can't see</h1>
   </div>
   <canvas id="radarCanvas"></canvas>
 </div>
 
-<!-- ═══ SLIDE 14 ═══ -->
-<div class="slide" id="slide14">
+<!-- ═══ SLIDE 15 ═══ -->
+<div class="slide" id="slide15">
   <div class="left">
     <h1><em>9 AI entities</em> work on optimizing it while I sleep</h1>
   </div>
@@ -1416,7 +1432,7 @@ html, body {
 </div>
 
 <!-- ═══ SLIDE 15 ═══ -->
-<div class="slide" id="slide15">
+<div class="slide" id="slide16">
   <div class="left">
     <h1>They use <em>GitHub</em> like human engineers</h1>
   </div>
@@ -1434,7 +1450,7 @@ html, body {
 </div>
 
 <!-- ═══ SLIDE 16 ═══ -->
-<div class="slide" id="slide16">
+<div class="slide" id="slide17">
   <div class="left">
     <h1>They <em>talk to each other</em> to problem-solve</h1>
   </div>
@@ -1444,7 +1460,7 @@ html, body {
 </div>
 
 <!-- ═══ SLIDE 17 ═══ -->
-<div class="slide" id="slide17">
+<div class="slide" id="slide18">
   <div class="left">
     <h1>And every day, it tells me <em>what to do next</em></h1>
   </div>
@@ -1454,7 +1470,7 @@ html, body {
 </div>
 
 <!-- ═══ SLIDE 18 ═══ -->
-<div class="slide" id="slide18">
+<div class="slide" id="slide19">
   <div class="left">
     <h1>This deck was built by <em>that same assistant</em></h1>
   </div>
@@ -1467,7 +1483,7 @@ html, body {
 </div>
 
 <!-- ═══ SLIDE 19 ═══ -->
-<div class="slide" id="slide19">
+<div class="slide" id="slide20">
   <div class="left">
     <h1>This is just the <span class="glow-word">beginning</span></h1>
     <div class="loop-diagram" id="loopDiagram"></div>
@@ -1478,7 +1494,7 @@ html, body {
 
 <script>
 // ─── Config ───
-const TOTAL_SLIDES = 19;
+const TOTAL_SLIDES = 20;
 let current = 0;
 let transitioning = false;
 
@@ -1504,7 +1520,8 @@ function goTo(idx) {
   if (current === 9) stopDims();
   if (current === 10) stopGoals();
   if (current === 11) stopRpa();
-  if (current === 12) stopRadar();
+  if (current === 12) stopCoreMap();
+  if (current === 13) stopRadar();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -2073,25 +2090,28 @@ function onSlideEnter(idx) {
     animateSlide9(); // RPA time rings (slide 12)
   }
   if (idx === 12) {
-    animateTimeline(); // time tracking (slide 13)
+    initCoreMapCanvas(); // AI core map (slide 13)
   }
   if (idx === 13) {
-    animateSlide12(); // entities (slide 14)
+    animateTimeline(); // sensing radar (slide 14)
   }
   if (idx === 14) {
-    animateSlide13(); // github (slide 15)
+    animateSlide12(); // entities (slide 15)
   }
   if (idx === 15) {
-    animateSlide14(); // dialog (slide 16)
+    animateSlide13(); // github (slide 16)
   }
   if (idx === 16) {
-    animateSlide15(); // notifications (slide 17)
+    animateSlide14(); // dialog (slide 17)
   }
   if (idx === 17) {
-    animateSlide17(); // coworker (slide 18)
+    animateSlide15(); // notifications (slide 18)
   }
   if (idx === 18) {
-    animateSlide18(); // closing (slide 19)
+    animateSlide17(); // coworker (slide 19)
+  }
+  if (idx === 19) {
+    animateSlide18(); // closing (slide 20)
   }
 }
 
@@ -3048,7 +3068,7 @@ function initRadarCanvas() {
   });
 
   function frame(ts) {
-    if (!slides[12].classList.contains('active')) { radarAnimId = null; return; }
+    if (!slides[13].classList.contains('active')) { radarAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
@@ -3492,6 +3512,253 @@ function stopRpa() {
 }
 
 function animateSlide9() { initRpaCanvas(); }
+
+// ─── AI Core Map (slide 13) ───
+let coreMapAnimId = null, coreMapInitialized = false;
+
+function initCoreMapCanvas() {
+  if (coreMapInitialized) {
+    if (!coreMapAnimId) coreMapAnimId = requestAnimationFrame(coreMapLoop);
+    return;
+  }
+  coreMapInitialized = true;
+
+  const canvas = document.getElementById('coreMapCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, cx, cy, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    const r = canvas.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const base = Math.min(W, H) / 2;
+
+  // ── Ring layout (center outward) ──
+  // Core orb
+  const coreR = base * 0.06;
+
+  // Time rings (from RPA) — compact band
+  const timeRings = {
+    daily:   { r1: base * 0.12, r2: base * 0.20 },
+    monthly: { r1: base * 0.22, r2: base * 0.32 },
+    yearly:  { r1: base * 0.34, r2: base * 0.44 },
+  };
+
+  // Dimensions ring (outer)
+  const dimR1 = base * 0.52;
+  const dimR2 = base * 0.64;
+
+  // Goals ring (outermost)
+  const goalR1 = base * 0.68;
+  const goalR2 = base * 0.82;
+
+  // ── Pre-compute dimension arcs ──
+  const dimArcs = [];
+  let totalDims = 0;
+  dimRingData.forEach(g => totalDims += g.dims.length);
+  const dimGap = 0.008;
+  let dimAngle = -Math.PI / 2;
+  dimRingData.forEach(g => {
+    const groupArc = (g.dims.length / totalDims) * Math.PI * 2 - dimGap;
+    dimArcs.push({ color: g.color, startAngle: dimAngle, endAngle: dimAngle + groupArc, count: g.dims.length });
+    dimAngle += groupArc + dimGap;
+  });
+
+  // ── Pre-compute goal arcs ──
+  const goalArcs = [];
+  let totalGoals = 0;
+  goalsRingData.forEach(g => totalGoals += g.goals.length);
+  const goalGap = 0.006;
+  let goalAngle = -Math.PI / 2;
+  goalsRingData.forEach(g => {
+    const groupArc = (g.goals.length / totalGoals) * Math.PI * 2 - goalGap;
+    goalArcs.push({ color: g.color, startAngle: goalAngle, endAngle: goalAngle + groupArc, count: g.goals.length });
+    goalAngle += groupArc + goalGap;
+  });
+
+  // ── Pre-compute RPA job positions ──
+  const ringOrder = ['daily', 'monthly', 'yearly'];
+  const rpaPositions = rpaJobs.map(j => {
+    const info = rpaRingLabels[j.ring];
+    const a = -Math.PI / 2 + (j.pos / info.total) * Math.PI * 2;
+    const tr = timeRings[j.ring];
+    const midR = (tr.r1 + tr.r2) / 2;
+    return { x: cx + midR * Math.cos(a), y: cy + midR * Math.sin(a), color: j.color };
+  });
+
+  // ── Animation ──
+  let animStart = 0;
+  // Phases: core pulse (0-1s), time rings (0.5-2s), dim arcs (1.5-3s), goal arcs (2.5-4s), jobs (3-5s)
+
+  function frame(ts) {
+    if (!slides[12].classList.contains('active')) { coreMapAnimId = null; return; }
+    if (!animStart) animStart = ts;
+    const t = ts - animStart;
+    ctx.clearRect(0, 0, W, H);
+
+    // ── Core orb (always visible after 200ms, pulsing) ──
+    const coreAlpha = Math.min(1, Math.max(0, (t - 200) / 800));
+    if (coreAlpha > 0) {
+      const pulse = 1 + 0.15 * Math.sin(t / 400);
+      const glowPulse = 1 + 0.3 * Math.sin(t / 400);
+
+      // Outer glow
+      ctx.save();
+      ctx.globalAlpha = coreAlpha * 0.15 * glowPulse;
+      const outerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR * 6);
+      outerGlow.addColorStop(0, '#ff2020');
+      outerGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = outerGlow;
+      ctx.beginPath(); ctx.arc(cx, cy, coreR * 6, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Mid glow
+      ctx.save();
+      ctx.globalAlpha = coreAlpha * 0.4 * glowPulse;
+      const midGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR * 3);
+      midGlow.addColorStop(0, '#ff3030');
+      midGlow.addColorStop(0.5, '#cc1010');
+      midGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = midGlow;
+      ctx.beginPath(); ctx.arc(cx, cy, coreR * 3, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Core ball
+      ctx.save();
+      ctx.globalAlpha = coreAlpha;
+      const coreGrad = ctx.createRadialGradient(cx - coreR * 0.3, cy - coreR * 0.3, 0, cx, cy, coreR * pulse);
+      coreGrad.addColorStop(0, '#ff6060');
+      coreGrad.addColorStop(0.5, '#dd2020');
+      coreGrad.addColorStop(1, '#aa0808');
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath(); ctx.arc(cx, cy, coreR * pulse, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+
+    // ── Time rings background + jobs ──
+    const timeAlpha = Math.min(1, Math.max(0, (t - 600) / 1000));
+    if (timeAlpha > 0) {
+      ringOrder.forEach((rk, ri) => {
+        const ringDelay = ri * 300;
+        const ra = Math.min(1, Math.max(0, (t - 600 - ringDelay) / 600)) * timeAlpha;
+        if (ra <= 0) return;
+        const { r1, r2 } = timeRings[rk];
+
+        ctx.globalAlpha = ra;
+        // Ring band
+        ctx.beginPath();
+        ctx.arc(cx, cy, r2, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r1, Math.PI * 2, 0, true);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(255,255,255,0.025)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+
+        // Tick marks
+        const info = rpaRingLabels[rk];
+        for (let i = 0; i < info.ticks; i++) {
+          const a = -Math.PI / 2 + (i / info.total) * Math.PI * 2;
+          ctx.globalAlpha = ra * 0.15;
+          ctx.beginPath();
+          ctx.moveTo(cx + r1 * Math.cos(a), cy + r1 * Math.sin(a));
+          ctx.lineTo(cx + r2 * Math.cos(a), cy + r2 * Math.sin(a));
+          ctx.strokeStyle = '#fff'; ctx.lineWidth = 0.3; ctx.stroke();
+        }
+      });
+
+      // Job dots
+      const jobAlpha = Math.min(1, Math.max(0, (t - 1500) / 1500));
+      if (jobAlpha > 0) {
+        rpaPositions.forEach(jp => {
+          ctx.globalAlpha = jobAlpha * timeAlpha;
+          ctx.fillStyle = jp.color;
+          ctx.beginPath(); ctx.arc(jp.x, jp.y, 2.5, 0, Math.PI * 2); ctx.fill();
+          // Subtle glow
+          ctx.globalAlpha = jobAlpha * timeAlpha * 0.3;
+          ctx.beginPath(); ctx.arc(jp.x, jp.y, 5, 0, Math.PI * 2); ctx.fill();
+        });
+      }
+    }
+
+    // ── Dimension arcs ──
+    const dimAlpha = Math.min(1, Math.max(0, (t - 1800) / 1200));
+    if (dimAlpha > 0) {
+      dimArcs.forEach(arc => {
+        ctx.globalAlpha = dimAlpha * 0.7;
+        ctx.beginPath();
+        ctx.arc(cx, cy, dimR2, arc.startAngle, arc.endAngle);
+        ctx.arc(cx, cy, dimR1, arc.endAngle, arc.startAngle, true);
+        ctx.closePath();
+        ctx.fillStyle = arc.color;
+        ctx.globalAlpha = dimAlpha * 0.25;
+        ctx.fill();
+        ctx.strokeStyle = arc.color;
+        ctx.globalAlpha = dimAlpha * 0.5;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+    }
+
+    // ── Goal arcs ──
+    const goalAlpha = Math.min(1, Math.max(0, (t - 2500) / 1200));
+    if (goalAlpha > 0) {
+      goalArcs.forEach(arc => {
+        ctx.globalAlpha = goalAlpha * 0.7;
+        ctx.beginPath();
+        ctx.arc(cx, cy, goalR2, arc.startAngle, arc.endAngle);
+        ctx.arc(cx, cy, goalR1, arc.endAngle, arc.startAngle, true);
+        ctx.closePath();
+        ctx.fillStyle = arc.color;
+        ctx.globalAlpha = goalAlpha * 0.2;
+        ctx.fill();
+        ctx.strokeStyle = arc.color;
+        ctx.globalAlpha = goalAlpha * 0.4;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+    }
+
+    // ── Faint connection lines from core to each ring (energy threads) ──
+    const lineAlpha = Math.min(1, Math.max(0, (t - 3000) / 1500));
+    if (lineAlpha > 0) {
+      const numLines = 24;
+      for (let i = 0; i < numLines; i++) {
+        const a = (i / numLines) * Math.PI * 2 - Math.PI / 2;
+        const jitter = Math.sin(t / 700 + i * 1.3) * 0.02;
+        const lineA = a + jitter;
+        ctx.globalAlpha = lineAlpha * (0.03 + 0.02 * Math.sin(t / 500 + i));
+        ctx.strokeStyle = '#ff4040';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(cx + coreR * Math.cos(lineA), cy + coreR * Math.sin(lineA));
+        ctx.lineTo(cx + goalR2 * Math.cos(lineA), cy + goalR2 * Math.sin(lineA));
+        ctx.stroke();
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    coreMapAnimId = requestAnimationFrame(frame);
+  }
+
+  coreMapLoop = frame;
+  coreMapAnimId = requestAnimationFrame(frame);
+}
+let coreMapLoop = null;
+
+function stopCoreMap() {
+  if (coreMapAnimId) { cancelAnimationFrame(coreMapAnimId); coreMapAnimId = null; }
+  coreMapInitialized = false;
+}
 
 // ─── People rings (slide 10) ───
 const peopleData = [
