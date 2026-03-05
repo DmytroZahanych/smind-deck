@@ -3183,17 +3183,19 @@ const dimColors = ["#ca8a4a", "#d4a45a", "#4a8aca", "#ca6a8a", "#ca8a4a", "#8a6a
 
 (function buildConstellation() {
   const cc = document.getElementById('constellationContainer');
-  const w = 560, h = 500;
+  const rect = cc.getBoundingClientRect();
+  const w = Math.round(rect.width) || 560, h = Math.round(rect.height) || 500;
   // Generate positions with some spread using seeded pseudo-random
   const positions = [];
   const pad = 60;
   // Use golden angle distribution for nice spread
   dimensions.forEach((_, i) => {
     const angle = i * 2.399963; // golden angle
-    const r = 30 + (i / dimensions.length) * 200;
+    const maxR = Math.min(w, h) / 2 - pad;
+    const r = maxR * 0.12 + (i / dimensions.length) * maxR * 0.88;
     const x = w / 2 + r * Math.cos(angle);
     const y = h / 2 + r * Math.sin(angle);
-    positions.push({ x: Math.max(pad, Math.min(w - pad, x)), y: Math.max(30, Math.min(h - 50, y)) });
+    positions.push({ x: Math.max(pad, Math.min(w - pad, x)), y: Math.max(30, Math.min(h - 30, y)) });
   });
 
   let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
