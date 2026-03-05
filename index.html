@@ -3517,6 +3517,7 @@ function animateSlide9() { initRpaCanvas(); }
 let coreMapAnimId = null, coreMapInitialized = false;
 
 function initCoreMapCanvas() {
+  console.log('initCoreMapCanvas called', { coreMapInitialized });
   if (coreMapInitialized) {
     if (!coreMapAnimId) coreMapAnimId = requestAnimationFrame(coreMapLoop);
     return;
@@ -3524,6 +3525,7 @@ function initCoreMapCanvas() {
   coreMapInitialized = true;
 
   const canvas = document.getElementById('coreMapCanvas');
+  console.log('canvas:', canvas, 'rect:', canvas && canvas.getBoundingClientRect());
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, cx, cy, dpr;
@@ -3598,7 +3600,9 @@ function initCoreMapCanvas() {
   let animStart = 0;
   // Phases: core pulse (0-1s), time rings (0.5-2s), dim arcs (1.5-3s), goal arcs (2.5-4s), jobs (3-5s)
 
+  let frameCount = 0;
   function frame(ts) {
+    if (frameCount++ < 3) console.log('coreMap frame', { active: slides[12].classList.contains('active'), W, H, base });
     if (!slides[12].classList.contains('active')) { coreMapAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
