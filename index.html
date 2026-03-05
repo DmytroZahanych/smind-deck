@@ -672,54 +672,7 @@ html, body {
   margin-top: 4px;
 }
 
-/* ════════════════════════════════════
-   SLIDE 9 — Time tracking timeline
-   ════════════════════════════════════ */
-.timeline-container {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 2vh 0;
-}
-.timeline-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.timeline-row.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-.timeline-hour {
-  font-size: clamp(12px, 1vw, 15px);
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-  min-width: 52px;
-  text-align: right;
-}
-.timeline-block {
-  flex: 1;
-  height: 38px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  font-size: clamp(11px, 0.95vw, 14px);
-  font-weight: 500;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.timeline-row.visible .timeline-block {
-  transform: scaleX(1);
-}
+/* (old timeline CSS removed — replaced by sensing radar) */
 
 /* ════════════════════════════════════
    SLIDE 13 — RPA time rings
@@ -772,6 +725,15 @@ html, body {
   font-size: clamp(14px, 1.4vw, 22px);
   color: var(--text-dim);
   margin-top: 4px;
+}
+
+/* ════════════════════════════════════
+   SLIDE 13 — Sensing radar
+   ════════════════════════════════════ */
+#slide13 canvas {
+  position: absolute;
+  right: 0; top: 0;
+  width: 62%; height: 100%;
 }
 
 /* ════════════════════════════════════
@@ -1431,13 +1393,12 @@ html, body {
 </div>
 
 <!-- ═══ SLIDE 13 ═══ -->
+<!-- ═══ SLIDE 13 — Sensing radar (passive + active) ═══ -->
 <div class="slide" id="slide13">
   <div class="left">
-    <h1>It tracks what I do <em>every hour</em></h1>
+    <h1>Every day, it pulls data from my devices — and <em>asks</em> what it can't see</h1>
   </div>
-  <div class="right">
-    <div class="timeline-container" id="timeline"></div>
-  </div>
+  <canvas id="radarCanvas"></canvas>
 </div>
 
 <!-- ═══ SLIDE 14 ═══ -->
@@ -1543,6 +1504,7 @@ function goTo(idx) {
   if (current === 9) stopDims();
   if (current === 10) stopGoals();
   if (current === 11) stopRpa();
+  if (current === 12) stopRadar();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -2952,31 +2914,6 @@ function animateInfra() {
 }
 
 // ─── Timeline (slide 8) ───
-const timeData = [
-  { hour: "08:00", activity: "sleep", color: "#5abade" },
-  { hour: "09:00", activity: "parrots", color: "#5ac9a0" },
-  { hour: "10:00", activity: "work", color: "#5aafcf" },
-  { hour: "11:00", activity: "work", color: "#5aafcf" },
-  { hour: "12:00", activity: "work_then_rest", color: "#7aa2d4" },
-  { hour: "13:00", activity: "planning", color: "#8a7ac9" },
-  { hour: "14:00", activity: "planning_and_rest", color: "#8a7ac9" },
-  { hour: "15:00", activity: "work", color: "#5aafcf" },
-  { hour: "16:00", activity: "work", color: "#5aafcf" },
-  { hour: "17:00", activity: "eating", color: "#d4a030" },
-  { hour: "18:00", activity: "rest", color: "#d47ab0" },
-  { hour: "19:00", activity: "parrots", color: "#5ac9a0" },
-  { hour: "20:00", activity: "gaming", color: "#da7060" },
-  { hour: "21:00", activity: "rest", color: "#d47ab0" },
-];
-const timeline = document.getElementById('timeline');
-timeData.forEach(d => {
-  const row = document.createElement('div');
-  row.className = 'timeline-row';
-  const label = d.activity.replace(/_/g, ' ');
-  row.innerHTML = `<span class="timeline-hour">${d.hour}</span><div class="timeline-block" style="background:linear-gradient(90deg,${d.color}dd,${d.color}88)">${label}</div>`;
-  timeline.appendChild(row);
-});
-
 // ─── Extended slide enter handlers ───
 function animateSpending() {
   const bubbles = bubbleChart.querySelectorAll('.bubble');
@@ -2988,15 +2925,254 @@ function animateSpending() {
   });
 }
 
-function animateTimeline() {
-  const rows = timeline.querySelectorAll('.timeline-row');
-  rows.forEach(r => r.classList.remove('visible'));
-  requestAnimationFrame(() => {
-    rows.forEach((r, i) => {
-      setTimeout(() => r.classList.add('visible'), 100 + i * 100);
+// ─── Sensing Radar (slide 13) ───
+const radarSources = {
+  passive: [
+    { name: 'Withings Scale', icon: '⚖️', color: '#4acaaa', angle: -0.8, dist: 0.65 },
+    { name: 'Withings BPM', icon: '💓', color: '#4acaaa', angle: -0.4, dist: 0.75 },
+    { name: 'Withings ScanWatch', icon: '⌚', color: '#4acaaa', angle: -0.1, dist: 0.55 },
+    { name: 'Google Calendar', icon: '📅', color: '#5aafcf', angle: 0.3, dist: 0.7 },
+    { name: 'Bank Transactions', icon: '🏦', color: '#d4a030', angle: 0.7, dist: 0.6 },
+    { name: 'Telegram Messages', icon: '✈️', color: '#5ac9a0', angle: 1.1, dist: 0.72 },
+  ],
+  active: [
+    { name: 'How did you spend this hour?', icon: '⏱️', color: '#8a7ac9', angle: 2.0, dist: 0.68 },
+    { name: 'What did you eat today?', icon: '🍽️', color: '#ca6a8a', angle: 2.5, dist: 0.58 },
+    { name: 'How are you feeling?', icon: '🧠', color: '#8a6aca', angle: 2.9, dist: 0.75 },
+    { name: 'Did you take your medication?', icon: '💊', color: '#4acaaa', angle: 3.3, dist: 0.62 },
+    { name: 'Rate your sleep quality', icon: '😴', color: '#5abade', angle: 3.7, dist: 0.7 },
+    { name: "What's your energy level?", icon: '⚡', color: '#d4a030', angle: 4.1, dist: 0.55 },
+  ]
+};
+
+let radarAnimId = null, radarInitialized = false;
+
+function initRadarCanvas() {
+  if (radarInitialized) {
+    if (!radarAnimId) radarAnimId = requestAnimationFrame(radarLoop);
+    return;
+  }
+  radarInitialized = true;
+
+  const canvas = document.getElementById('radarCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, cx, cy, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    const r = canvas.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const base = Math.min(W, H) / 2;
+  const maxR = base * 0.88;
+
+  // Blip state
+  const allSources = [
+    ...radarSources.passive.map(s => ({ ...s, type: 'passive', detected: false, detectT: 0, alpha: 0 })),
+    ...radarSources.active.map(s => ({ ...s, type: 'active', detected: false, detectT: 0, alpha: 0 })),
+  ];
+
+  let animStart = 0;
+  const SWEEP_SPEED = 0.0008; // radians per ms
+  let lastPingT = 0;
+  const PING_INTERVAL = 3500;
+  let pingActive = false, pingT = 0;
+  let labelShown = null, labelT = 0;
+
+  function frame(ts) {
+    if (!slides[12].classList.contains('active')) { radarAnimId = null; return; }
+    if (!animStart) animStart = ts;
+    const t = ts - animStart;
+    ctx.clearRect(0, 0, W, H);
+
+    const sweepAngle = -Math.PI / 2 + t * SWEEP_SPEED;
+
+    // ── Range rings ──
+    ctx.globalAlpha = 1;
+    for (let i = 1; i <= 4; i++) {
+      const r = maxR * (i / 4);
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+    }
+
+    // Cross hairs
+    ctx.globalAlpha = 0.06;
+    ctx.beginPath(); ctx.moveTo(cx - maxR, cy); ctx.lineTo(cx + maxR, cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, cy - maxR); ctx.lineTo(cx, cy + maxR); ctx.stroke();
+
+    // ── Passive sweep (continuous, thin, green-ish) ──
+    const sweepLen = 0.5; // radians of trail
+    const sweepGrad = ctx.createConicGradient(sweepAngle - sweepLen, cx, cy);
+    sweepGrad.addColorStop(0, 'rgba(74,202,170,0)');
+    sweepGrad.addColorStop(0.7, 'rgba(74,202,170,0.06)');
+    sweepGrad.addColorStop(1, 'rgba(74,202,170,0.15)');
+    ctx.globalAlpha = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, maxR, sweepAngle - sweepLen, sweepAngle);
+    ctx.closePath();
+    ctx.fillStyle = sweepGrad;
+    ctx.fill();
+
+    // Sweep line
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + maxR * Math.cos(sweepAngle), cy + maxR * Math.sin(sweepAngle));
+    ctx.strokeStyle = 'rgba(74,202,170,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // ── Active ping (periodic bright pulse) ──
+    if (t > 2000 && t - lastPingT > PING_INTERVAL) {
+      pingActive = true;
+      pingT = ts;
+      lastPingT = t;
+    }
+    if (pingActive) {
+      const pingAge = ts - pingT;
+      const pingR = (pingAge / 1200) * maxR;
+      const pingAlpha = Math.max(0, 1 - pingAge / 1200);
+      if (pingAge > 1200) {
+        pingActive = false;
+      } else {
+        ctx.globalAlpha = pingAlpha * 0.4;
+        ctx.beginPath(); ctx.arc(cx, cy, pingR, 0, Math.PI * 2);
+        ctx.strokeStyle = '#8a6aca';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Detect active sources as ping passes them
+        allSources.forEach(src => {
+          if (src.type !== 'active') return;
+          const srcR = src.dist * maxR;
+          if (Math.abs(pingR - srcR) < 15 && !src.detected) {
+            src.detected = true;
+            src.detectT = ts;
+          }
+        });
+      }
+    }
+
+    // ── Detect passive sources as sweep passes them ──
+    allSources.forEach(src => {
+      if (src.type !== 'passive') return;
+      let angleDiff = sweepAngle - src.angle;
+      while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+      while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+      if (angleDiff > 0 && angleDiff < 0.15 && !src.detected) {
+        src.detected = true;
+        src.detectT = ts;
+      }
     });
-  });
+
+    // ── Draw blips ──
+    allSources.forEach(src => {
+      const sx = cx + src.dist * maxR * Math.cos(src.angle);
+      const sy = cy + src.dist * maxR * Math.sin(src.angle);
+
+      if (!src.detected) {
+        // Dim placeholder
+        ctx.globalAlpha = 0.08;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(sx, sy, 2, 0, Math.PI * 2); ctx.fill();
+        return;
+      }
+
+      const age = ts - src.detectT;
+      src.alpha = Math.min(1, age / 500);
+
+      // Detection flash
+      if (age < 500) {
+        const flashA = (1 - age / 500) * 0.6;
+        ctx.globalAlpha = flashA;
+        ctx.beginPath(); ctx.arc(sx, sy, 15 + age / 30, 0, Math.PI * 2);
+        ctx.strokeStyle = src.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // Blip dot
+      ctx.globalAlpha = src.alpha * 0.9;
+      ctx.fillStyle = src.color;
+      ctx.beginPath(); ctx.arc(sx, sy, 5, 0, Math.PI * 2); ctx.fill();
+
+      // Glow
+      ctx.globalAlpha = src.alpha * 0.3;
+      const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, 18);
+      glow.addColorStop(0, src.color);
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(sx, sy, 18, 0, Math.PI * 2); ctx.fill();
+
+      // Pulsing ring for passive (always-on feel)
+      if (src.type === 'passive' && age > 500) {
+        const pulsePhase = ((ts / 2000 + src.angle) % 1);
+        ctx.globalAlpha = (1 - pulsePhase) * 0.2;
+        ctx.beginPath(); ctx.arc(sx, sy, 5 + pulsePhase * 15, 0, Math.PI * 2);
+        ctx.strokeStyle = src.color;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Label
+      ctx.globalAlpha = src.alpha * 0.8;
+      ctx.font = "600 10px 'Rajdhani',sans-serif";
+      ctx.fillStyle = src.color;
+      ctx.textAlign = 'center';
+      ctx.fillText(src.icon + ' ' + src.name, sx, sy - 14);
+
+      // Type badge
+      ctx.globalAlpha = src.alpha * 0.4;
+      ctx.font = "8px 'Share Tech Mono',monospace";
+      ctx.fillStyle = src.type === 'passive' ? '#4acaaa' : '#8a6aca';
+      ctx.fillText(src.type.toUpperCase(), sx, sy + 18);
+    });
+
+    // ── Center core ──
+    ctx.globalAlpha = 0.15;
+    const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 25);
+    coreGrad.addColorStop(0, '#4acaaa');
+    coreGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = coreGrad;
+    ctx.beginPath(); ctx.arc(cx, cy, 25, 0, Math.PI * 2); ctx.fill();
+
+    ctx.globalAlpha = 0.6;
+    ctx.fillStyle = '#4acaaa';
+    ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI * 2); ctx.fill();
+
+    // Legend
+    ctx.globalAlpha = 0.5;
+    ctx.font = "600 11px 'Rajdhani',sans-serif";
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#4acaaa';
+    ctx.fillText('● PASSIVE — always streaming', 15, H - 35);
+    ctx.fillStyle = '#8a6aca';
+    ctx.fillText('● ACTIVE — asks when needed', 15, H - 18);
+
+    ctx.globalAlpha = 1;
+    radarAnimId = requestAnimationFrame(frame);
+  }
+
+  radarLoop = frame;
+  radarAnimId = requestAnimationFrame(frame);
 }
+let radarLoop = null;
+
+function stopRadar() {
+  if (radarAnimId) { cancelAnimationFrame(radarAnimId); radarAnimId = null; }
+  radarInitialized = false;
+}
+
+function animateTimeline() { initRadarCanvas(); }
 
 // ─── RPA Time Rings (slide 13) ───
 // Jobs positioned on concentric time rings: daily (24h), monthly (31 days), yearly (12 months)
