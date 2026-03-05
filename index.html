@@ -3524,7 +3524,6 @@ function initCoreMapCanvas() {
   coreMapInitialized = true;
 
   const canvas = document.getElementById('coreMapCanvas');
-  const rect0 = canvas && canvas.getBoundingClientRect();
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, cx, cy, dpr;
@@ -3554,11 +3553,13 @@ function initCoreMapCanvas() {
 
   const goalArcs = [];
   let totalGoals = 0;
-  goalsRingData.forEach(g => totalGoals += g.goals.length);
+  goalsRingData.forEach(g => g.dims.forEach(d => totalGoals += d.goals.length));
   const goalGap = 0.006;
   let goalAngle = -Math.PI / 2;
   goalsRingData.forEach(g => {
-    const groupArc = (g.goals.length / totalGoals) * Math.PI * 2 - goalGap;
+    let catGoals = 0;
+    g.dims.forEach(d => catGoals += d.goals.length);
+    const groupArc = (catGoals / totalGoals) * Math.PI * 2 - goalGap;
     goalArcs.push({ color: g.color, startAngle: goalAngle, endAngle: goalAngle + groupArc });
     goalAngle += groupArc + goalGap;
   });
