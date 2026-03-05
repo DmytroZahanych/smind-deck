@@ -1284,7 +1284,7 @@ html, body {
 <!-- ═══ SLIDE 3 ═══ -->
 <div class="slide" id="slide3">
   <div class="left">
-    <h1>So far, it has accumulated <em>164MB</em> of raw data about me</h1>
+    <h1>So far, it has accumulated <em>158MB</em> of raw data about me</h1>
   </div>
   <div class="right">
     <div class="data-viz" id="dataViz">
@@ -1587,9 +1587,8 @@ knowledgeItems.forEach(([cat, val]) => {
 // ─── Data bars (slide 3) ───
 const dataBreakdown = [
   ['Session transcripts', 103, 103, '#5aafcf'],
-  ['Uploaded files (PDFs, images)', 32, 103, '#d4845a'],
-  ['Media files', 25, 103, '#4acaaa'],
-  ['Health reports', 3, 103, '#e8955f'],
+  ['Media', 37, 103, '#4acaaa'],
+  ['Documents', 17, 103, '#d4845a'],
   ['Supabase (3,778 rows)', 0.3, 103, '#5ac9a0'],
   ['Memory & agent docs', 0.3, 103, '#c95a8a'],
 ];
@@ -1650,7 +1649,7 @@ function animateSlide3() {
     ring.setAttribute('stroke-dashoffset', '0');
 
     // Animate counter
-    animateCounter(document.getElementById('totalNum'), 0, 164, 2000);
+    animateCounter(document.getElementById('totalNum'), 0, 158, 2000);
 
     // Animate bars
     rows.forEach((row, i) => {
