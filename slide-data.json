@@ -72,18 +72,18 @@
   "slide8_people": {
     "title": "It knows the people in my life",
     "people": [
-      {"name": "A███████a", "role": "Wife", "detail": "Born Nov 21, manages shared finances", "color": "#d47ab0", "ring": 1},
+      {"name": "Anastasiia", "role": "Wife", "detail": "Born Nov 21, manages shared finances", "color": "#d47ab0", "ring": 1},
       {"name": "Father", "role": "Family", "detail": "Programmer, lives in Germany", "color": "#d4845a", "ring": 2},
       {"name": "Mother", "role": "Family", "detail": "Health concerns, complex relationship", "color": "#d4845a", "ring": 2},
-      {"name": "K████a", "role": "Brother", "detail": "9 years younger, lives in Frankfurt", "color": "#d4845a", "ring": 2},
+      {"name": "Kostya", "role": "Brother", "detail": "9 years younger, lives in Frankfurt", "color": "#d4845a", "ring": 2},
       {"name": "Grandparents", "role": "Family", "detail": "Elderly, longevity mission motivation", "color": "#d4845a", "ring": 2},
-      {"name": "O████████r", "role": "Friend/Colleague", "detail": "Neo Cybernetica, Lisbon", "color": "#5aafcf", "ring": 3},
-      {"name": "I██n", "role": "Friend/Colleague", "detail": "Neo Cybernetica, Lisbon", "color": "#5aafcf", "ring": 3},
-      {"name": "J█████y", "role": "Boss", "detail": "Runs STW/Neo/hOS umbrella", "color": "#8a7ac9", "ring": 3},
-      {"name": "B███y", "role": "Colleague", "detail": "Chief of Staff at STW, Boston", "color": "#8a7ac9", "ring": 3},
-      {"name": "M██ I███", "role": "Colleague", "detail": "COO at Neo Cybernetica", "color": "#8a7ac9", "ring": 3},
-      {"name": "C████a", "role": "Accountant", "detail": "Manages tax obligations", "color": "#d4a030", "ring": 4},
-      {"name": "I██a S.", "role": "Translator", "detail": "Immigration documents", "color": "#d4a030", "ring": 4}
+      {"name": "Oleksandr", "role": "Friend/Colleague", "detail": "Neo Cybernetica, Lisbon", "color": "#5aafcf", "ring": 3},
+      {"name": "Ivan", "role": "Friend/Colleague", "detail": "Neo Cybernetica, Lisbon", "color": "#5aafcf", "ring": 3},
+      {"name": "Jeremy", "role": "Boss", "detail": "Runs STW/Neo/hOS umbrella", "color": "#8a7ac9", "ring": 3},
+      {"name": "Becky", "role": "Colleague", "detail": "Chief of Staff at STW, Boston", "color": "#8a7ac9", "ring": 3},
+      {"name": "Mel Inan", "role": "Colleague", "detail": "COO at Neo Cybernetica", "color": "#8a7ac9", "ring": 3},
+      {"name": "Carla", "role": "Accountant", "detail": "Manages tax obligations", "color": "#d4a030", "ring": 4},
+      {"name": "Inna S.", "role": "Translator", "detail": "Immigration documents", "color": "#d4a030", "ring": 4}
     ]
   },
   "slide9_dimensions": {
