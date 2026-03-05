@@ -1202,7 +1202,20 @@ html, body {
 <!-- ═══ SLIDE 2 ═══ -->
 <div class="slide" id="slide2">
   <div class="left">
-    <h1>It starts with <em>~700MB</em> of raw data</h1>
+    <h1>So I wired up <em>4 devices</em> to watch me</h1>
+  </div>
+  <div class="right">
+    <div style="width:90%">
+      <div class="devices-grid" id="devicesGrid"></div>
+      <div class="metrics-total"><span class="num" id="metricsNum">0</span> total metrics tracked</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 3 ═══ -->
+<div class="slide" id="slide3">
+  <div class="left">
+    <h1>Together with everything else, <em>~700MB</em> of raw data</h1>
   </div>
   <div class="right">
     <div class="data-viz" id="dataViz">
@@ -1229,8 +1242,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 3 ═══ -->
-<div class="slide" id="slide3">
+<!-- ═══ SLIDE 4 ═══ -->
+<div class="slide" id="slide4">
   <div class="left">
     <h1>From that, it extracted <em>93 structured facts</em> about my life</h1>
   </div>
@@ -1239,8 +1252,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 4 ═══ -->
-<div class="slide" id="slide4">
+<!-- ═══ SLIDE 5 ═══ -->
+<div class="slide" id="slide5">
   <div class="left">
     <h1>It parsed <em>1,425</em> of my bank transactions</h1>
   </div>
@@ -1248,19 +1261,6 @@ html, body {
     <div class="bubble-chart" id="bubbleChart"></div>
   </div>
   <div class="slide-note">12 months of Millennium bank data (Mar 2025 – Feb 2026)</div>
-</div>
-
-<!-- ═══ SLIDE 5 ═══ -->
-<div class="slide" id="slide5">
-  <div class="left">
-    <h1><em>4 devices</em> stream my health data daily</h1>
-  </div>
-  <div class="right">
-    <div style="width:90%">
-      <div class="devices-grid" id="devicesGrid"></div>
-      <div class="metrics-total"><span class="num" id="metricsNum">0</span> total metrics tracked</div>
-    </div>
-  </div>
 </div>
 
 <!-- ═══ SLIDE 6 ═══ -->
@@ -1543,10 +1543,13 @@ let slide2Played = false, slide3Played = false;
 
 function onSlideEnter(idx) {
   if (idx === 1) {
-    animateSlide3(); // data footprint (now slide 2)
+    animateSlide5(); // devices (now slide 2)
   }
   if (idx === 2) {
-    // knowledge list (now slide 3)
+    animateSlide3(); // data footprint (now slide 3)
+  }
+  if (idx === 3) {
+    // knowledge list (now slide 4)
     const items = kList.querySelectorAll('.k-item');
     items.forEach(el => el.classList.remove('visible'));
     requestAnimationFrame(() => {
@@ -2211,8 +2214,7 @@ function animateSlide15() {
 const _origOnSlideEnter = onSlideEnter;
 onSlideEnter = function(idx) {
   _origOnSlideEnter(idx);
-  if (idx === 3) animateSlide4();
-  if (idx === 4) animateSlide5();
+  if (idx === 4) animateSlide4();
   if (idx === 5) animateSlide6();
   if (idx === 6) animateSlide7();
   if (idx === 7) animateSlide8();
