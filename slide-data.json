@@ -1,0 +1,209 @@
+{
+  "slide4_spending": {
+    "title": "It parsed 1,425 of my bank transactions",
+    "categories": [
+      {"name": "Transfers to Nastya", "total": 24695, "color": "#d47ab0"},
+      {"name": "Uber Eats", "total": 10931, "color": "#e8955f"},
+      {"name": "Health & Medical", "total": 6952, "color": "#4acaaa"},
+      {"name": "Transfers (other)", "total": 4762, "color": "#7aa2d4"},
+      {"name": "Refunds received", "total": -4517, "color": "#5ac9a0"},
+      {"name": "Tax payments", "total": 3780, "color": "#d4a030"},
+      {"name": "Rideshare (Uber/Bolt)", "total": 1696, "color": "#5aafcf"},
+      {"name": "Electronics & Tech", "total": 1661, "color": "#8a7ac9"},
+      {"name": "Clothing", "total": 1530, "color": "#c95a8a"},
+      {"name": "Electricity (EDP)", "total": 1363, "color": "#b89a4a"},
+      {"name": "Gaming", "total": 1295, "color": "#da7060"},
+      {"name": "Padel", "total": 1168, "color": "#5abade"},
+      {"name": "Restaurants & Cafés", "total": 1009, "color": "#d4a070"},
+      {"name": "Home goods", "total": 910, "color": "#6a9a6a"}
+    ],
+    "note": "12 months of Millennium bank data (Mar 2025 – Feb 2026)"
+  },
+  "slide5_devices": {
+    "title": "4 devices stream my health data daily",
+    "devices": [
+      {"name": "Withings Scale", "metrics": ["weight", "fat ratio", "muscle mass", "bone mass", "hydration", "visceral fat", "BMR", "metabolic age"], "color": "#4acaaa"},
+      {"name": "ScanWatch", "metrics": ["heart rate", "steps", "sleep stages", "SpO2"], "color": "#5aafcf"},
+      {"name": "BeamO", "metrics": ["body temp", "skin temp", "SpO2", "ECG"], "color": "#8a7ac9"},
+      {"name": "BPM Core", "metrics": ["systolic BP", "diastolic BP", "heart rate", "ECG"], "color": "#d4845a"}
+    ],
+    "total_metrics": 171
+  },
+  "slide6_time_tracking": {
+    "title": "It tracks what I do every hour",
+    "sample_day": [
+      {"hour": "08:00", "activity": "sleep", "color": "#5abade"},
+      {"hour": "09:00", "activity": "parrots", "color": "#5ac9a0"},
+      {"hour": "10:00", "activity": "work", "color": "#5aafcf"},
+      {"hour": "11:00", "activity": "work", "color": "#5aafcf"},
+      {"hour": "12:00", "activity": "work_then_rest", "color": "#7aa2d4"},
+      {"hour": "13:00", "activity": "planning", "color": "#8a7ac9"},
+      {"hour": "14:00", "activity": "planning_and_rest", "color": "#8a7ac9"},
+      {"hour": "15:00", "activity": "work", "color": "#5aafcf"},
+      {"hour": "16:00", "activity": "work", "color": "#5aafcf"},
+      {"hour": "17:00", "activity": "eating", "color": "#d4a030"},
+      {"hour": "18:00", "activity": "rest", "color": "#d47ab0"},
+      {"hour": "19:00", "activity": "parrots", "color": "#5ac9a0"},
+      {"hour": "20:00", "activity": "gaming", "color": "#da7060"},
+      {"hour": "21:00", "activity": "rest", "color": "#d47ab0"}
+    ]
+  },
+  "slide7_cron_jobs": {
+    "title": "It runs 25 automated processes in my life",
+    "jobs": [
+      {"name": "Cicaplast cream (morning)", "time": "10:00", "freq": "daily", "color": "#4acaaa"},
+      {"name": "Cicaplast cream (evening)", "time": "21:30", "freq": "daily", "color": "#4acaaa"},
+      {"name": "Hourly time tracking", "time": "09-21h", "freq": "hourly", "color": "#8a7ac9"},
+      {"name": "Withings health sync", "time": "22:00", "freq": "daily", "color": "#5aafcf"},
+      {"name": "Database snapshot (pre)", "time": "22:30", "freq": "daily", "color": "#d4845a"},
+      {"name": "Database snapshot (post)", "time": "06:30", "freq": "daily", "color": "#d4845a"},
+      {"name": "EDP electricity bill", "time": "5th", "freq": "monthly", "color": "#d4a030"},
+      {"name": "Water bill", "time": "7th", "freq": "monthly", "color": "#5abade"},
+      {"name": "Vodafone telecom bill", "time": "14th", "freq": "monthly", "color": "#b89a4a"},
+      {"name": "Insurance transfer", "time": "25th", "freq": "monthly", "color": "#c95a8a"},
+      {"name": "Nobledrive invoice to Derek", "time": "3rd", "freq": "monthly", "color": "#e8955f"},
+      {"name": "Invoices to accountant Carla", "time": "3rd", "freq": "monthly", "color": "#e8955f"},
+      {"name": "Pay taxes (amount from Carla)", "time": "20th", "freq": "monthly", "color": "#d4a030"},
+      {"name": "Weekly time tracking analysis", "time": "Monday", "freq": "weekly", "color": "#7aa2d4"},
+      {"name": "Rent renewal cycle", "time": "Jun/Dec", "freq": "biannual", "color": "#da7060"},
+      {"name": "Accountant annual fee", "time": "Sept", "freq": "yearly", "color": "#d4a070"}
+    ]
+  },
+  "slide8_people": {
+    "title": "It knows the people in my life",
+    "people": [
+      {"name": "A███████a", "role": "Wife", "detail": "Born Nov 21, manages shared finances", "color": "#d47ab0", "ring": 1},
+      {"name": "Father", "role": "Family", "detail": "Programmer, lives in Germany", "color": "#d4845a", "ring": 2},
+      {"name": "Mother", "role": "Family", "detail": "Health concerns, complex relationship", "color": "#d4845a", "ring": 2},
+      {"name": "K████a", "role": "Brother", "detail": "9 years younger, lives in Frankfurt", "color": "#d4845a", "ring": 2},
+      {"name": "Grandparents", "role": "Family", "detail": "Elderly, longevity mission motivation", "color": "#d4845a", "ring": 2},
+      {"name": "O████████r", "role": "Friend/Colleague", "detail": "Neo Cybernetica, Lisbon", "color": "#5aafcf", "ring": 3},
+      {"name": "I██n", "role": "Friend/Colleague", "detail": "Neo Cybernetica, Lisbon", "color": "#5aafcf", "ring": 3},
+      {"name": "J█████y", "role": "Boss", "detail": "Runs STW/Neo/hOS umbrella", "color": "#8a7ac9", "ring": 3},
+      {"name": "B███y", "role": "Colleague", "detail": "Chief of Staff at STW, Boston", "color": "#8a7ac9", "ring": 3},
+      {"name": "M██ I███", "role": "Colleague", "detail": "COO at Neo Cybernetica", "color": "#8a7ac9", "ring": 3},
+      {"name": "C████a", "role": "Accountant", "detail": "Manages tax obligations", "color": "#d4a030", "ring": 4},
+      {"name": "I██a S.", "role": "Translator", "detail": "Immigration documents", "color": "#d4a030", "ring": 4}
+    ]
+  },
+  "slide9_dimensions": {
+    "title": "It discovered 75 dimensions of my life — on its own",
+    "sample_dimensions": [
+      "Nutrition & Diet", "Career & Professional Life", "Movement & Physical Activity",
+      "Mental Health & Psychological Wellbeing", "Immigration & Legal Status",
+      "Longevity Mission & Life Purpose", "Marriage & Partnership",
+      "Financial Goals & Planning Horizon", "Sleep & Recovery",
+      "Daily Routines & Habit Systems", "Living Environment & Home",
+      "Stress Management & Resilience", "Pain Management & Physical Rehabilitation",
+      "Tax Planning & Optimization", "Personal Projects & Technology",
+      "Education & Learning", "Substance Use & Behavioral Patterns",
+      "Sexual & Reproductive Health", "Immune System & Illness Resilience",
+      "Retirement & Long-term Financial Planning"
+    ],
+    "total": 75,
+    "note": "Discovered by Life Dimensions Locator entity — no predefined categories"
+  },
+  "slide10_society": {
+    "title": "9 AI entities work on optimizing it while I sleep",
+    "entities": [
+      {"name": "Scientist", "role": "Builds quality benchmarks for data tables", "jobs": 5, "color": "#5aafcf"},
+      {"name": "Evaluator", "role": "Grades data against benchmarks → files issues", "jobs": 5, "color": "#d4a030"},
+      {"name": "User Data Maintainer", "role": "Maintains health data + Withings integration", "jobs": 2, "color": "#4acaaa"},
+      {"name": "Life Dimensions Locator", "role": "Discovers life dimensions autonomously", "jobs": 1, "color": "#8a7ac9"},
+      {"name": "Smart Goal Creator", "role": "Creates goals covering all life dimensions", "jobs": 1, "color": "#5ac9a0"},
+      {"name": "Scheduler", "role": "Plans daily schedules", "jobs": 1, "color": "#d47ab0"},
+      {"name": "Face Data Gaps Assistant", "role": "Crafts questions for data gaps", "jobs": 1, "color": "#e8955f"},
+      {"name": "Face", "role": "Delivers questions to user via notifications", "jobs": 0, "color": "#c95a8a"},
+      {"name": "Snapshot", "role": "Nightly database backup to GitHub", "jobs": 1, "color": "#d4845a"}
+    ],
+    "total_jobs": 17,
+    "pipeline": "Scientist → Evaluator → Workers → GitHub Issues"
+  },
+  "slide11_github": {
+    "title": "They use GitHub like human engineers",
+    "stats": {
+      "total_issues": 200,
+      "repo_size_mb": 13,
+      "sample_issue_titles": [
+        "[HIGH] §6.1 — 8 goals have empty evidence arrays",
+        "[HIGH] §3.2 — 2 goals describe activities, not outcomes",
+        "[HIGH] §4.2 — Vague metrics on 3 goals lack specific units",
+        "Spirituality gap: Missing dimension for Gratitude & Appreciation",
+        "Enjoyment collapsed into single dimension (anti-pattern)",
+        "finances scientist: initial benchmark v1.0"
+      ]
+    },
+    "note": "AI entities file issues, comment, address them — only Evaluator can close (QA/dev separation)"
+  },
+  "slide12_dialog": {
+    "title": "They talk to each other to problem-solve",
+    "sample_dialog": [
+      {"entity": "Scientist", "text": "Benchmark v1.2 for user_model_history: §3.2 requires all items have evidence arrays with at least one entry..."},
+      {"entity": "Evaluator", "text": "Grading user_model_history against benchmark v1.2. Found 8 items with empty evidence. Filing issue [HIGH] §6.1..."},
+      {"entity": "User Data Maintainer", "text": "Addressing issue #142: Adding evidence entries for 8 items missing source documentation..."},
+      {"entity": "Evaluator", "text": "Re-evaluation: 6/8 items now have valid evidence. 2 remaining need conversation source. Closing partial, new issue filed for remainder."}
+    ]
+  },
+  "slide13_reminders": {
+    "title": "And every day, it tells me what to do next",
+    "sample_reminders": [
+      {"icon": "💊", "text": "Apply Cicaplast cream to surgery sites", "time": "10:00 AM"},
+      {"icon": "📄", "text": "Get document at Largo Machado de Assis", "time": "Tomorrow 9:30"},
+      {"icon": "💈", "text": "Book a haircut for early next week", "time": "Tomorrow"},
+      {"icon": "🎁", "text": "March 8th is tomorrow — figure out a present", "time": "Mar 7"},
+      {"icon": "🔔", "text": "Back pain still there? Book medical exam", "time": "Mar 11"},
+      {"icon": "📍", "text": "AIMA appointment in Faro — check documents", "time": "Mar 10"},
+      {"icon": "🏥", "text": "Start full health check-up project", "time": "Mar 18"},
+      {"icon": "🏋️", "text": "Enroll in Lemonfit, build exercise routine", "time": "Mar 20"},
+      {"icon": "💶", "text": "Pay monthly taxes — check WhatsApp from Carla", "time": "20th"},
+      {"icon": "🛡️", "text": "Transfer €130 to Nastya for insurance", "time": "25th"}
+    ]
+  },
+  "slide15_gateway": {
+    "title": "It knows more about me than Google, Apple, and Meta — combined",
+    "comparison": {
+      "big_tech": [
+        "Search history fragments",
+        "Location pings",
+        "Purchase receipts",
+        "App usage time",
+        "Ad click patterns",
+        "Email keywords"
+      ],
+      "smind": [
+        "93 profile items across every life dimension",
+        "1,425 financial transactions with context",
+        "171 health metrics from 4 devices",
+        "Every person in my life and their role",
+        "My fears, habits, goals, and mission",
+        "Why I do things, not just what I click"
+      ]
+    },
+    "note": "Big tech sees fragments. SMind sees the whole person."
+  },
+  "slide16_coworker": {
+    "title": "This deck was built by that same assistant",
+    "roles": [
+      {"role": "Coder", "example": "Built 14 animated slides in 30 minutes"},
+      {"role": "Brainstorm buddy", "example": "Shaped the narrative structure together"},
+      {"role": "Advisor", "example": "Flagged blind spots in my reminder system"},
+      {"role": "Data analyst", "example": "Pulled real numbers from 12 Supabase tables"},
+      {"role": "Life admin", "example": "Manages 25 automated processes daily"},
+      {"role": "Memory", "example": "Knows more about me than I remember myself"}
+    ],
+    "note": "Not a tool I query. A collaborator that knows my context."
+  },
+  "slide17_future": {
+    "title": "This is just the beginning",
+    "gaps": [
+      "No closed feedback loop yet",
+      "Food tracking not integrated",
+      "Screen time invisible",
+      "No real-time location sensing",
+      "Can't control the attention gateway (phone/Mac)",
+      "Delivery limited to Telegram + push notifications"
+    ],
+    "vision": "Sense → Compute → Deliver → Measure → Learn → Sense",
+    "note": "The system doesn't yet tell you what to do at every moment. That's the goal."
+  }
+}
