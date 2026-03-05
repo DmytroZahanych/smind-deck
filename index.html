@@ -539,6 +539,63 @@ html, body {
 .health-cat-label.visible { opacity: 0.7; }
 
 /* ════════════════════════════════════
+   SLIDE 10 (new) — Smart Goals rings
+   ════════════════════════════════════ */
+#slide10 canvas {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 62%;
+  height: 100%;
+}
+.goal-echo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font);
+  font-size: clamp(18px, 2vw, 32px);
+  font-weight: 300;
+  color: #fff;
+  text-align: center;
+  max-width: 55%;
+  line-height: 1.3;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 3;
+}
+.goal-echo.show {
+  animation: goalEchoAnim 2.5s ease forwards;
+}
+@keyframes goalEchoAnim {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+  15% { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+  70% { opacity: 0.6; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.05); }
+}
+.goals-center-count {
+  position: absolute;
+  bottom: 8%;
+  right: 4%;
+  text-align: right;
+  z-index: 2;
+  pointer-events: none;
+}
+.goals-center-count .num {
+  font-family: var(--font-mono);
+  font-size: clamp(48px, 6vw, 96px);
+  color: var(--cyan);
+  text-shadow: var(--cyan-glow);
+  line-height: 1;
+}
+.goals-center-count .lbl {
+  font-family: var(--font-mono);
+  font-size: clamp(14px, 1.4vw, 22px);
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* ════════════════════════════════════
    SLIDE 9 — Time tracking timeline
    ════════════════════════════════════ */
 .timeline-container {
@@ -1344,8 +1401,18 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 10 ═══ -->
+<!-- ═══ SLIDE 10 — Smart Goals rings (NEW) ═══ -->
 <div class="slide" id="slide10">
+  <div class="left">
+    <h1>Then it refines them into specific outcomes — framed as <em>smart goals</em></h1>
+  </div>
+  <canvas id="goalsCanvas"></canvas>
+  <div class="goal-echo" id="goalEcho"></div>
+  <div class="goals-center-count"><div class="num" id="goalsNum">0</div><div class="lbl">smart goals</div></div>
+</div>
+
+<!-- ═══ SLIDE 11 ═══ -->
+<div class="slide" id="slide11">
   <div class="left">
     <h1>It tracks what I do <em>every hour</em></h1>
   </div>
@@ -1354,8 +1421,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 11 ═══ -->
-<div class="slide" id="slide11">
+<!-- ═══ SLIDE 12 ═══ -->
+<div class="slide" id="slide12">
   <div class="left">
     <h1>It runs <em>25</em> automated processes in my life</h1>
   </div>
@@ -1364,8 +1431,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 12 ═══ -->
-<div class="slide" id="slide12">
+<!-- ═══ SLIDE 13 ═══ -->
+<div class="slide" id="slide13">
   <div class="left">
     <h1>It knows the <em>people</em> in my life</h1>
   </div>
@@ -1374,8 +1441,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 13 ═══ -->
-<div class="slide" id="slide13">
+<!-- ═══ SLIDE 14 ═══ -->
+<div class="slide" id="slide14">
   <div class="left">
     <h1><em>9 AI entities</em> work on optimizing it while I sleep</h1>
   </div>
@@ -1388,8 +1455,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 14 ═══ -->
-<div class="slide" id="slide14">
+<!-- ═══ SLIDE 15 ═══ -->
+<div class="slide" id="slide15">
   <div class="left">
     <h1>They use <em>GitHub</em> like human engineers</h1>
   </div>
@@ -1406,8 +1473,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 15 ═══ -->
-<div class="slide" id="slide15">
+<!-- ═══ SLIDE 16 ═══ -->
+<div class="slide" id="slide16">
   <div class="left">
     <h1>They <em>talk to each other</em> to problem-solve</h1>
   </div>
@@ -1416,8 +1483,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 16 ═══ -->
-<div class="slide" id="slide16">
+<!-- ═══ SLIDE 17 ═══ -->
+<div class="slide" id="slide17">
   <div class="left">
     <h1>And every day, it tells me <em>what to do next</em></h1>
   </div>
@@ -1426,8 +1493,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 17 ═══ -->
-<div class="slide" id="slide17">
+<!-- ═══ SLIDE 18 ═══ -->
+<div class="slide" id="slide18">
   <div class="left">
     <h1>This deck was built by <em>that same assistant</em></h1>
   </div>
@@ -1439,8 +1506,8 @@ html, body {
   <div class="slide-note">Not a tool I query. A collaborator that knows my context.</div>
 </div>
 
-<!-- ═══ SLIDE 18 ═══ -->
-<div class="slide" id="slide18">
+<!-- ═══ SLIDE 19 ═══ -->
+<div class="slide" id="slide19">
   <div class="left">
     <h1>This is just the <span class="glow-word">beginning</span></h1>
     <div class="loop-diagram" id="loopDiagram"></div>
@@ -1451,7 +1518,7 @@ html, body {
 
 <script>
 // ─── Config ───
-const TOTAL_SLIDES = 18;
+const TOTAL_SLIDES = 19;
 let current = 0;
 let transitioning = false;
 
@@ -1474,6 +1541,7 @@ function goTo(idx) {
   if (current === 2) stopOrbital();
   if (current === 4) stopTimeseries();
   if (current === 7) stopNetwork();
+  if (current === 9) stopGoals();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -2073,31 +2141,34 @@ function onSlideEnter(idx) {
     animateSlide11(); // dimensions (slide 9)
   }
   if (idx === 9) {
-    animateTimeline(); // time tracking (slide 10)
+    initGoalsCanvas(); // smart goals (slide 10)
   }
   if (idx === 10) {
-    animateSlide9(); // cron jobs (slide 11)
+    animateTimeline(); // time tracking (slide 11)
   }
   if (idx === 11) {
-    animateSlide10(); // people (slide 12)
+    animateSlide9(); // cron jobs (slide 12)
   }
   if (idx === 12) {
-    animateSlide12(); // entities (slide 13)
+    animateSlide10(); // people (slide 13)
   }
   if (idx === 13) {
-    animateSlide13(); // github (slide 14)
+    animateSlide12(); // entities (slide 14)
   }
   if (idx === 14) {
-    animateSlide14(); // dialog (slide 15)
+    animateSlide13(); // github (slide 15)
   }
   if (idx === 15) {
-    animateSlide15(); // notifications (slide 16)
+    animateSlide14(); // dialog (slide 16)
   }
   if (idx === 16) {
-    animateSlide17(); // coworker (slide 17)
+    animateSlide15(); // notifications (slide 17)
   }
   if (idx === 17) {
-    animateSlide18(); // closing (slide 18)
+    animateSlide17(); // coworker (slide 18)
+  }
+  if (idx === 18) {
+    animateSlide18(); // closing (slide 19)
   }
 }
 
@@ -2317,6 +2388,209 @@ function animateHealth() {
       }
     });
   });
+}
+
+// ─── Smart Goals concentric rings (slide 10) ───
+const goalsData = [
+  { cat:'Career', color:'#5aafcf', goals:[{s:'a',t:'Complete SMind Barry demo clone using hOS data'},{s:'a',t:'Deliver measurable value to STW/Neo through SMind'},{s:'p',t:'Establish 5 professional connections in AI space'},{s:'p',t:'Publish 3 SMind-related content pieces'},{s:'p',t:'Achieve proficiency in 2 new technical areas'},{s:'p',t:'Optimize home workspace ergonomics'},{s:'p',t:'Establish voice in personal AI space'}] },
+  { cat:'Health', color:'#4acaaa', goals:[{s:'a',t:'Reduce LDL from 233 to below 160 mg/dL'},{s:'a',t:'Reduce chronic shoulder tension to rare'},{s:'a',t:'Establish 7+ hour sleep with objective tracking'},{s:'a',t:'Reduce weight from 82.6 to 70 kg'},{s:'p',t:'Zero unplanned sick days in 6 months'},{s:'p',t:'Build structured health knowledge base'},{s:'p',t:'Complete reproductive health screening'}] },
+  { cat:'Finance', color:'#d4a030', goals:[{s:'a',t:'Complete Portuguese tax obligations assessment'},{s:'a',t:'Visibility into monthly spending patterns'},{s:'a',t:'Complete first IRS annual declaration'},{s:'p',t:'Zero high-interest consumer debt'},{s:'p',t:'12-month financial plan'},{s:'p',t:'Minimum viable insurance coverage'},{s:'p',t:'Investment strategy for longevity mission'},{s:'p',t:'Clear monthly cash flow visibility'},{s:'p',t:'Emergency fund: 3 months expenses'},{s:'p',t:'Retirement target number and timeline'},{s:'p',t:'Estate planning documentation'}] },
+  { cat:'Mental', color:'#8a7ac9', goals:[{s:'a',t:'Eliminate chronic headaches from shoulder tension'},{s:'a',t:'2 coping strategies for war displacement trauma'},{s:'p',t:'Inner peace rating 7+/10 sustained 4 weeks'},{s:'p',t:'Consistent mindfulness 10+ min/day'},{s:'p',t:'1 protected rest block per week'},{s:'p',t:'Document 3 personal shadow patterns'}] },
+  { cat:'Social', color:'#d47ab0', goals:[{s:'p',t:'Monthly in-person contact with 2+ friends'},{s:'p',t:'2 purely social activities per month'},{s:'p',t:'Join 1 community group regularly'},{s:'p',t:'Improve active listening skills'},{s:'p',t:'Clear work-life boundaries'},{s:'p',t:'Strengthen 1 colleague relationship'}] },
+  { cat:'Spiritual', color:'#7aa2d4', goals:[{s:'p',t:'Structured reflection on mortality and mission'},{s:'p',t:'Weekly outdoor nature exposure'},{s:'p',t:'Written personal philosophy'},{s:'p',t:'Find aligned community'},{s:'p',t:'Trial 2 contemplative practices'},{s:'p',t:'Document 4 awe-inspiring moments'}] },
+  { cat:'Civic', color:'#d47ab0', goals:[{s:'p',t:'Identify 1 aligned cause'},{s:'p',t:'Define personal legacy'},{s:'p',t:'Participate in 1 civic process'},{s:'p',t:'2 charitable contributions'},{s:'p',t:'1 volunteering activity'}] },
+  { cat:'Environment', color:'#5aafcf', goals:[{s:'a',t:'Parrots stepping up and calm handling 10+ min'},{s:'p',t:'Top 3 living environment improvements'},{s:'p',t:'Ergonomic assessment and improvements'},{s:'p',t:'Reduce household waste'}] },
+  { cat:'Family', color:'#d4845a', goals:[{s:'p',t:'Quarterly check-in with parents on health'},{s:'p',t:'Learn parents chronic conditions for genetic risk'},{s:'p',t:'Share AI knowledge with 1 person'}] },
+  { cat:'Recreation', color:'#8a7ac9', goals:[{s:'p',t:'Cook 1 home meal per week for 8 weeks'},{s:'p',t:'4 outdoor activities in Algarve'},{s:'p',t:'Try 3 new experiences'},{s:'p',t:'2 purely fun activities per month'},{s:'p',t:'1 trip outside Algarve'}] },
+  { cat:'Values', color:'#7aa2d4', goals:[{s:'p',t:'Weekly act of kindness'},{s:'p',t:'Personal ethical framework for SMind'},{s:'p',t:'Daily gratitude practice 30 days'},{s:'p',t:'Reduce impulsive stress-eating'}] },
+  { cat:'Fitness', color:'#5ac9a0', goals:[{s:'a',t:'Walk 30 min daily, 7000+ steps'}] },
+  { cat:'Nutrition', color:'#e8955f', goals:[{s:'a',t:'8 weeks intermittent fasting adherence'}] },
+  { cat:'Longevity', color:'#da7060', goals:[{s:'a',t:'Proactive health monitoring beyond annual checkups'}] },
+  { cat:'Marriage', color:'#c95a8a', goals:[{s:'a',t:'Support Nastya immigration application'}] },
+  { cat:'Immigration', color:'#5abade', goals:[{s:'a',t:'Submit Article 90.2 visa at AIMA Faro'}] },
+  { cat:'Substance', color:'#d4a070', goals:[{s:'a',t:'Reduce sugar from multiple daily to max 3x/week'}] },
+  { cat:'Tech', color:'#b89a4a', goals:[{s:'a',t:'Advance SMind toward fully autonomous operation'}] },
+  { cat:'Routines', color:'#6a9a6a', goals:[{s:'a',t:'30-day morning sequence streak'}] },
+  { cat:'Education', color:'#4acaaa', goals:[{s:'p',t:'1 new skill per quarter'}] },
+  { cat:'Leisure', color:'#d4845a', goals:[{s:'p',t:'Zero gaming displacing health activities for 3 months'}] },
+  { cat:'Creative', color:'#e8955f', goals:[{s:'p',t:'Explore 1 creative outlet'}] },
+];
+// 75 goals total across 22 categories
+
+let goalsAnimId = null;
+let goalsInitialized = false;
+
+function initGoalsCanvas() {
+  if (goalsInitialized) {
+    // Resume
+    if (!goalsAnimId) goalsAnimId = requestAnimationFrame(goalsLoop);
+    return;
+  }
+  goalsInitialized = true;
+
+  const canvas = document.getElementById('goalsCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const echoEl = document.getElementById('goalEcho');
+  const numEl = document.getElementById('goalsNum');
+  let W, H, cx, cy, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    const r = canvas.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Layout: compute arc angles per category and goals within
+  const totalGoals = goalsData.reduce((s, c) => s + c.goals.length, 0);
+  const catGap = 0.03;
+  const totalGapAngle = catGap * goalsData.length;
+  const totalArc = Math.PI * 2 - totalGapAngle;
+
+  let angle = -Math.PI / 2;
+  goalsData.forEach(cat => {
+    const catArc = (cat.goals.length / totalGoals) * totalArc;
+    cat.startAngle = angle;
+    cat.endAngle = angle + catArc;
+    cat.midAngle = angle + catArc / 2;
+    // Layout goals within category
+    const goalGap = 0.008;
+    const goalTotalGap = goalGap * cat.goals.length;
+    const goalArc = (catArc - goalTotalGap) / cat.goals.length;
+    let ga = cat.startAngle;
+    cat.goals.forEach(g => {
+      g.startAngle = ga;
+      g.endAngle = ga + goalArc;
+      g.midAngle = ga + goalArc / 2;
+      ga += goalArc + goalGap;
+    });
+    angle += catArc + catGap;
+  });
+
+  // Ring radii
+  const base = Math.min(W, H) / 2;
+  const outerR1 = base * 0.65, outerR2 = base * 0.82; // category ring
+  const innerR1 = base * 0.42, innerR2 = base * 0.62; // goals ring
+  const labelR = base * 0.88;
+
+  // Animation state
+  let animStart = 0;
+  const CAT_STAGGER = 180; // ms between categories
+  const GOAL_DELAY = 80; // ms between goals within a category
+  const ECHO_INTERVAL = 800; // ms between echo texts
+  let echoIdx = 0;
+  let lastEchoT = 0;
+  let allEchoGoals = [];
+  // Collect active goals first, then some paused ones for echo
+  goalsData.forEach(c => c.goals.forEach(g => {
+    if (g.s === 'a') allEchoGoals.push({ text: g.t, color: c.color });
+  }));
+  goalsData.forEach(c => c.goals.forEach(g => {
+    if (g.s === 'p' && allEchoGoals.length < 30) allEchoGoals.push({ text: g.t, color: c.color });
+  }));
+
+  let countedUp = false;
+
+  function drawArc(sa, ea, r1, r2, fill, stroke, lw) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, r2, sa, ea);
+    ctx.arc(cx, cy, r1, ea, sa, true);
+    ctx.closePath();
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+    if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw || 1; ctx.stroke(); }
+  }
+
+  function frame(ts) {
+    if (!slides[9].classList.contains('active')) { goalsAnimId = null; return; }
+    if (!animStart) animStart = ts;
+    const t = ts - animStart;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw categories and goals
+    let goalCount = 0;
+    goalsData.forEach((cat, ci) => {
+      const catDelay = ci * CAT_STAGGER;
+      const catAlpha = Math.min(1, Math.max(0, (t - catDelay) / 500));
+      if (catAlpha <= 0) return;
+
+      // Category arc (outer ring)
+      ctx.globalAlpha = catAlpha;
+      const catFill = cat.color + '18';
+      const catStroke = cat.color + '55';
+      drawArc(cat.startAngle, cat.endAngle, outerR1, outerR2, catFill, catStroke, 1);
+
+      // Category label
+      const lp = { x: cx + labelR * Math.cos(cat.midAngle), y: cy + labelR * Math.sin(cat.midAngle) };
+      ctx.save();
+      ctx.translate(lp.x, lp.y);
+      let rot = cat.midAngle + Math.PI / 2;
+      if (rot > Math.PI / 2 && rot < Math.PI * 1.5) rot += Math.PI;
+      ctx.rotate(rot);
+      ctx.font = "600 " + Math.max(8, Math.min(12, base * 0.03)) + "px 'Rajdhani',sans-serif";
+      ctx.fillStyle = cat.color;
+      ctx.globalAlpha = catAlpha * 0.7;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(cat.cat.toUpperCase(), 0, 0);
+      ctx.restore();
+
+      // Goals (inner ring)
+      cat.goals.forEach((g, gi) => {
+        const goalDelay = catDelay + 300 + gi * GOAL_DELAY;
+        const goalAlpha = Math.min(1, Math.max(0, (t - goalDelay) / 400));
+        if (goalAlpha <= 0) return;
+        goalCount++;
+
+        ctx.globalAlpha = goalAlpha;
+        const isActive = g.s === 'a';
+        const gColor = isActive ? cat.color : '#4a5a6a';
+        const gFill = isActive ? gColor + '30' : gColor + '12';
+        const gStroke = isActive ? gColor + '80' : gColor + '30';
+        drawArc(g.startAngle, g.endAngle, innerR1, innerR2, gFill, gStroke, isActive ? 1.5 : 0.7);
+
+        // Active goal glow
+        if (isActive && goalAlpha > 0.5) {
+          ctx.globalAlpha = goalAlpha * 0.15;
+          drawArc(g.startAngle, g.endAngle, innerR1 - 3, innerR2 + 3, gColor + '20', null, 0);
+        }
+      });
+    });
+
+    ctx.globalAlpha = 1;
+
+    // Echo text — pop goal names
+    if (t > 500 && t - lastEchoT > ECHO_INTERVAL && echoIdx < allEchoGoals.length) {
+      const eg = allEchoGoals[echoIdx];
+      echoEl.textContent = eg.text;
+      echoEl.style.color = eg.color;
+      echoEl.classList.remove('show');
+      void echoEl.offsetWidth; // reflow
+      echoEl.classList.add('show');
+      lastEchoT = t;
+      echoIdx++;
+    }
+
+    // Counter
+    if (!countedUp && t > 800) {
+      countedUp = true;
+      animateCounter(numEl, 0, 75, 2000);
+    }
+
+    goalsAnimId = requestAnimationFrame(frame);
+  }
+
+  goalsLoop = frame;
+  goalsAnimId = requestAnimationFrame(frame);
+}
+let goalsLoop = null;
+
+function stopGoals() {
+  if (goalsAnimId) { cancelAnimationFrame(goalsAnimId); goalsAnimId = null; }
 }
 
 // ─── Orbital Model (slide 3) ───
@@ -2965,7 +3239,7 @@ gapsData.forEach(g => {
 });
 
 function animateSlide18() {
-  const title = document.querySelector('#slide18 h1');
+  const title = document.querySelector('#slide19 h1');
   const loop = loopDiagram;
   const words = loop.querySelectorAll('.loop-word');
   const arrows = loop.querySelectorAll('.loop-arrow');
