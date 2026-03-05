@@ -1838,27 +1838,7 @@ function animateInfra() {
   });
 }
 
-// ─── Devices (slide 5) ───
-const devicesData = [
-  {name:"Withings Scale",metrics:["weight","fat ratio","muscle mass","bone mass","hydration","visceral fat","BMR","metabolic age"],color:"#4acaaa",icon:"⚖️"},
-  {name:"ScanWatch",metrics:["heart rate","steps","sleep stages","SpO2"],color:"#5aafcf",icon:"⌚"},
-  {name:"BeamO",metrics:["body temp","skin temp","SpO2","ECG"],color:"#8a7ac9",icon:"🔬"},
-  {name:"BPM Core",metrics:["systolic BP","diastolic BP","heart rate","ECG"],color:"#d4845a",icon:"💓"},
-];
-const devicesGrid = document.getElementById('devicesGrid');
-devicesData.forEach(d => {
-  const card = document.createElement('div');
-  card.className = 'device-card';
-  card.style.borderColor = d.color + '30';
-  card.innerHTML = `<style>.dc-${d.name.replace(/\s/g,'')}::before{background:${d.color}}</style>
-    <div class="device-icon">${d.icon}</div>
-    <div class="device-name" style="color:${d.color}">${d.name}</div>
-    <div class="device-metrics">${d.metrics.map(m=>`<span class="device-metric">${m}</span>`).join('')}</div>
-    <div class="device-pulse" style="background:${d.color};color:${d.color}"></div>`;
-  card.classList.add('dc-'+d.name.replace(/\s/g,''));
-  card.style.cssText += `border-top: 2px solid ${d.color}`;
-  devicesGrid.appendChild(card);
-});
+// ─── Devices (removed — now part of infra slide) ───
 
 // ─── Timeline (slide 6) ───
 const timeData = [
@@ -1898,15 +1878,7 @@ function animateSlide4() {
 }
 
 function animateSlide5() {
-  const cards = devicesGrid.querySelectorAll('.device-card');
-  cards.forEach(c => c.classList.remove('visible'));
-  document.getElementById('metricsNum').textContent = '0';
-  requestAnimationFrame(() => {
-    cards.forEach((c, i) => {
-      setTimeout(() => c.classList.add('visible'), 200 + i * 200);
-    });
-    setTimeout(() => animateCounter(document.getElementById('metricsNum'), 0, 171, 1500), 400);
-  });
+  // Devices removed — now part of infra slide
 }
 
 function animateSlide6() {
