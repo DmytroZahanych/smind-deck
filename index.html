@@ -3120,15 +3120,14 @@ function initRadarCanvas() {
           ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI * 2); ctx.fill();
         }
 
-        // Label at arc midpoint
+        // Icon at arc midpoint
         const labelAngle = (sa + ea) / 2;
-        const lx = cx + (r2 + 16) * Math.cos(labelAngle);
-        const ly = cy + (r2 + 16) * Math.sin(labelAngle);
-        ctx.globalAlpha = alpha * 0.7;
-        ctx.font = "600 9px 'Rajdhani',sans-serif";
-        ctx.fillStyle = ch.color;
-        ctx.textAlign = 'center';
-        ctx.fillText(ch.icon + ' ' + ch.name, lx, ly);
+        const lx = cx + midR * Math.cos(labelAngle);
+        const ly = cy + midR * Math.sin(labelAngle);
+        ctx.globalAlpha = alpha * 0.5;
+        ctx.font = "12px sans-serif";
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(ch.icon, lx, ly);
 
       } else if (ch.type === 'passive') {
         // Passive point: steady glow dot
@@ -3145,13 +3144,6 @@ function initRadarCanvas() {
         ctx.globalAlpha = alpha * (1 - pulse) * 0.25;
         ctx.beginPath(); ctx.arc(px, py, 4 + pulse * 12, 0, Math.PI * 2);
         ctx.strokeStyle = ch.color; ctx.lineWidth = 1; ctx.stroke();
-
-        // Label
-        ctx.globalAlpha = alpha * 0.7;
-        ctx.font = "600 9px 'Rajdhani',sans-serif";
-        ctx.fillStyle = ch.color;
-        ctx.textAlign = 'center';
-        ctx.fillText(ch.icon + ' ' + ch.name, px, py - 12);
 
       } else {
         // Active: pulsing dot that fires periodically
@@ -3182,14 +3174,7 @@ function initRadarCanvas() {
           ctx.beginPath(); ctx.arc(px, py, 20, 0, Math.PI * 2); ctx.fill();
         }
 
-        // Label (show only on spawn or ping)
-        if (age < 1500 || isPinging) {
-          ctx.globalAlpha = alpha * (isPinging ? 0.7 : Math.max(0, 1 - age / 1500) * 0.7);
-          ctx.font = "600 8px 'Rajdhani',sans-serif";
-          ctx.fillStyle = ch.color;
-          ctx.textAlign = 'center';
-          ctx.fillText(ch.icon + ' ' + ch.name, px, py - 12);
-        }
+        // no label — dots speak for themselves
       }
     });
 
