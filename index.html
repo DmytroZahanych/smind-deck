@@ -2936,12 +2936,12 @@ const radarSources = {
     { name: 'Telegram Messages', icon: '✈️', color: '#4acaaa', angle: 1.1, dist: 0.72 },
   ],
   active: [
-    { name: 'How did you spend this hour?', icon: '⏱️', color: '#8a6aca', angle: 2.0, dist: 0.68 },
-    { name: 'What did you eat today?', icon: '🍽️', color: '#8a6aca', angle: 2.5, dist: 0.58 },
-    { name: 'How are you feeling?', icon: '🧠', color: '#8a6aca', angle: 2.9, dist: 0.75 },
-    { name: 'Did you take your medication?', icon: '💊', color: '#8a6aca', angle: 3.3, dist: 0.62 },
-    { name: 'Rate your sleep quality', icon: '😴', color: '#8a6aca', angle: 3.7, dist: 0.7 },
-    { name: "What's your energy level?", icon: '⚡', color: '#8a6aca', angle: 4.1, dist: 0.55 },
+    { name: 'How did you spend this hour?', icon: '⏱️', color: '#e8955f', angle: 2.0, dist: 0.68 },
+    { name: 'What did you eat today?', icon: '🍽️', color: '#e8955f', angle: 2.5, dist: 0.58 },
+    { name: 'How are you feeling?', icon: '🧠', color: '#e8955f', angle: 2.9, dist: 0.75 },
+    { name: 'Did you take your medication?', icon: '💊', color: '#e8955f', angle: 3.3, dist: 0.62 },
+    { name: 'Rate your sleep quality', icon: '😴', color: '#e8955f', angle: 3.7, dist: 0.7 },
+    { name: "What's your energy level?", icon: '⚡', color: '#e8955f', angle: 4.1, dist: 0.55 },
   ]
 };
 
@@ -3046,7 +3046,7 @@ function initRadarCanvas() {
       } else {
         ctx.globalAlpha = pingAlpha * 0.4;
         ctx.beginPath(); ctx.arc(cx, cy, pingR, 0, Math.PI * 2);
-        ctx.strokeStyle = '#8a6aca';
+        ctx.strokeStyle = '#e8955f';
         ctx.lineWidth = 2.5;
         ctx.stroke();
 
@@ -3133,7 +3133,7 @@ function initRadarCanvas() {
       // Type badge
       ctx.globalAlpha = src.alpha * 0.4;
       ctx.font = "8px 'Share Tech Mono',monospace";
-      ctx.fillStyle = src.type === 'passive' ? '#4acaaa' : '#8a6aca';
+      ctx.fillStyle = src.type === 'passive' ? '#4acaaa' : '#e8955f';
       ctx.fillText(src.type.toUpperCase(), sx, sy + 18);
     });
 
@@ -3155,7 +3155,7 @@ function initRadarCanvas() {
     ctx.textAlign = 'left';
     ctx.fillStyle = '#4acaaa';
     ctx.fillText('● PASSIVE — always streaming', 15, H - 35);
-    ctx.fillStyle = '#8a6aca';
+    ctx.fillStyle = '#e8955f';
     ctx.fillText('● ACTIVE — asks when needed', 15, H - 18);
 
     ctx.globalAlpha = 1;
