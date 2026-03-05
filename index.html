@@ -3041,8 +3041,8 @@ const rpaJobs = [
 
 const rpaRingLabels = {
   daily: { label: '24H', ticks: 24, tickLabel: h => h + ':00', total: 24 },
-  monthly: { label: '31 DAYS', ticks: 31, tickLabel: d => d + 1, total: 31 },
-  yearly: { label: '12 MONTHS', ticks: 12, tickLabel: m => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m], total: 12 },
+  monthly: { label: '', ticks: 31, tickLabel: d => d + 1, total: 31 },
+  yearly: { label: '', ticks: 12, tickLabel: m => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m], total: 12 },
 };
 
 let rpaAnimId = null, rpaInitialized = false;
