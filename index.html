@@ -811,6 +811,24 @@ html, body {
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .entity-card.visible { opacity: 1; transform: translateX(0); }
+.entity-card-ext {
+  padding: 5px 14px;
+  opacity: 0;
+  border: 1px solid rgba(255,255,255,0.02);
+  background: rgba(255,255,255,0.008);
+}
+.entity-separator {
+  text-align: center;
+  padding: 6px 0 2px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.entity-separator.visible { opacity: 0.6; transform: translateX(0); }
 .entity-name {
   font-weight: 600;
   min-width: 140px;
@@ -1420,7 +1438,7 @@ html, body {
 <!-- ═══ SLIDE 15 ═══ -->
 <div class="slide" id="slide15">
   <div class="left">
-    <h1><em>9 AI entities</em> work on optimizing it while I sleep</h1>
+    <h1>But it's not one super-intelligent AI. It's a <em>society of 16 agents</em></h1>
   </div>
   <div class="right">
     <div style="width:92%;display:flex;flex-direction:column;align-items:center">
@@ -4176,22 +4194,45 @@ function animateSlide11() {
 
 // ─── Entity roster (slide 12) ───
 const entities = [
-  { name: "Scientist", role: "Builds quality benchmarks for data tables", jobs: 5, color: "#5aafcf" },
-  { name: "Evaluator", role: "Grades data against benchmarks → files issues", jobs: 5, color: "#d4a030" },
-  { name: "User Data Maintainer", role: "Maintains health data + Withings integration", jobs: 2, color: "#4acaaa" },
-  { name: "Life Dimensions Locator", role: "Discovers life dimensions autonomously", jobs: 1, color: "#8a7ac9" },
-  { name: "Smart Goal Creator", role: "Creates goals covering all life dimensions", jobs: 1, color: "#5ac9a0" },
-  { name: "Scheduler", role: "Plans daily schedules", jobs: 1, color: "#d47ab0" },
-  { name: "Face Data Gaps Assistant", role: "Crafts questions for data gaps", jobs: 1, color: "#e8955f" },
-  { name: "Face", role: "Delivers questions to user via notifications", jobs: 0, color: "#c95a8a" },
-  { name: "Snapshot", role: "Nightly database backup to GitHub", jobs: 1, color: "#d4845a" },
+  // Core (9)
+  { name: "Scientist", role: "Builds quality benchmarks for data tables", jobs: 5, color: "#5aafcf", type: "core" },
+  { name: "Evaluator", role: "Grades data against benchmarks → files issues", jobs: 5, color: "#d4a030", type: "core" },
+  { name: "User Data Maintainer", role: "Maintains health data + Withings integration", jobs: 2, color: "#4acaaa", type: "core" },
+  { name: "Life Dimensions Locator", role: "Discovers life dimensions autonomously", jobs: 1, color: "#8a7ac9", type: "core" },
+  { name: "Smart Goal Creator", role: "Creates goals covering all life dimensions", jobs: 1, color: "#5ac9a0", type: "core" },
+  { name: "Scheduler", role: "Plans daily schedules", jobs: 1, color: "#d47ab0", type: "core" },
+  { name: "Face Data Gaps Assistant", role: "Crafts questions for data gaps", jobs: 1, color: "#e8955f", type: "core" },
+  { name: "Face", role: "Delivers questions to user via notifications", jobs: 0, color: "#c95a8a", type: "core" },
+  { name: "Snapshot", role: "Nightly database backup to GitHub", jobs: 1, color: "#d4845a", type: "core" },
+  // Extended (7) — hOS life category specialists
+  { name: "Health Agent", role: "Evaluates health dimension coverage", jobs: 0, color: "#4acaaa", type: "extended" },
+  { name: "Finances Agent", role: "Evaluates financial dimension coverage", jobs: 0, color: "#d4a45a", type: "extended" },
+  { name: "Career Agent", role: "Evaluates career dimension coverage", jobs: 0, color: "#4a8aca", type: "extended" },
+  { name: "Relationships Agent", role: "Evaluates relationship dimension coverage", jobs: 0, color: "#ca6a8a", type: "extended" },
+  { name: "Spirituality Agent", role: "Evaluates spirituality dimension coverage", jobs: 0, color: "#8a6aca", type: "extended" },
+  { name: "Enjoyment Agent", role: "Evaluates enjoyment dimension coverage", jobs: 0, color: "#6aca8a", type: "extended" },
+  { name: "Impact Agent", role: "Evaluates impact dimension coverage", jobs: 0, color: "#ca8a4a", type: "extended" },
 ];
 const entityRoster = document.getElementById('entityRoster');
-entities.forEach(e => {
+// Core entities
+entities.filter(e => e.type === 'core').forEach(e => {
   const el = document.createElement('div');
   el.className = 'entity-card';
   el.style.borderLeftColor = e.color;
   el.innerHTML = `<span class="entity-name" style="color:${e.color}">${e.name}</span><span class="entity-role">${e.role}</span><span class="entity-jobs" style="color:${e.color};border-color:${e.color}44">${e.jobs}</span>`;
+  entityRoster.appendChild(el);
+});
+// Separator
+const sep = document.createElement('div');
+sep.className = 'entity-separator';
+sep.innerHTML = '<span>+ extended society</span>';
+entityRoster.appendChild(sep);
+// Extended entities
+entities.filter(e => e.type === 'extended').forEach(e => {
+  const el = document.createElement('div');
+  el.className = 'entity-card entity-card-ext';
+  el.style.borderLeftColor = e.color;
+  el.innerHTML = `<span class="entity-name" style="color:${e.color}">${e.name}</span><span class="entity-role">${e.role}</span>`;
   entityRoster.appendChild(el);
 });
 // Pipeline
@@ -4204,18 +4245,24 @@ pipelineSteps.forEach((s, i) => {
 
 function animateSlide12() {
   const cards = entityRoster.querySelectorAll('.entity-card');
+  const seps = entityRoster.querySelectorAll('.entity-separator');
   const pNodes = pipelineFlow.querySelectorAll('.pipeline-node');
   const pArrows = pipelineFlow.querySelectorAll('.pipeline-arrow');
   const counter = document.getElementById('jobsCounter');
   cards.forEach(c => c.classList.remove('visible'));
+  seps.forEach(s => s.classList.remove('visible'));
   pNodes.forEach(n => n.classList.remove('visible'));
   pArrows.forEach(a => a.classList.remove('visible'));
   pipelineFlow.classList.remove('visible');
   counter.classList.remove('visible');
   document.getElementById('jobsNum').textContent = '0';
   requestAnimationFrame(() => {
-    cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), 100 + i * 100));
-    const afterCards = 100 + cards.length * 100 + 200;
+    let idx = 0;
+    entityRoster.querySelectorAll('.entity-card, .entity-separator').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 100 + i * 100);
+      idx = i;
+    });
+    const afterCards = 100 + (idx + 1) * 100 + 200;
     setTimeout(() => pipelineFlow.classList.add('visible'), afterCards);
     pNodes.forEach((n, i) => setTimeout(() => n.classList.add('visible'), afterCards + i * 200));
     pArrows.forEach((a, i) => setTimeout(() => a.classList.add('visible'), afterCards + 100 + i * 200));
