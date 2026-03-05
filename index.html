@@ -724,7 +724,7 @@ html, body {
 /* ════════════════════════════════════
    SLIDE 13 — RPA time rings
    ════════════════════════════════════ */
-#slide13 canvas {
+#slide12 canvas {
   position: absolute;
   right: 0; top: 0;
   width: 62%; height: 100%;
@@ -1420,24 +1420,24 @@ html, body {
   <div class="goals-center-count"><div class="num" id="goalsNum">0</div><div class="lbl">smart goals</div></div>
 </div>
 
-<!-- ═══ SLIDE 12 ═══ -->
+<!-- ═══ SLIDE 12 — RPA-like life admin (time rings) ═══ -->
 <div class="slide" id="slide12">
-  <div class="left">
-    <h1>It tracks what I do <em>every hour</em></h1>
-  </div>
-  <div class="right">
-    <div class="timeline-container" id="timeline"></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 13 — RPA-like life admin (time rings) ═══ -->
-<div class="slide" id="slide13">
   <div class="left">
     <h1>To act on these goals, it runs <em>33</em> RPA-like jobs automating my life admin</h1>
   </div>
   <canvas id="rpaCanvas"></canvas>
   <div class="rpa-echo" id="rpaEcho"></div>
   <div class="rpa-counter"><div class="num" id="rpaNum">0</div><div class="lbl">automated jobs</div></div>
+</div>
+
+<!-- ═══ SLIDE 13 ═══ -->
+<div class="slide" id="slide13">
+  <div class="left">
+    <h1>It tracks what I do <em>every hour</em></h1>
+  </div>
+  <div class="right">
+    <div class="timeline-container" id="timeline"></div>
+  </div>
 </div>
 
 <!-- ═══ SLIDE 14 ═══ -->
@@ -1542,7 +1542,7 @@ function goTo(idx) {
   if (current === 7) stopNetwork();
   if (current === 9) stopDims();
   if (current === 10) stopGoals();
-  if (current === 12) stopRpa();
+  if (current === 11) stopRpa();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -2108,10 +2108,10 @@ function onSlideEnter(idx) {
     initGoalsCanvas(); // smart goals (slide 11)
   }
   if (idx === 11) {
-    animateTimeline(); // time tracking (slide 12)
+    animateSlide9(); // RPA time rings (slide 12)
   }
   if (idx === 12) {
-    animateSlide9(); // cron jobs (slide 13)
+    animateTimeline(); // time tracking (slide 13)
   }
   if (idx === 13) {
     animateSlide12(); // entities (slide 14)
@@ -3118,7 +3118,7 @@ function initRpaCanvas() {
   }
 
   function frame(ts) {
-    if (!slides[12].classList.contains('active')) { rpaAnimId = null; return; }
+    if (!slides[11].classList.contains('active')) { rpaAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
