@@ -1284,7 +1284,7 @@ html, body {
 <!-- ═══ SLIDE 3 ═══ -->
 <div class="slide" id="slide3">
   <div class="left">
-    <h1>Together with everything else, <em>~700MB</em> of raw data</h1>
+    <h1>So far, it has accumulated <em>498MB</em> of data about me</h1>
   </div>
   <div class="right">
     <div class="data-viz" id="dataViz">
@@ -1586,13 +1586,14 @@ knowledgeItems.forEach(([cat, val]) => {
 
 // ─── Data bars (slide 3) ───
 const dataBreakdown = [
-  ['Session logs', 103, 221, '#5aafcf'],
-  ['Raw data repo', 221, 221, '#d4845a'],
-  ['Dashboard & society', 47, 221, '#8a7ac9'],
-  ['Media files (66)', 26, 221, '#4acaaa'],
-  ['GitHub repos', 23, 221, '#d4a030'],
-  ['Memory & config', 1, 221, '#c95a8a'],
-  ['Supabase (3,756 rows)', 8, 221, '#5ac9a0'],
+  ['Raw data repo (LFS)', 226, 226, '#d4845a'],
+  ['Session logs', 105, 226, '#5aafcf'],
+  ['SMind Tracker', 34, 226, '#e8955f'],
+  ['Dashboard & society', 48, 226, '#8a7ac9'],
+  ['Media files', 26, 226, '#4acaaa'],
+  ['GitHub repos', 43, 226, '#d4a030'],
+  ['Supabase (3,778 rows)', 8, 226, '#5ac9a0'],
+  ['Workspace & config', 8, 226, '#c95a8a'],
 ];
 
 const barGroup = document.getElementById('barGroup');
@@ -1651,7 +1652,7 @@ function animateSlide3() {
     ring.setAttribute('stroke-dashoffset', '0');
 
     // Animate counter
-    animateCounter(document.getElementById('totalNum'), 0, 686, 2000);
+    animateCounter(document.getElementById('totalNum'), 0, 498, 2000);
 
     // Animate bars
     rows.forEach((row, i) => {
