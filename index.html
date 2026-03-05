@@ -410,6 +410,8 @@ html, body {
   display: flex;
   flex-direction: column;
   padding: 3% 4% 3% 2%;
+  height: 100%;
+  align-self: stretch;
 }
 
 /* ════════════════════════════════════
@@ -1699,7 +1701,8 @@ function initTimeseriesCanvas() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   window.addEventListener('resize', resize);
-  resize();
+  // Delay initial resize to ensure layout is settled after display:flex kicks in
+  requestAnimationFrame(() => { requestAnimationFrame(resize); });
 
   function lerp(a, b, t) { return a + (b - a) * t; }
   function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
