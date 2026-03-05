@@ -55,16 +55,20 @@ const unitEl=document.getElementById('metricUnit');
 const counterEl=document.getElementById('counter');
 
 let curIdx=0,nextIdx=1,morphT=0,phase='show',phaseTime=0;
-const SHOW_DUR=2500,MORPH_DUR=800;
+const SHOW_DUR=500,MORPH_DUR=160;
 let current=datasets[0].slice(),target=datasets[1].slice();
 
 // count-up
-let counted=false,countVal=0;
+let counted=false,countStart=0;
 function tickCounter(dt){
   if(counted)return;
-  countVal=Math.min(countVal+dt*4,3279);
-  if(countVal>=3279){countVal=3279;counted=true}
-  counterEl.textContent=Math.round(countVal).toLocaleString()+' data points';
+  if(!countStart)countStart=performance.now();
+  const elapsed=performance.now()-countStart;
+  const t=Math.min(elapsed/2000,1); // 2 seconds to count up
+  const ease=1-Math.pow(1-t,3);
+  const val=Math.round(3279*ease);
+  counterEl.textContent=val.toLocaleString()+' data points';
+  if(t>=1)counted=true;
 }
 
 function resize(){
@@ -155,9 +159,10 @@ function setLabel(idx,alpha){
   nameEl.style.color=metrics[idx].color;
 }
 
-let last=performance.now();
+let last=0;
 function frame(now){
-  const dt=now-last;last=now;
+  if(!last){last=now;phaseTime=0;}
+  const dt=Math.min(now-last,50);last=now;
   tickCounter(dt);
   phaseTime+=dt;
 
@@ -195,6 +200,12 @@ function frame(now){
 }
 setLabel(0,1);
 requestAnimationFrame(frame);
+
+// Forward navigation events to parent deck
+document.addEventListener('keydown',e=>{window.parent.postMessage({type:'key',key:e.key},'*')});
+document.addEventListener('click',e=>{window.parent.postMessage({type:'click',x:e.clientX,w:window.innerWidth},'*')});
+let ts=0;document.addEventListener('touchstart',e=>ts=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-ts;if(Math.abs(dx)>50)window.parent.postMessage({type:'swipe',dir:dx<0?1:-1},'*')});
 </script>
 </body>
 </html>

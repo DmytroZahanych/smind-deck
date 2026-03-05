@@ -356,62 +356,14 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 5 — Timeseries (A3) styles
+   SLIDE 5 — Timeseries (A3) via iframe
    ════════════════════════════════════ */
-#slide5 #metricLabel {
-  font-family: var(--font-mono);
-  font-size: clamp(16px, 1.6vw, 28px);
-  height: 2.2em;
-  display: flex;
-  align-items: baseline;
-  gap: .6em;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-#slide5 #metricName,
-#slide5 #metricUnit {
-  transition: opacity .4s;
-}
-
-#slide5 #metricName {
-  color: var(--text);
-}
-
-#slide5 #metricUnit {
-  color: var(--text-dim);
-  font-size: .75em;
-}
-
-#slide5 #canvasWrap {
-  flex: 1;
-  position: relative;
-  min-height: 0;
-}
-
-#slide5 #bottomText {
-  font-family: var(--font-mono);
-  color: var(--text-dim);
-  font-size: clamp(11px, 1vw, 16px);
-  padding-top: 8px;
-}
-
-#slide5 #counter {
+#slide5 iframe {
   position: absolute;
-  top: 3%;
-  right: 4%;
-  font-family: var(--font-mono);
-  color: var(--cyan);
-  font-size: clamp(13px, 1.2vw, 20px);
-  text-shadow: var(--cyan-glow);
-}
-
-#slide5 .right {
-  display: flex;
-  flex-direction: column;
-  padding: 3% 4% 3% 2%;
+  inset: 0;
+  width: 100%;
   height: 100%;
-  align-self: stretch;
+  border: none;
 }
 
 /* ════════════════════════════════════
@@ -1352,15 +1304,7 @@ html, body {
 
 <!-- ═══ SLIDE 5 ═══ -->
 <div class="slide" id="slide5">
-  <div class="left">
-    <h1>It defined <em>176 metrics</em> and collected <em>3,279 data points</em></h1>
-  </div>
-  <div class="right">
-    <div id="metricLabel"><span id="metricName"></span><span id="metricUnit"></span></div>
-    <div id="canvasWrap"><canvas id="timeseriesCanvas"></canvas></div>
-    <div id="bottomText">cycling through 176 tracked metrics...</div>
-    <div id="counter">0 data points</div>
-  </div>
+  <iframe src="slide-ts-A3.html" loading="lazy"></iframe>
 </div>
 
 <!-- ═══ SLIDE 6 ═══ -->
@@ -1579,6 +1523,20 @@ document.addEventListener('click', e => {
   else goTo(current + 1);
 });
 
+// Forward events from iframed slides
+window.addEventListener('message', e => {
+  if (!e.data || !e.data.type) return;
+  if (e.data.type === 'key') {
+    if (e.data.key === 'ArrowRight' || e.data.key === 'ArrowDown' || e.data.key === ' ') goTo(current + 1);
+    if (e.data.key === 'ArrowLeft' || e.data.key === 'ArrowUp') goTo(current - 1);
+  }
+  if (e.data.type === 'click') {
+    if (e.data.x < e.data.w / 2) goTo(current - 1);
+    else goTo(current + 1);
+  }
+  if (e.data.type === 'swipe') goTo(current + e.data.dir);
+});
+
 // ─── Particles (slides 1 & 2) ───
 (function initParticles() {
   ['particles1', 'particles2'].forEach(id => {
@@ -1654,10 +1612,12 @@ dataBreakdown.forEach(([label, value, maxRef, color]) => {
   barGroup.appendChild(row);
 });
 
-// ─── Timeseries animation (slide 5) ───
-let timeseriesAnimId = null;
-let timeseriesStartTime = null;
-const metrics = [
+// ─── Timeseries (slide 5) — handled by iframe, no JS needed ───
+function initTimeseriesCanvas() {} // no-op, iframe handles it
+function stopTimeseries() {} // no-op
+
+// REMOVED timeseries code — now in slide-ts-A3.html iframe
+/* const metrics = [
   {name:"weight_kg",color:"#4acaaa",unit:"kg",gen:()=>{const b=82.5;return Array.from({length:60},()=>b+(Math.random()-.5)*1.2)}},
   {name:"bp_systolic_mmhg",color:"#da7060",unit:"mmHg",gen:()=>Array.from({length:60},()=>120+Math.random()*15+Math.sin(Math.random()*6)*5)},
   {name:"steps",color:"#5ac9a0",unit:"steps",gen:()=>Array.from({length:60},()=>2000+Math.random()*10000)},
@@ -1693,12 +1653,11 @@ function initTimeseriesCanvas() {
 
   function resize() {
     const r = canvas.parentElement.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = r.width * dpr;
-    canvas.height = r.height * dpr;
+    if (r.width === 0 || r.height === 0) return;
+    canvas.width = r.width * devicePixelRatio;
+    canvas.height = r.height * devicePixelRatio;
     canvas.style.width = r.width + 'px';
     canvas.style.height = r.height + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   window.addEventListener('resize', resize);
   // Delay initial resize to ensure layout is settled after display:flex kicks in
@@ -1834,12 +1793,7 @@ function initTimeseriesCanvas() {
   timeseriesAnimId = requestAnimationFrame(frame);
 }
 
-function stopTimeseries() {
-  if (timeseriesAnimId) {
-    cancelAnimationFrame(timeseriesAnimId);
-    timeseriesAnimId = null;
-  }
-}
+*/
 
 // ─── Network Graph animation (slide 6) ───
 let networkAnimId = null;
