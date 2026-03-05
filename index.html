@@ -2391,38 +2391,140 @@ function animateHealth() {
 }
 
 // ─── Smart Goals concentric rings (slide 10) ───
-const goalsData = [
-  { cat:'Career', color:'#5aafcf', goals:[{s:'a',t:'Complete SMind Barry demo clone using hOS data'},{s:'a',t:'Deliver measurable value to STW/Neo through SMind'},{s:'p',t:'Establish 5 professional connections in AI space'},{s:'p',t:'Publish 3 SMind-related content pieces'},{s:'p',t:'Achieve proficiency in 2 new technical areas'},{s:'p',t:'Optimize home workspace ergonomics'},{s:'p',t:'Establish voice in personal AI space'}] },
-  { cat:'Health', color:'#4acaaa', goals:[{s:'a',t:'Reduce LDL from 233 to below 160 mg/dL'},{s:'a',t:'Reduce chronic shoulder tension to rare'},{s:'a',t:'Establish 7+ hour sleep with objective tracking'},{s:'a',t:'Reduce weight from 82.6 to 70 kg'},{s:'p',t:'Zero unplanned sick days in 6 months'},{s:'p',t:'Build structured health knowledge base'},{s:'p',t:'Complete reproductive health screening'}] },
-  { cat:'Finance', color:'#d4a030', goals:[{s:'a',t:'Complete Portuguese tax obligations assessment'},{s:'a',t:'Visibility into monthly spending patterns'},{s:'a',t:'Complete first IRS annual declaration'},{s:'p',t:'Zero high-interest consumer debt'},{s:'p',t:'12-month financial plan'},{s:'p',t:'Minimum viable insurance coverage'},{s:'p',t:'Investment strategy for longevity mission'},{s:'p',t:'Clear monthly cash flow visibility'},{s:'p',t:'Emergency fund: 3 months expenses'},{s:'p',t:'Retirement target number and timeline'},{s:'p',t:'Estate planning documentation'}] },
-  { cat:'Mental', color:'#8a7ac9', goals:[{s:'a',t:'Eliminate chronic headaches from shoulder tension'},{s:'a',t:'2 coping strategies for war displacement trauma'},{s:'p',t:'Inner peace rating 7+/10 sustained 4 weeks'},{s:'p',t:'Consistent mindfulness 10+ min/day'},{s:'p',t:'1 protected rest block per week'},{s:'p',t:'Document 3 personal shadow patterns'}] },
-  { cat:'Social', color:'#d47ab0', goals:[{s:'p',t:'Monthly in-person contact with 2+ friends'},{s:'p',t:'2 purely social activities per month'},{s:'p',t:'Join 1 community group regularly'},{s:'p',t:'Improve active listening skills'},{s:'p',t:'Clear work-life boundaries'},{s:'p',t:'Strengthen 1 colleague relationship'}] },
-  { cat:'Spiritual', color:'#7aa2d4', goals:[{s:'p',t:'Structured reflection on mortality and mission'},{s:'p',t:'Weekly outdoor nature exposure'},{s:'p',t:'Written personal philosophy'},{s:'p',t:'Find aligned community'},{s:'p',t:'Trial 2 contemplative practices'},{s:'p',t:'Document 4 awe-inspiring moments'}] },
-  { cat:'Civic', color:'#d47ab0', goals:[{s:'p',t:'Identify 1 aligned cause'},{s:'p',t:'Define personal legacy'},{s:'p',t:'Participate in 1 civic process'},{s:'p',t:'2 charitable contributions'},{s:'p',t:'1 volunteering activity'}] },
-  { cat:'Environment', color:'#5aafcf', goals:[{s:'a',t:'Parrots stepping up and calm handling 10+ min'},{s:'p',t:'Top 3 living environment improvements'},{s:'p',t:'Ergonomic assessment and improvements'},{s:'p',t:'Reduce household waste'}] },
-  { cat:'Family', color:'#d4845a', goals:[{s:'p',t:'Quarterly check-in with parents on health'},{s:'p',t:'Learn parents chronic conditions for genetic risk'},{s:'p',t:'Share AI knowledge with 1 person'}] },
-  { cat:'Recreation', color:'#8a7ac9', goals:[{s:'p',t:'Cook 1 home meal per week for 8 weeks'},{s:'p',t:'4 outdoor activities in Algarve'},{s:'p',t:'Try 3 new experiences'},{s:'p',t:'2 purely fun activities per month'},{s:'p',t:'1 trip outside Algarve'}] },
-  { cat:'Values', color:'#7aa2d4', goals:[{s:'p',t:'Weekly act of kindness'},{s:'p',t:'Personal ethical framework for SMind'},{s:'p',t:'Daily gratitude practice 30 days'},{s:'p',t:'Reduce impulsive stress-eating'}] },
-  { cat:'Fitness', color:'#5ac9a0', goals:[{s:'a',t:'Walk 30 min daily, 7000+ steps'}] },
-  { cat:'Nutrition', color:'#e8955f', goals:[{s:'a',t:'8 weeks intermittent fasting adherence'}] },
-  { cat:'Longevity', color:'#da7060', goals:[{s:'a',t:'Proactive health monitoring beyond annual checkups'}] },
-  { cat:'Marriage', color:'#c95a8a', goals:[{s:'a',t:'Support Nastya immigration application'}] },
-  { cat:'Immigration', color:'#5abade', goals:[{s:'a',t:'Submit Article 90.2 visa at AIMA Faro'}] },
-  { cat:'Substance', color:'#d4a070', goals:[{s:'a',t:'Reduce sugar from multiple daily to max 3x/week'}] },
-  { cat:'Tech', color:'#b89a4a', goals:[{s:'a',t:'Advance SMind toward fully autonomous operation'}] },
-  { cat:'Routines', color:'#6a9a6a', goals:[{s:'a',t:'30-day morning sequence streak'}] },
-  { cat:'Education', color:'#4acaaa', goals:[{s:'p',t:'1 new skill per quarter'}] },
-  { cat:'Leisure', color:'#d4845a', goals:[{s:'p',t:'Zero gaming displacing health activities for 3 months'}] },
-  { cat:'Creative', color:'#e8955f', goals:[{s:'p',t:'Explore 1 creative outlet'}] },
+// 3-ring hierarchy matching dashboard: hOS categories → dimensions → goals
+const goalsRingData = [
+  {cat:'Health',color:'#4acaaa',dims:[
+    {name:'Nutrition & Diet',subdims:7,goals:['nutrition_fasting_adherence']},
+    {name:'Physical Health & Body',subdims:6,goals:['health_cholesterol_reduction','health_weight_loss']},
+    {name:'Movement & Physical Activity',subdims:4,goals:['fitness_daily_walking']},
+    {name:'Sleep & Recovery',subdims:6,goals:['health_sleep_recovery']},
+    {name:'Pain Management',subdims:4,goals:['health_pain_rehabilitation']},
+    {name:'Immune System',subdims:4,goals:['health_immune_resilience']},
+    {name:'Sexual & Reproductive',subdims:5,goals:['health_sexual_reproductive']},
+    {name:'Health Literacy',subdims:6,goals:['health_literacy']},
+    {name:'Environmental Health',subdims:7,goals:['environment_occupational_health']},
+    {name:'Mental Wellbeing',subdims:6,goals:['mental_wellbeing']},
+    {name:'Stress Management',subdims:6,goals:['mental_stress_management']},
+    {name:'Inner Peace',subdims:4,goals:['mental_inner_peace']},
+    {name:'Mindfulness',subdims:5,goals:['mental_mindfulness']},
+    {name:'Rest & Relaxation',subdims:6,goals:['mental_rest_relaxation']},
+    {name:'Shadow Work',subdims:5,goals:['mental_shadow_integration']},
+    {name:'Substance & Behavior',subdims:3,goals:['substance_behavioral_patterns']},
+    {name:'Longevity Mission',subdims:5,goals:['longevity_health_monitoring']}
+  ]},
+  {cat:'Finances',color:'#d4a45a',dims:[
+    {name:'Spending Management',subdims:6,goals:['finance_spending_visibility']},
+    {name:'Debt Management',subdims:4,goals:['finance_debt_management']},
+    {name:'Estate Planning',subdims:4,goals:['finance_estate_planning']},
+    {name:'Resources',subdims:10,goals:['finance_resources']},
+    {name:'Financial Goals',subdims:3,goals:['finance_goals_planning']},
+    {name:'Financial Literacy',subdims:4,goals:['finance_literacy']},
+    {name:'Insurance & Risk',subdims:5,goals:['finance_insurance_risk']},
+    {name:'Investing',subdims:5,goals:['finance_investing_wealth']},
+    {name:'Retirement Planning',subdims:4,goals:['finance_retirement_planning']},
+    {name:'Savings & Emergency',subdims:3,goals:['finance_savings_emergency']},
+    {name:'Tax Planning',subdims:4,goals:['finance_tax_planning']}
+  ]},
+  {cat:'Career',color:'#4a8aca',dims:[
+    {name:'Professional Life',subdims:8,goals:[]},
+    {name:'Professional Network',subdims:5,goals:['career_professional_network']},
+    {name:'Personal Brand',subdims:5,goals:['career_professional_reputation']},
+    {name:'Technical Skills',subdims:4,goals:['career_technical_skills']},
+    {name:'Thought Leadership',subdims:5,goals:['career_thought_leadership']},
+    {name:'Work Environment',subdims:7,goals:['career_work_environment']},
+    {name:'Workplace Impact',subdims:4,goals:['career_workplace_impact']},
+    {name:'Workplace Relations',subdims:6,goals:['social_workplace_relationships']},
+    {name:'Work-Life Integration',subdims:6,goals:['social_work_life_integration']},
+    {name:'Projects & Tech',subdims:3,goals:['career_smind_demo','tech_smind_autonomy']},
+    {name:'Education & Learning',subdims:3,goals:['education_continuous_learning']},
+    {name:'Mentorship',subdims:4,goals:['family_mentoring']}
+  ]},
+  {cat:'Relationships',color:'#ca6a8a',dims:[
+    {name:'Marriage',subdims:8,goals:['marriage_nastya_immigration']},
+    {name:'Family Network',subdims:6,goals:['family_health_awareness']},
+    {name:'Caregiving',subdims:5,goals:['family_caregiving']},
+    {name:'Friendships',subdims:4,goals:['social_friendships']},
+    {name:'Social Life',subdims:6,goals:['social_community']},
+    {name:'Social Enjoyment',subdims:5,goals:['social_enjoyment']},
+    {name:'Relationship Skills',subdims:7,goals:['social_relationship_skills']},
+    {name:'Pet Companion Bonds',subdims:5,goals:['environment_parrot_care']}
+  ]},
+  {cat:'Spirituality',color:'#8a6aca',dims:[
+    {name:'Existential Reflection',subdims:5,goals:['spiritual_existential_reflection']},
+    {name:'Personal Philosophy',subdims:5,goals:['spiritual_personal_philosophy']},
+    {name:'Spiritual Practice',subdims:8,goals:['spiritual_practice']},
+    {name:'Spiritual Community',subdims:5,goals:['spiritual_community']},
+    {name:'Nature Connection',subdims:5,goals:['spiritual_nature_connection']},
+    {name:'Transcendence & Awe',subdims:5,goals:['spiritual_transcendence_awe']},
+    {name:'Compassion',subdims:5,goals:['values_compassion']},
+    {name:'Gratitude',subdims:4,goals:['values_gratitude']},
+    {name:'Values & Ethics',subdims:7,goals:['values_ethics']}
+  ]},
+  {cat:'Enjoyment',color:'#6aca8a',dims:[
+    {name:'Recreation & Leisure',subdims:10,goals:['leisure_gaming_balance']},
+    {name:'Culinary Enjoyment',subdims:5,goals:['recreation_culinary']},
+    {name:'Nature & Outdoor',subdims:5,goals:['recreation_nature_outdoor']},
+    {name:'Novelty & Experiences',subdims:5,goals:['recreation_novelty']},
+    {name:'Play & Fun',subdims:5,goals:['recreation_play_fun']},
+    {name:'Travel',subdims:8,goals:['recreation_travel']},
+    {name:'Creative Expression',subdims:6,goals:['creative_expression']},
+    {name:'Living Environment',subdims:4,goals:['environment_living']}
+  ]},
+  {cat:'Impact',color:'#ca8a4a',dims:[
+    {name:'Advocacy',subdims:5,goals:['civic_advocacy']},
+    {name:'Civic Participation',subdims:5,goals:['civic_participation']},
+    {name:'Legacy',subdims:6,goals:['civic_legacy']},
+    {name:'Philanthropy',subdims:4,goals:['civic_philanthropy']},
+    {name:'Volunteering',subdims:5,goals:['civic_volunteering']},
+    {name:'Environmental Stewardship',subdims:4,goals:['environment_stewardship']},
+    {name:'Mentoring Impact',subdims:6,goals:[]}
+  ]},
+  {cat:'Individual',color:'#6a5aca',dims:[
+    {name:'Daily Routines',subdims:7,goals:['routines_morning_sequence']},
+    {name:'Immigration & Legal',subdims:8,goals:['immigration_aima_success']},
+    {name:'Meta-Skills',subdims:8,goals:['values_meta_skills']}
+  ]},
 ];
-// 75 goals total across 22 categories
+// 8 hOS categories, 75 dimensions, ~400 sub-dimensions, 75 goals
+
+// Active goal keys for status coloring
+const activeGoalKeys = new Set([
+  'nutrition_fasting_adherence','health_cholesterol_reduction','health_weight_loss','fitness_daily_walking',
+  'health_sleep_recovery','health_pain_rehabilitation','mental_wellbeing','mental_stress_management',
+  'substance_behavioral_patterns','longevity_health_monitoring','finance_spending_visibility','finance_literacy',
+  'finance_tax_planning','career_smind_demo','career_workplace_impact','tech_smind_autonomy',
+  'marriage_nastya_immigration','environment_parrot_care','immigration_aima_success','routines_morning_sequence'
+]);
+
+// Echo texts for floating goal names
+const goalEchoTexts = [
+  {t:'Reduce LDL from 233 to below 160 mg/dL',c:'#4acaaa'},
+  {t:'Walk 30 minutes daily, 7000+ steps',c:'#4acaaa'},
+  {t:'8 weeks intermittent fasting adherence',c:'#4acaaa'},
+  {t:'Reduce weight from 82.6 to 70 kg',c:'#4acaaa'},
+  {t:'Advance SMind toward full autonomy',c:'#4a8aca'},
+  {t:'Complete first IRS annual declaration',c:'#d4a45a'},
+  {t:'Support Nastya immigration application',c:'#ca6a8a'},
+  {t:'Submit Article 90.2 visa at AIMA Faro',c:'#6a5aca'},
+  {t:'Reduce daily sugar to max 3x/week',c:'#4acaaa'},
+  {t:'30-day morning sequence streak',c:'#6a5aca'},
+  {t:'Eliminate chronic headaches',c:'#4acaaa'},
+  {t:'Coping strategies for war displacement',c:'#4acaaa'},
+  {t:'Proactive health monitoring beyond annual checkups',c:'#4acaaa'},
+  {t:'Establish 7+ hour sleep tracking',c:'#4acaaa'},
+  {t:'Parrots stepping up and calm handling',c:'#ca6a8a'},
+  {t:'Deliver measurable value through SMind',c:'#4a8aca'},
+  {t:'Monthly spending pattern visibility',c:'#d4a45a'},
+  {t:'Build emergency fund: 3 months expenses',c:'#d4a45a'},
+  {t:'Written personal philosophy',c:'#8a6aca'},
+  {t:'Cook 1 home meal per week',c:'#6aca8a'},
+];
 
 let goalsAnimId = null;
 let goalsInitialized = false;
 
 function initGoalsCanvas() {
   if (goalsInitialized) {
-    // Resume
     if (!goalsAnimId) goalsAnimId = requestAnimationFrame(goalsLoop);
     return;
   }
@@ -2446,57 +2548,78 @@ function initGoalsCanvas() {
   resize();
   window.addEventListener('resize', resize);
 
-  // Layout: compute arc angles per category and goals within
-  const totalGoals = goalsData.reduce((s, c) => s + c.goals.length, 0);
-  const catGap = 0.03;
-  const totalGapAngle = catGap * goalsData.length;
-  const totalArc = Math.PI * 2 - totalGapAngle;
+  // Layout: weight by sub-dimension count (matching dashboard)
+  const MIN_CAT_WEIGHT = 3;
+  let totalWeight = 0;
+  goalsRingData.forEach(cat => {
+    cat._weight = Math.max(MIN_CAT_WEIGHT, cat.dims.reduce((s, d) => s + d.subdims, 0));
+    totalWeight += cat._weight;
+  });
 
+  const catGap = 0.04;
+  const totalGapAngle = catGap * goalsRingData.length;
+  const totalArc = Math.PI * 2 - totalGapAngle;
   let angle = -Math.PI / 2;
-  goalsData.forEach(cat => {
-    const catArc = (cat.goals.length / totalGoals) * totalArc;
+
+  goalsRingData.forEach(cat => {
+    const catArc = (cat._weight / totalWeight) * totalArc;
     cat.startAngle = angle;
     cat.endAngle = angle + catArc;
     cat.midAngle = angle + catArc / 2;
-    // Layout goals within category
-    const goalGap = 0.008;
-    const goalTotalGap = goalGap * cat.goals.length;
-    const goalArc = (catArc - goalTotalGap) / cat.goals.length;
-    let ga = cat.startAngle;
-    cat.goals.forEach(g => {
-      g.startAngle = ga;
-      g.endAngle = ga + goalArc;
-      g.midAngle = ga + goalArc / 2;
-      ga += goalArc + goalGap;
+
+    // Layout dimensions within category
+    const dimWeight = cat.dims.reduce((s, d) => s + d.subdims, 0) || 1;
+    let da = cat.startAngle;
+    cat.dims.forEach(dim => {
+      const dimArc = (dim.subdims / dimWeight) * catArc;
+      dim.startAngle = da;
+      dim.endAngle = da + dimArc;
+      dim.midAngle = da + dimArc / 2;
+
+      // Layout goals within dimension
+      if (dim.goals.length > 0) {
+        const gGap = 0.005;
+        const gTotalGap = gGap * (dim.goals.length - 1);
+        const gArc = (dimArc - gTotalGap) / dim.goals.length;
+        let ga = dim.startAngle;
+        dim._goalArcs = dim.goals.map(gk => {
+          const arc = { key: gk, startAngle: ga, endAngle: ga + gArc, active: activeGoalKeys.has(gk) };
+          ga += gArc + gGap;
+          return arc;
+        });
+      } else {
+        dim._goalArcs = [];
+      }
+
+      da += dimArc;
     });
     angle += catArc + catGap;
   });
 
-  // Ring radii
+  // Ring radii (3 concentric rings)
   const base = Math.min(W, H) / 2;
-  const outerR1 = base * 0.65, outerR2 = base * 0.82; // category ring
-  const innerR1 = base * 0.42, innerR2 = base * 0.62; // goals ring
-  const labelR = base * 0.88;
+  const goalR1 = base * 0.28, goalR2 = base * 0.42;   // innermost: goals
+  const dimR1 = base * 0.45, dimR2 = base * 0.72;      // middle: dimensions
+  const catR1 = base * 0.75, catR2 = base * 0.85;      // outer: hOS categories
+  const labelR = base * 0.92;
 
-  // Animation state
+  // Animation timing
   let animStart = 0;
-  const CAT_STAGGER = 180; // ms between categories
-  const GOAL_DELAY = 80; // ms between goals within a category
-  const ECHO_INTERVAL = 800; // ms between echo texts
-  let echoIdx = 0;
-  let lastEchoT = 0;
-  let allEchoGoals = [];
-  // Collect active goals first, then some paused ones for echo
-  goalsData.forEach(c => c.goals.forEach(g => {
-    if (g.s === 'a') allEchoGoals.push({ text: g.t, color: c.color });
-  }));
-  goalsData.forEach(c => c.goals.forEach(g => {
-    if (g.s === 'p' && allEchoGoals.length < 30) allEchoGoals.push({ text: g.t, color: c.color });
-  }));
+  const CAT_STAGGER = 250;
+  const ECHO_INTERVAL = 1200;
+  let echoIdx = 0, lastEchoT = 0, countedUp = false;
 
-  let countedUp = false;
+  function hosCol(hex, a) {
+    let r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    const grey = (r + g + b) / 3;
+    r = Math.round(r * 0.6 + grey * 0.4);
+    g = Math.round(g * 0.6 + grey * 0.4);
+    b = Math.round(b * 0.6 + grey * 0.4);
+    return `rgba(${r},${g},${b},${a})`;
+  }
 
   function drawArc(sa, ea, r1, r2, fill, stroke, lw) {
+    if (ea - sa < 0.001) return;
     ctx.beginPath();
     ctx.arc(cx, cy, r2, sa, ea);
     ctx.arc(cx, cy, r1, ea, sa, true);
@@ -2509,77 +2632,99 @@ function initGoalsCanvas() {
     if (!slides[9].classList.contains('active')) { goalsAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
-
     ctx.clearRect(0, 0, W, H);
 
-    // Draw categories and goals
-    let goalCount = 0;
-    goalsData.forEach((cat, ci) => {
+    goalsRingData.forEach((cat, ci) => {
       const catDelay = ci * CAT_STAGGER;
-      const catAlpha = Math.min(1, Math.max(0, (t - catDelay) / 500));
+      const catAlpha = Math.min(1, Math.max(0, (t - catDelay) / 600));
       if (catAlpha <= 0) return;
 
-      // Category arc (outer ring)
       ctx.globalAlpha = catAlpha;
-      const catFill = cat.color + '18';
-      const catStroke = cat.color + '55';
-      drawArc(cat.startAngle, cat.endAngle, outerR1, outerR2, catFill, catStroke, 1);
+
+      // Outer ring: hOS category
+      drawArc(cat.startAngle, cat.endAngle, catR1, catR2, hosCol(cat.color, 0.12), hosCol(cat.color, 0.35), 1);
 
       // Category label
       const lp = { x: cx + labelR * Math.cos(cat.midAngle), y: cy + labelR * Math.sin(cat.midAngle) };
-      ctx.save();
-      ctx.translate(lp.x, lp.y);
+      ctx.save(); ctx.translate(lp.x, lp.y);
       let rot = cat.midAngle + Math.PI / 2;
       if (rot > Math.PI / 2 && rot < Math.PI * 1.5) rot += Math.PI;
       ctx.rotate(rot);
-      ctx.font = "600 " + Math.max(8, Math.min(12, base * 0.03)) + "px 'Rajdhani',sans-serif";
-      ctx.fillStyle = cat.color;
-      ctx.globalAlpha = catAlpha * 0.7;
+      const fs = Math.max(9, Math.min(14, base * 0.035));
+      ctx.font = `600 ${fs}px 'Rajdhani',sans-serif`;
+      ctx.fillStyle = hosCol(cat.color, 0.75);
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(cat.cat.toUpperCase(), 0, 0);
       ctx.restore();
 
-      // Goals (inner ring)
-      cat.goals.forEach((g, gi) => {
-        const goalDelay = catDelay + 300 + gi * GOAL_DELAY;
-        const goalAlpha = Math.min(1, Math.max(0, (t - goalDelay) / 400));
-        if (goalAlpha <= 0) return;
-        goalCount++;
+      // Middle ring: dimensions
+      cat.dims.forEach((dim, di) => {
+        const dimDelay = catDelay + 200 + di * 40;
+        const dimAlpha = Math.min(1, Math.max(0, (t - dimDelay) / 400));
+        if (dimAlpha <= 0) return;
 
-        ctx.globalAlpha = goalAlpha;
-        const isActive = g.s === 'a';
-        const gColor = isActive ? cat.color : '#4a5a6a';
-        const gFill = isActive ? gColor + '30' : gColor + '12';
-        const gStroke = isActive ? gColor + '80' : gColor + '30';
-        drawArc(g.startAngle, g.endAngle, innerR1, innerR2, gFill, gStroke, isActive ? 1.5 : 0.7);
+        ctx.globalAlpha = catAlpha * dimAlpha;
+        const hasGoals = dim._goalArcs.length > 0;
+        const hasActive = dim._goalArcs.some(g => g.active);
+        const dimFillA = hasActive ? 0.15 : 0.06;
+        const dimStrokeA = hasActive ? 0.4 : 0.2;
+        drawArc(dim.startAngle, dim.endAngle, dimR1, dimR2, hosCol(cat.color, dimFillA), hosCol(cat.color, dimStrokeA), 0.8);
 
-        // Active goal glow
-        if (isActive && goalAlpha > 0.5) {
-          ctx.globalAlpha = goalAlpha * 0.15;
-          drawArc(g.startAngle, g.endAngle, innerR1 - 3, innerR2 + 3, gColor + '20', null, 0);
+        // Dimension label (only if arc is wide enough)
+        const arcSpan = dim.endAngle - dim.startAngle;
+        if (arcSpan > 0.06) {
+          const dlp = { x: cx + ((dimR1 + dimR2) / 2) * Math.cos(dim.midAngle), y: cy + ((dimR1 + dimR2) / 2) * Math.sin(dim.midAngle) };
+          ctx.save(); ctx.translate(dlp.x, dlp.y);
+          let drot = dim.midAngle + Math.PI / 2;
+          if (drot > Math.PI / 2 && drot < Math.PI * 1.5) drot += Math.PI;
+          ctx.rotate(drot);
+          const dfs = arcSpan > 0.12 ? 7 : 5;
+          ctx.font = `${dfs}px 'Share Tech Mono',monospace`;
+          ctx.fillStyle = hosCol(cat.color, 0.5);
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          // Word wrap
+          const words = dim.name.split(/\s+/);
+          const maxW = arcSpan > 0.12 ? 14 : 8;
+          const lines = []; let cur = '';
+          words.forEach(w => { if (cur && (cur + ' ' + w).length > maxW) { lines.push(cur); cur = w; } else { cur = cur ? cur + ' ' + w : w; } });
+          if (cur) lines.push(cur);
+          const maxL = arcSpan > 0.12 ? 3 : 2;
+          const show = lines.slice(0, maxL);
+          const lh = dfs + 1;
+          show.forEach((l, i) => ctx.fillText(l, 0, -((show.length - 1) * lh) / 2 + i * lh));
+          ctx.restore();
         }
+
+        // Inner ring: goals
+        dim._goalArcs.forEach(g => {
+          const gDelay = dimDelay + 300;
+          const gAlpha = Math.min(1, Math.max(0, (t - gDelay) / 350));
+          if (gAlpha <= 0) return;
+
+          ctx.globalAlpha = catAlpha * dimAlpha * gAlpha;
+          const gCol = g.active ? cat.color : '#4a5a6a';
+          const gFillA = g.active ? 0.3 : 0.08;
+          const gStrokeA = g.active ? 0.7 : 0.2;
+          drawArc(g.startAngle, g.endAngle, goalR1, goalR2, hosCol(gCol, gFillA), hosCol(gCol, gStrokeA), g.active ? 1.5 : 0.6);
+        });
       });
     });
 
     ctx.globalAlpha = 1;
 
-    // Echo text — pop goal names
-    if (t > 500 && t - lastEchoT > ECHO_INTERVAL && echoIdx < allEchoGoals.length) {
-      const eg = allEchoGoals[echoIdx];
-      echoEl.textContent = eg.text;
-      echoEl.style.color = eg.color;
+    // Echo text
+    if (t > 800 && t - lastEchoT > ECHO_INTERVAL && echoIdx < goalEchoTexts.length) {
+      const eg = goalEchoTexts[echoIdx];
+      echoEl.textContent = eg.t;
+      echoEl.style.color = eg.c;
       echoEl.classList.remove('show');
-      void echoEl.offsetWidth; // reflow
+      void echoEl.offsetWidth;
       echoEl.classList.add('show');
       lastEchoT = t;
       echoIdx++;
     }
 
-    // Counter
-    if (!countedUp && t > 800) {
-      countedUp = true;
-      animateCounter(numEl, 0, 75, 2000);
-    }
+    if (!countedUp && t > 1000) { countedUp = true; animateCounter(numEl, 0, 75, 2000); }
 
     goalsAnimId = requestAnimationFrame(frame);
   }
