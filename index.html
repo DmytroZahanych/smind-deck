@@ -1202,17 +1202,7 @@ html, body {
 <!-- ═══ SLIDE 2 ═══ -->
 <div class="slide" id="slide2">
   <div class="left">
-    <h1>So I built an AI that knows <em>93 things</em> about me</h1>
-  </div>
-  <div class="right">
-    <div class="knowledge-list" id="kList"></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 3 ═══ -->
-<div class="slide" id="slide3">
-  <div class="left">
-    <h1><em>~700MB</em> of me,<br>digitized</h1>
+    <h1>It starts with <em>~700MB</em> of raw data</h1>
   </div>
   <div class="right">
     <div class="data-viz" id="dataViz">
@@ -1236,6 +1226,16 @@ html, body {
       </div>
       <div class="bar-group" id="barGroup"></div>
     </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 3 ═══ -->
+<div class="slide" id="slide3">
+  <div class="left">
+    <h1>From that, it extracted <em>93 structured facts</em> about my life</h1>
+  </div>
+  <div class="right">
+    <div class="knowledge-list" id="kList"></div>
   </div>
 </div>
 
@@ -1542,15 +1542,11 @@ dataBreakdown.forEach(([label, value, maxRef, color]) => {
 let slide2Played = false, slide3Played = false;
 
 function onSlideEnter(idx) {
-  if (idx === 1 && !slide2Played) {
-    slide2Played = true;
-    const items = kList.querySelectorAll('.k-item');
-    items.forEach((el, i) => {
-      setTimeout(() => el.classList.add('visible'), 100 + i * 80);
-    });
+  if (idx === 1) {
+    animateSlide3(); // data footprint (now slide 2)
   }
-  if (idx === 1 && slide2Played) {
-    // Re-trigger on revisit
+  if (idx === 2) {
+    // knowledge list (now slide 3)
     const items = kList.querySelectorAll('.k-item');
     items.forEach(el => el.classList.remove('visible'));
     requestAnimationFrame(() => {
@@ -1558,9 +1554,6 @@ function onSlideEnter(idx) {
         setTimeout(() => el.classList.add('visible'), 100 + i * 80);
       });
     });
-  }
-  if (idx === 2) {
-    animateSlide3();
   }
 }
 
