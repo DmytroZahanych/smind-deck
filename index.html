@@ -1477,18 +1477,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 17 ═══ -->
-<div class="slide" id="slide18">
-  <div class="left">
-    <h1>And every day, it tells me <em>what to do next</em></h1>
-  </div>
-  <div class="right">
-    <div class="notif-list" id="notifList"></div>
-  </div>
-</div>
-
 <!-- ═══ SLIDE 18 ═══ -->
-<div class="slide" id="slide19">
+<div class="slide" id="slide18">
   <div class="left">
     <h1>This deck was built by <em>that same assistant</em></h1>
   </div>
@@ -1501,7 +1491,7 @@ html, body {
 </div>
 
 <!-- ═══ SLIDE 19 ═══ -->
-<div class="slide" id="slide20">
+<div class="slide" id="slide19">
   <div class="left">
     <h1>This is just the <span class="glow-word">beginning</span></h1>
     <div class="loop-diagram" id="loopDiagram"></div>
@@ -1512,7 +1502,7 @@ html, body {
 
 <script>
 // ─── Config ───
-const TOTAL_SLIDES = 20;
+const TOTAL_SLIDES = 19;
 let current = 0;
 let transitioning = false;
 
@@ -2123,13 +2113,10 @@ function onSlideEnter(idx) {
     animateSlide14(); // dialog (slide 17)
   }
   if (idx === 17) {
-    animateSlide15(); // notifications (slide 18)
+    animateSlide17(); // coworker (slide 18)
   }
   if (idx === 18) {
-    animateSlide17(); // coworker (slide 19)
-  }
-  if (idx === 19) {
-    animateSlide18(); // closing (slide 20)
+    animateSlide18(); // closing (slide 19)
   }
 }
 
