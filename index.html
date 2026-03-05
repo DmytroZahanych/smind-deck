@@ -32,16 +32,20 @@ html, body {
 .slide {
   position: absolute;
   inset: 0;
-  display: flex;
+  display: none;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.8s ease;
-  will-change: opacity;
-  contain: content;
+  contain: strict;
 }
 .slide.active {
+  display: flex;
   opacity: 1;
   pointer-events: auto;
+  animation: slideFadeIn 0.6s ease forwards;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 /* GPU optimization: disable all animations on inactive slides */
 .slide:not(.active) * {
