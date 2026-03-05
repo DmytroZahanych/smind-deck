@@ -3540,28 +3540,48 @@ function initCoreMapCanvas() {
   window.addEventListener('resize', resize);
 
   // ── Pre-compute angle-only data (no radius dependency) ──
-  const dimArcs = [];
-  let totalDims = 0;
-  dimRingData.forEach(g => totalDims += g.dims.length);
-  const dimGap = 0.008;
-  let dimAngle = -Math.PI / 2;
-  dimRingData.forEach(g => {
-    const groupArc = (g.dims.length / totalDims) * Math.PI * 2 - dimGap;
-    dimArcs.push({ color: g.color, startAngle: dimAngle, endAngle: dimAngle + groupArc });
-    dimAngle += groupArc + dimGap;
+  // Use same weighting as goals slide
+  const MIN_CAT_WEIGHT = 3;
+  let totalWeight = 0;
+  const catGap = 0.04;
+  goalsRingData.forEach(cat => {
+    cat._w = Math.max(MIN_CAT_WEIGHT, cat.dims.reduce((s, d) => s + d.subdims, 0));
+    totalWeight += cat._w;
   });
+  const totalGapAngle = catGap * goalsRingData.length;
+  const totalArcAngle = Math.PI * 2 - totalGapAngle;
 
+  // Compute category, dimension, and goal arcs (matching goals slide layout)
+  const catArcs = [];
+  const dimArcs = [];
   const goalArcs = [];
-  let totalGoals = 0;
-  goalsRingData.forEach(g => g.dims.forEach(d => totalGoals += d.goals.length));
-  const goalGap = 0.006;
-  let goalAngle = -Math.PI / 2;
-  goalsRingData.forEach(g => {
-    let catGoals = 0;
-    g.dims.forEach(d => catGoals += d.goals.length);
-    const groupArc = (catGoals / totalGoals) * Math.PI * 2 - goalGap;
-    goalArcs.push({ color: g.color, startAngle: goalAngle, endAngle: goalAngle + groupArc });
-    goalAngle += groupArc + goalGap;
+  let angle = -Math.PI / 2;
+  goalsRingData.forEach(cat => {
+    const catArc = (cat._w / totalWeight) * totalArcAngle;
+    catArcs.push({ color: cat.color, startAngle: angle, endAngle: angle + catArc });
+
+    // Dimensions within this category
+    let dimOffset = angle;
+    const dimGapA = 0.01;
+    const dimArcTotal = catArc - dimGapA * cat.dims.length;
+    const dimWeightTotal = cat.dims.reduce((s, d) => s + d.subdims, 0) || cat.dims.length;
+    cat.dims.forEach(d => {
+      const dArc = (d.subdims / dimWeightTotal) * dimArcTotal;
+      dimArcs.push({ color: cat.color, startAngle: dimOffset, endAngle: dimOffset + dArc });
+
+      // Goals within this dimension
+      if (d.goals.length > 0) {
+        let gOffset = dimOffset;
+        const gArc = dArc / d.goals.length;
+        d.goals.forEach(() => {
+          goalArcs.push({ color: cat.color, startAngle: gOffset, endAngle: gOffset + gArc * 0.9 });
+          gOffset += gArc;
+        });
+      }
+      dimOffset += dArc + dimGapA;
+    });
+
+    angle += catArc + catGap;
   });
 
   const ringOrder = ['daily', 'monthly', 'yearly'];
@@ -3573,7 +3593,7 @@ function initCoreMapCanvas() {
   // Geometry computed lazily (canvas may be 0-sized during slide transition)
   let animStart = 0;
   let geomReady = false;
-  let base, coreR, timeRingsG, dimR1, dimR2, goalR1, goalR2;
+  let base, coreR, timeRingsG, goalR1, goalR2, dimR1, dimR2, catR1, catR2;
 
   function computeGeom() {
     resize();
@@ -3585,8 +3605,10 @@ function initCoreMapCanvas() {
       monthly: { r1: base * 0.22, r2: base * 0.32 },
       yearly:  { r1: base * 0.34, r2: base * 0.44 },
     };
-    dimR1 = base * 0.54; dimR2 = base * 0.68;
-    goalR1 = base * 0.72; goalR2 = base * 0.88;
+    // Match goals slide ring layout (inner→outer: goals, dims, categories)
+    goalR1 = base * 0.50; goalR2 = base * 0.60;   // innermost: goals
+    dimR1 = base * 0.63; dimR2 = base * 0.78;      // middle: dimensions
+    catR1 = base * 0.81; catR2 = base * 0.90;      // outer: hOS categories
     return true;
   }
 
@@ -3689,41 +3711,43 @@ function initCoreMapCanvas() {
       }
     }
 
-    // ── Dimension arcs ──
-    const dimAlpha = Math.min(1, Math.max(0, (t - 1800) / 1200));
-    if (dimAlpha > 0) {
+    // ── 3 concentric rings (matching goals slide: goals inner, dims middle, categories outer) ──
+    const ringAlpha = Math.min(1, Math.max(0, (t - 1800) / 1500));
+    if (ringAlpha > 0) {
+      // Outer: hOS categories
+      catArcs.forEach(arc => {
+        ctx.globalAlpha = ringAlpha * 0.15;
+        ctx.beginPath();
+        ctx.arc(cx, cy, catR2, arc.startAngle, arc.endAngle);
+        ctx.arc(cx, cy, catR1, arc.endAngle, arc.startAngle, true);
+        ctx.closePath();
+        ctx.fillStyle = arc.color; ctx.fill();
+        ctx.globalAlpha = ringAlpha * 0.35;
+        ctx.strokeStyle = arc.color; ctx.lineWidth = 0.8; ctx.stroke();
+      });
+
+      // Middle: dimensions
       dimArcs.forEach(arc => {
-        ctx.globalAlpha = dimAlpha * 0.7;
+        ctx.globalAlpha = ringAlpha * 0.12;
         ctx.beginPath();
         ctx.arc(cx, cy, dimR2, arc.startAngle, arc.endAngle);
         ctx.arc(cx, cy, dimR1, arc.endAngle, arc.startAngle, true);
         ctx.closePath();
-        ctx.fillStyle = arc.color;
-        ctx.globalAlpha = dimAlpha * 0.25;
-        ctx.fill();
-        ctx.strokeStyle = arc.color;
-        ctx.globalAlpha = dimAlpha * 0.5;
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
+        ctx.fillStyle = arc.color; ctx.fill();
+        ctx.globalAlpha = ringAlpha * 0.3;
+        ctx.strokeStyle = arc.color; ctx.lineWidth = 0.6; ctx.stroke();
       });
-    }
 
-    // ── Goal arcs ──
-    const goalAlpha = Math.min(1, Math.max(0, (t - 2500) / 1200));
-    if (goalAlpha > 0) {
+      // Inner: goals
       goalArcs.forEach(arc => {
-        ctx.globalAlpha = goalAlpha * 0.7;
+        ctx.globalAlpha = ringAlpha * 0.18;
         ctx.beginPath();
         ctx.arc(cx, cy, goalR2, arc.startAngle, arc.endAngle);
         ctx.arc(cx, cy, goalR1, arc.endAngle, arc.startAngle, true);
         ctx.closePath();
-        ctx.fillStyle = arc.color;
-        ctx.globalAlpha = goalAlpha * 0.2;
-        ctx.fill();
-        ctx.strokeStyle = arc.color;
-        ctx.globalAlpha = goalAlpha * 0.4;
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
+        ctx.fillStyle = arc.color; ctx.fill();
+        ctx.globalAlpha = ringAlpha * 0.4;
+        ctx.strokeStyle = arc.color; ctx.lineWidth = 0.5; ctx.stroke();
       });
     }
 
@@ -3749,10 +3773,11 @@ function initCoreMapCanvas() {
     const labelAlpha = Math.min(1, Math.max(0, (t - 4000) / 1200));
     if (labelAlpha > 0) {
       const labels = [
-        { text: 'AI', targetR: 0, color: '#ff4040', side: 'right', yOff: -0.32 },
-        { text: '33 automated jobs', targetR: (timeRingsG.daily.r1 + timeRingsG.yearly.r2) / 2, color: '#8a9ab0', side: 'right', yOff: -0.12 },
-        { text: '75 life dimensions', targetR: (dimR1 + dimR2) / 2, color: '#8a9ab0', side: 'right', yOff: 0.10 },
-        { text: '75 smart goals', targetR: (goalR1 + goalR2) / 2, color: '#8a9ab0', side: 'left', yOff: 0.10 },
+        { text: 'AI', targetR: 0, color: '#ff4040', side: 'right', yOff: -0.35 },
+        { text: '33 automated jobs', targetR: (timeRingsG.daily.r1 + timeRingsG.yearly.r2) / 2, color: '#8a9ab0', side: 'right', yOff: -0.15 },
+        { text: '75 goals', targetR: (goalR1 + goalR2) / 2, color: '#8a9ab0', side: 'left', yOff: -0.05 },
+        { text: '75 life dimensions', targetR: (dimR1 + dimR2) / 2, color: '#8a9ab0', side: 'right', yOff: 0.12 },
+        { text: '8 life categories', targetR: (catR1 + catR2) / 2, color: '#8a9ab0', side: 'left', yOff: 0.25 },
       ];
 
       labels.forEach(lbl => {
