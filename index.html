@@ -1331,8 +1331,21 @@ html, body {
   <div id="networkHud"><div id="networkYear">1993</div><div id="networkCount">0 nodes</div></div>
 </div>
 
-<!-- ═══ SLIDE 9 ═══ -->
+<!-- ═══ SLIDE 9 — Dimensions (moved, reframed) ═══ -->
 <div class="slide" id="slide9">
+  <div class="left">
+    <h1>It organizes all of this into <em>75</em> concrete dimensions of my life — discovered <em>on its own</em></h1>
+  </div>
+  <div class="right">
+    <div class="constellation-container" id="constellationContainer">
+      <div class="dim-counter"><span class="num" id="dimNum">0</span><div class="lbl">total dimensions</div></div>
+      <div class="dim-note" id="dimNote">Discovered autonomously — no predefined categories</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 10 ═══ -->
+<div class="slide" id="slide10">
   <div class="left">
     <h1>It tracks what I do <em>every hour</em></h1>
   </div>
@@ -1341,8 +1354,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 10 ═══ -->
-<div class="slide" id="slide10">
+<!-- ═══ SLIDE 11 ═══ -->
+<div class="slide" id="slide11">
   <div class="left">
     <h1>It runs <em>25</em> automated processes in my life</h1>
   </div>
@@ -1351,26 +1364,13 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 11 ═══ -->
-<div class="slide" id="slide11">
+<!-- ═══ SLIDE 12 ═══ -->
+<div class="slide" id="slide12">
   <div class="left">
     <h1>It knows the <em>people</em> in my life</h1>
   </div>
   <div class="right">
     <div class="rings-container" id="ringsContainer"></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 12 ═══ -->
-<div class="slide" id="slide12">
-  <div class="left">
-    <h1>It discovered <em>75</em> dimensions of my life — <em>on its own</em></h1>
-  </div>
-  <div class="right">
-    <div class="constellation-container" id="constellationContainer">
-      <div class="dim-counter"><span class="num" id="dimNum">0</span><div class="lbl">total dimensions</div></div>
-      <div class="dim-note" id="dimNote">Discovered autonomously — no predefined categories</div>
-    </div>
   </div>
 </div>
 
@@ -2070,16 +2070,16 @@ function onSlideEnter(idx) {
     initNetworkCanvas();
   }
   if (idx === 8) {
-    animateTimeline(); // time tracking (slide 9)
+    animateSlide11(); // dimensions (slide 9)
   }
   if (idx === 9) {
-    animateSlide9(); // cron jobs (slide 10)
+    animateTimeline(); // time tracking (slide 10)
   }
   if (idx === 10) {
-    animateSlide10(); // people (slide 11)
+    animateSlide9(); // cron jobs (slide 11)
   }
   if (idx === 11) {
-    animateSlide11(); // dimensions (slide 12)
+    animateSlide10(); // people (slide 12)
   }
   if (idx === 12) {
     animateSlide12(); // entities (slide 13)
