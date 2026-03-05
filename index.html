@@ -467,16 +467,18 @@ html, body {
    SLIDE 7 (new) — Health indicator tiles
    ════════════════════════════════════ */
 .health-grid {
-  width: 94%;
+  width: 96%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
   padding: 1vh 0;
+  max-height: 92vh;
+  overflow: hidden;
 }
 .health-tile {
   border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 6px;
-  padding: 10px 10px 8px;
+  border-radius: 5px;
+  padding: 6px 8px 5px;
   background: rgba(255,255,255,0.015);
   opacity: 0;
   transform: scale(0.8);
@@ -498,7 +500,7 @@ html, body {
   text-overflow: ellipsis;
 }
 .health-tile-val {
-  font-size: clamp(16px, 1.4vw, 24px);
+  font-size: clamp(12px, 1vw, 18px);
   font-weight: 600;
   font-family: var(--font-mono);
   line-height: 1.1;
@@ -2182,35 +2184,105 @@ spendingData.forEach(d => {
 
 // ─── Health indicator tiles (slide 7) ───
 const healthData = [
-  // Vitals
-  { cat: 'VITALS', name: 'Blood Pressure', val: '135/91', unit: 'mmHg', status: 'warn' },
+  { cat: 'VITALS', name: 'BP Systolic', val: '135', unit: 'mmHg', status: 'ok' },
+  { cat: 'VITALS', name: 'BP Diastolic', val: '91', unit: 'mmHg', status: 'warn' },
   { cat: 'VITALS', name: 'Heart Rate', val: '86', unit: 'bpm', status: 'ok' },
   { cat: 'VITALS', name: 'SpO2', val: '99', unit: '%', status: 'ok' },
-  { cat: 'VITALS', name: 'Body Temp', val: '35.6', unit: '°C', status: 'ok' },
-  // Body Composition
-  { cat: 'BODY', name: 'Weight', val: '82.6', unit: 'kg', status: 'ok' },
-  { cat: 'BODY', name: 'Fat Ratio', val: '24.6', unit: '%', status: 'ok' },
-  { cat: 'BODY', name: 'Muscle Mass', val: '59.2', unit: 'kg', status: 'ok' },
-  { cat: 'BODY', name: 'Visceral Fat', val: '3.4', unit: '', status: 'ok' },
-  { cat: 'BODY', name: 'BMR', val: '1828', unit: 'kcal', status: 'ok' },
-  { cat: 'BODY', name: 'Metabolic Age', val: '32', unit: 'yrs', status: 'ok' },
-  // Blood Work
-  { cat: 'BLOOD', name: 'Glucose', val: '82', unit: 'mg/dL', status: 'ok' },
-  { cat: 'BLOOD', name: 'LDL', val: '233', unit: 'mg/dL', status: 'bad' },
-  { cat: 'BLOOD', name: 'HDL', val: '50', unit: 'mg/dL', status: 'ok' },
-  { cat: 'BLOOD', name: 'Total Cholesterol', val: '311', unit: 'mg/dL', status: 'bad' },
-  { cat: 'BLOOD', name: 'Triglycerides', val: '141', unit: 'mg/dL', status: 'warn' },
-  { cat: 'BLOOD', name: 'Vitamin D', val: '16.9', unit: 'ng/mL', status: 'bad' },
-  { cat: 'BLOOD', name: 'Hemoglobin', val: '15.2', unit: 'g/dL', status: 'ok' },
-  { cat: 'BLOOD', name: 'Iron', val: '108', unit: 'µg/dL', status: 'ok' },
-  { cat: 'BLOOD', name: 'Ferritin', val: '121', unit: 'µg/L', status: 'ok' },
-  { cat: 'BLOOD', name: 'TSH', val: '2.16', unit: 'µIU/mL', status: 'ok' },
-  { cat: 'BLOOD', name: 'CRP', val: '0.21', unit: 'mg/dL', status: 'ok' },
-  { cat: 'BLOOD', name: 'Creatinine', val: '0.96', unit: 'mg/dL', status: 'ok' },
-  // Sleep
-  { cat: 'SLEEP', name: 'Sleep Score', val: '79', unit: '/100', status: 'ok' },
-  { cat: 'SLEEP', name: 'Deep Sleep', val: '3.25', unit: 'hrs', status: 'ok' },
+  { cat: 'VITALS', name: 'Body Temp', val: '35.6', unit: '°C', status: 'bad' },
+  { cat: 'VITALS', name: 'Skin Temp', val: '33.0', unit: '°C', status: 'ok' },
+  { cat: 'VITALS', name: 'Stetho Temp', val: '27.2', unit: '°C', status: 'bad' },
+  { cat: 'VITALS', name: 'AFib Screen', val: '0', unit: '', status: 'ok' },
+  { cat: 'VITALS', name: 'Sleep HR', val: '68', unit: 'bpm', status: 'ok' },
+  { cat: 'VITALS', name: 'Resp Rate', val: '11', unit: '', status: 'bad' },
+  { cat: 'VITALS', name: 'ECG HR', val: '77', unit: 'bpm', status: 'none' },
+  { cat: 'VITALS', name: 'QRS', val: '89', unit: 'ms', status: 'none' },
+  { cat: 'VITALS', name: 'QTc', val: '411', unit: 'ms', status: 'none' },
+  { cat: 'VITALS', name: 'QT', val: '361', unit: 'ms', status: 'none' },
+  { cat: 'VITALS', name: 'PQ', val: '158', unit: 'ms', status: 'none' },
+  { cat: 'VITALS', name: 'P Axis', val: '67', unit: '°', status: 'none' },
+  { cat: 'VITALS', name: 'QRS Axis', val: '44', unit: '°', status: 'none' },
+  { cat: 'VITALS', name: 'T Axis', val: '23', unit: '°', status: 'none' },
+  { cat: 'BODY COMPOSITION', name: 'Weight', val: '82.6', unit: 'kg', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'Body Fat', val: '24.6', unit: '%', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'Muscle', val: '59.2', unit: 'kg', status: 'bad' },
+  { cat: 'BODY COMPOSITION', name: 'Visceral Fat', val: '3.4', unit: '', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'BMR', val: '1,828', unit: 'kcal', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'Metabolic Age', val: '32', unit: '', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'Bone Mass', val: '3.09', unit: 'kg', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'Lean Mass', val: '62.3', unit: 'kg', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'Fat Mass', val: '20.3', unit: 'kg', status: 'ok' },
+  { cat: 'BODY COMPOSITION', name: 'Hydration', val: '44.2', unit: 'kg', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Glucose', val: '82', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'LDL', val: '233', unit: 'mg/dL', status: 'bad' },
+  { cat: 'BLOOD WORK', name: 'HDL', val: '50', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Total Cholesterol', val: '311', unit: 'mg/dL', status: 'bad' },
+  { cat: 'BLOOD WORK', name: 'Triglycerides', val: '141', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Vitamin D', val: '16.9', unit: 'ng/mL', status: 'bad' },
+  { cat: 'BLOOD WORK', name: 'Vitamin B12', val: '541', unit: '', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Folic Acid', val: '2.60', unit: 'ng/mL', status: 'bad' },
+  { cat: 'BLOOD WORK', name: 'Hemoglobin', val: '15.2', unit: 'g/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Hematocrit', val: '45.4', unit: '%', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'RBC', val: '5.15', unit: '×10¹²/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'WBC', val: '7.37', unit: '×10⁹/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Platelets', val: '273', unit: '×10⁹/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Neutrophils', val: '3.40', unit: '×10⁹/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Lymphocytes', val: '2.82', unit: '×10⁹/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Monocytes', val: '0.50', unit: '×10⁹/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Eosinophils', val: '0.54', unit: '×10⁹/L', status: 'warn' },
+  { cat: 'BLOOD WORK', name: 'Basophils', val: '0.10', unit: '×10⁹/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'MCV', val: '88', unit: 'fL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'MCH', val: '30', unit: 'pg', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'MCHC', val: '34', unit: 'g/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'MPV', val: '11.6', unit: 'fL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'RDW', val: '13.1', unit: '%', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'ESR', val: '12', unit: 'mm/h', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Iron', val: '108', unit: 'µg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Ferritin', val: '121', unit: 'µg/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Transferrin', val: '260', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Transferrin Sat', val: '29', unit: '%', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'TSH', val: '2.16', unit: '', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'T3', val: '1.99', unit: 'nmol/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'T4', val: '101', unit: 'nmol/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'CRP', val: '0.21', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'ALT', val: '20', unit: 'U/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'AST', val: '16', unit: 'U/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'GGT', val: '34', unit: 'U/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'ALP', val: '101', unit: 'U/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'LDH', val: '163', unit: 'U/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Lipase', val: '31', unit: 'U/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Bilirubin', val: '1.65', unit: 'mg/dL', status: 'bad' },
+  { cat: 'BLOOD WORK', name: 'Conj Bilirubin', val: '0.37', unit: 'mg/dL', status: 'bad' },
+  { cat: 'BLOOD WORK', name: 'Creatinine', val: '0.96', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Urea', val: '31', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Uric Acid', val: '6.0', unit: 'mg/dL', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Sodium', val: '141', unit: 'mmol/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Potassium', val: '4.50', unit: 'mmol/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Chloride', val: '102', unit: 'mmol/L', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Phadiatop', val: '5.55', unit: '', status: 'bad' },
+  { cat: 'BLOOD WORK', name: 'PT', val: '11.4', unit: 's', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'PT Activity', val: '104', unit: '%', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'INR', val: '0.99', unit: '', status: 'none' },
+  { cat: 'BLOOD WORK', name: 'aPTT', val: '24.6', unit: 's', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Urine pH', val: '5.5', unit: '', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'Urine Density', val: '1.01', unit: '', status: 'ok' },
+  { cat: 'BLOOD WORK', name: 'FEV1', val: '3.90', unit: 'L', status: 'none' },
+  { cat: 'BLOOD WORK', name: 'FVC', val: '4.83', unit: 'L', status: 'none' },
+  { cat: 'BLOOD WORK', name: 'FEV1/FVC', val: '80.8', unit: '%', status: 'none' },
+  { cat: 'BLOOD WORK', name: 'PEF', val: '7.34', unit: 'L/s', status: 'none' },
+  { cat: 'SLEEP', name: 'Sleep Score', val: '79', unit: '', status: 'ok' },
+  { cat: 'SLEEP', name: 'Deep Sleep', val: '3.2', unit: 'hrs', status: 'bad' },
+  { cat: 'SLEEP', name: 'Light Sleep', val: '3.1', unit: 'hrs', status: 'ok' },
+  { cat: 'SLEEP', name: 'REM Sleep', val: '1.4', unit: 'hrs', status: 'ok' },
+  { cat: 'SLEEP', name: 'Total Sleep', val: '7.8', unit: 'hrs', status: 'ok' },
+  { cat: 'SLEEP', name: 'WASO', val: '0.2', unit: 'hrs', status: 'ok' },
+  { cat: 'SLEEP', name: 'Wakeups', val: '1', unit: '', status: 'ok' },
+  { cat: 'ACTIVITY', name: 'Steps', val: '4,871', unit: 'steps', status: 'warn' },
+  { cat: 'ACTIVITY', name: 'Active Time', val: '26', unit: 'min', status: 'bad' },
+  { cat: 'ACTIVITY', name: 'Distance', val: '3.4', unit: 'km', status: 'warn' },
+  { cat: 'ACTIVITY', name: 'Active Cal', val: '124', unit: 'kcal', status: 'bad' },
+  { cat: 'ACTIVITY', name: 'Total Cal', val: '1,278', unit: 'kcal', status: 'bad' },
 ];
+// 97 health indicators from real Supabase data
 
 const healthGrid = document.getElementById('healthGrid');
 let lastCat = '';
@@ -2238,10 +2310,10 @@ function animateHealth() {
     healthGrid.querySelectorAll('.health-tile, .health-cat-label').forEach(el => {
       if (el.classList.contains('health-cat-label')) {
         setTimeout(() => el.classList.add('visible'), delay);
-        delay += 150;
+        delay += 100;
       } else {
         setTimeout(() => el.classList.add('visible'), delay);
-        delay += 60;
+        delay += 25;
       }
     });
   });
