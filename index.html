@@ -1645,8 +1645,8 @@ function initTimeseriesCanvas() {
   let counted = false, countVal = 0;
   function tickCounter(dt) {
     if (counted) return;
-    countVal = Math.min(countVal + dt * 4, 3279);
-    if (countVal >= 3279) { countVal = 3279; counted = true; }
+    countVal = Math.min(countVal + dt * 4, 3280);
+    if (countVal >= 3280) { countVal = 3280; counted = true; }
     counterEl.textContent = Math.round(countVal).toLocaleString() + ' data points';
   }
 
