@@ -3153,18 +3153,33 @@ function animateSlide10() {
 
 // ─── Dimensions constellation (slide 11) ───
 const dimensions = [
-  "Nutrition & Diet", "Career & Professional Life", "Movement & Physical Activity",
-  "Mental Health & Psychological Wellbeing", "Immigration & Legal Status",
-  "Longevity Mission & Life Purpose", "Marriage & Partnership",
-  "Financial Goals & Planning Horizon", "Sleep & Recovery",
-  "Daily Routines & Habit Systems", "Living Environment & Home",
-  "Stress Management & Resilience", "Pain Management & Physical Rehabilitation",
-  "Tax Planning & Optimization", "Personal Projects & Technology",
-  "Education & Learning", "Substance Use & Behavioral Patterns",
-  "Sexual & Reproductive Health", "Immune System & Illness Resilience",
-  "Retirement & Long-term Financial Planning"
+  "Advocacy & Social Justice", "Budgeting & Spending Management", "Career & Professional Life",
+  "Caregiving & Family Support", "Community Building & Civic Participation", "Compassion & Lovingkindness",
+  "Connection to Nature & the Living World", "Core Technical & Domain Skills", "Creative Expression & Arts",
+  "Culinary Enjoyment", "Daily Routines & Habit Systems", "Debt Management",
+  "Direct Service & Volunteering", "Education & Learning", "Environmental & Occupational Health",
+  "Environmental Stewardship", "Estate Planning & Financial Legacy", "Existential Reflection & Self-Examination",
+  "Family Network", "Finance & Resources", "Financial Goals & Planning Horizon",
+  "Financial Literacy & Education", "Friendships", "Gratitude & Appreciation",
+  "Health Literacy & Self-Advocacy", "Immigration & Legal Status", "Immune System & Illness Resilience",
+  "Inner Peace & Equanimity", "Insurance & Risk Protection", "Investing & Wealth Building",
+  "Knowledge Sharing & Thought Leadership", "Legacy & Long-term Contribution", "Living Environment & Home",
+  "Longevity Mission & Life Purpose", "Marriage & Partnership", "Mental Health & Psychological Wellbeing",
+  "Mentoring & Teaching Impact", "Mentorship & Knowledge Sharing (Provider)", "Meta-Skills & Transferable Competencies",
+  "Mindfulness & Present-Moment Awareness", "Movement & Physical Activity", "Nature & Outdoor Recreation",
+  "Novelty & New Experiences", "Nutrition & Diet", "Pain Management & Physical Rehabilitation",
+  "Personal Philosophy & Worldview", "Personal Projects & Technology", "Personal Values & Ethics",
+  "Pet & Animal Companion Bonds", "Philanthropy & Financial Giving", "Physical Health & Body",
+  "Play & Spontaneous Fun", "Professional & Workplace Impact", "Professional Network & Relationships",
+  "Professional Reputation & Personal Brand", "Recreation & Leisure", "Relationship Skills & Interpersonal Self-Knowledge",
+  "Rest, Relaxation & Restoration", "Retirement & Long-term Financial Planning", "Savings & Emergency Fund",
+  "Sexual & Reproductive Health", "Shadow Work & Personal Integration", "Sleep & Recovery",
+  "Social Enjoyment", "Social Life & Community", "Spiritual Community & Belonging",
+  "Spiritual Practice & Discipline", "Stress Management & Resilience", "Substance Use & Behavioral Patterns",
+  "Tax Planning & Optimization", "Transcendence & Awe", "Travel & Exploration",
+  "Work Environment & Conditions", "Work-Life Integration", "Workplace Relationships"
 ];
-const dimColors = ['#4acaaa', '#5aafcf', '#8a7ac9', '#d4845a', '#d47ab0', '#d4a030', '#5ac9a0', '#7aa2d4', '#c95a8a', '#da7060', '#5abade', '#e8955f', '#b89a4a', '#d4a070', '#6a9a6a'];
+const dimColors = ["#ca8a4a", "#d4a45a", "#4a8aca", "#ca6a8a", "#ca8a4a", "#8a6aca", "#8a6aca", "#4a8aca", "#6aca8a", "#6aca8a", "#6a5aca", "#d4a45a", "#ca8a4a", "#4a8aca", "#4acaaa", "#ca8a4a", "#d4a45a", "#8a6aca", "#ca6a8a", "#d4a45a", "#d4a45a", "#d4a45a", "#ca6a8a", "#8a6aca", "#4acaaa", "#6a5aca", "#4acaaa", "#8a6aca", "#d4a45a", "#d4a45a", "#4a8aca", "#ca8a4a", "#6aca8a", "#4acaaa", "#ca6a8a", "#4acaaa", "#ca8a4a", "#4a8aca", "#6a5aca", "#8a6aca", "#4acaaa", "#6aca8a", "#6aca8a", "#4acaaa", "#4acaaa", "#8a6aca", "#4a8aca", "#8a6aca", "#ca6a8a", "#ca8a4a", "#4acaaa", "#6aca8a", "#4a8aca", "#4a8aca", "#4a8aca", "#6aca8a", "#ca6a8a", "#4acaaa", "#d4a45a", "#d4a45a", "#4acaaa", "#4acaaa", "#4acaaa", "#ca6a8a", "#ca6a8a", "#8a6aca", "#8a6aca", "#4acaaa", "#4acaaa", "#d4a45a", "#8a6aca", "#6aca8a", "#4a8aca", "#4a8aca", "#4a8aca"];
 
 (function buildConstellation() {
   const cc = document.getElementById('constellationContainer');
@@ -3175,7 +3190,7 @@ const dimColors = ['#4acaaa', '#5aafcf', '#8a7ac9', '#d4845a', '#d47ab0', '#d4a0
   // Use golden angle distribution for nice spread
   dimensions.forEach((_, i) => {
     const angle = i * 2.399963; // golden angle
-    const r = 40 + (i / dimensions.length) * 170;
+    const r = 30 + (i / dimensions.length) * 200;
     const x = w / 2 + r * Math.cos(angle);
     const y = h / 2 + r * Math.sin(angle);
     positions.push({ x: Math.max(pad, Math.min(w - pad, x)), y: Math.max(30, Math.min(h - 50, y)) });
@@ -3189,7 +3204,7 @@ const dimColors = ['#4acaaa', '#5aafcf', '#8a7ac9', '#d4845a', '#d47ab0', '#d4a0
       const dx = positions[i].x - positions[j].x;
       const dy = positions[i].y - positions[j].y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 140) {
+      if (dist < 100) {
         lines.push({ i, j, dist });
       }
     }
@@ -3204,9 +3219,9 @@ const dimColors = ['#4acaaa', '#5aafcf', '#8a7ac9', '#d4845a', '#d47ab0', '#d4a0
     const p = positions[i];
     const c = dimColors[i % dimColors.length];
     svg += `<g class="dim-node" data-idx="${i}">`;
-    svg += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${c}" opacity="0.8"/>`;
-    svg += `<circle cx="${p.x}" cy="${p.y}" r="7" fill="none" stroke="${c}" stroke-width="0.5" opacity="0.3"/>`;
-    svg += `<text class="dim-label" x="${p.x}" y="${p.y - 12}" fill="${c}">${dim}</text>`;
+    svg += `<circle cx="${p.x}" cy="${p.y}" r="3" fill="${c}" opacity="0.8"/>`;
+    svg += `<circle cx="${p.x}" cy="${p.y}" r="5.5" fill="none" stroke="${c}" stroke-width="0.4" opacity="0.3"/>`;
+    svg += `<text class="dim-label" x="${p.x}" y="${p.y - 9}" fill="${c}" style="font-size:6px">${dim}</text>`;
     svg += `</g>`;
   });
   svg += `</svg>`;
