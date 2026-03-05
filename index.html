@@ -116,14 +116,16 @@ html, body {
 /* ════════════════════════════════════
    SLIDE 1 — Hero text, breathing glow
    ════════════════════════════════════ */
-#slide1 .left {
+#slide1 .left,
+#slide2 .left {
   width: 100%;
   align-items: center;
   text-align: center;
   padding: 0 12vw;
 }
 
-#slide1 h1 {
+#slide1 h1,
+#slide2 h1 {
   font-size: clamp(32px, 4vw, 64px);
   font-weight: 300;
   opacity: 0;
@@ -131,7 +133,8 @@ html, body {
   animation: fadeInUp 1.6s ease 0.3s forwards;
 }
 
-#slide1 h1 .glow-word {
+#slide1 h1 .glow-word,
+#slide2 h1 .glow-word {
   display: inline;
   animation: breathe 4s ease-in-out infinite;
 }
@@ -1256,14 +1259,22 @@ html, body {
 <div class="slide active" id="slide1">
   <div class="particles" id="particles1"></div>
   <div class="left">
-    <h1>I wanted a <span class="glow-word">superpower</span><br>to plan my life optimally</h1>
+    <h1>Today, I am going to share my experience with <span class="glow-word">personal AI</span></h1>
   </div>
 </div>
 
 <!-- ═══ SLIDE 2 ═══ -->
 <div class="slide" id="slide2">
+  <div class="particles" id="particles2"></div>
   <div class="left">
-    <h1>So I built it a <em>nervous system</em></h1>
+    <h1>I wanted a <span class="glow-word">superpower</span><br>to plan my life optimally</h1>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 3 ═══ -->
+<div class="slide" id="slide3">
+  <div class="left">
+    <h1>My personal AI <em>wired itself</em> into my digital and hardware ecosystem</h1>
   </div>
   <div class="right">
     <div class="infra-container" id="infraContainer"></div>
@@ -1461,7 +1472,7 @@ html, body {
 
 <script>
 // ─── Config ───
-const TOTAL_SLIDES = 16;
+const TOTAL_SLIDES = 17;
 let current = 0;
 let transitioning = false;
 
@@ -1513,18 +1524,21 @@ document.addEventListener('click', e => {
   else goTo(current + 1);
 });
 
-// ─── Particles (slide 1) ───
+// ─── Particles (slides 1 & 2) ───
 (function initParticles() {
-  const c = document.getElementById('particles1');
-  for (let i = 0; i < 20; i++) {
-    const d = document.createElement('div');
-    d.className = 'dot';
-    d.style.left = Math.random() * 100 + '%';
-    d.style.top = (40 + Math.random() * 60) + '%';
-    d.style.animationDelay = (Math.random() * 8) + 's';
-    d.style.animationDuration = (6 + Math.random() * 6) + 's';
-    c.appendChild(d);
-  }
+  ['particles1', 'particles2'].forEach(id => {
+    const c = document.getElementById(id);
+    if (!c) return;
+    for (let i = 0; i < 20; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      d.style.left = Math.random() * 100 + '%';
+      d.style.top = (40 + Math.random() * 60) + '%';
+      d.style.animationDelay = (Math.random() * 8) + 's';
+      d.style.animationDuration = (6 + Math.random() * 6) + 's';
+      c.appendChild(d);
+    }
+  });
 })();
 
 // ─── Knowledge items (slide 2) ───
@@ -1600,14 +1614,14 @@ dataBreakdown.forEach(([label, value, maxRef, color]) => {
 let slide2Played = false, slide3Played = false;
 
 function onSlideEnter(idx) {
-  if (idx === 1) {
-    animateInfra(); // infrastructure nervous system (slide 2)
-  }
   if (idx === 2) {
-    animateSlide3(); // data footprint (now slide 3)
+    animateInfra(); // infrastructure nervous system (slide 3)
   }
   if (idx === 3) {
-    // knowledge list (now slide 4)
+    animateSlide3(); // data footprint (slide 4)
+  }
+  if (idx === 4) {
+    // knowledge list (slide 5)
     const items = kList.querySelectorAll('.k-item');
     items.forEach(el => el.classList.remove('visible'));
     requestAnimationFrame(() => {
@@ -2387,18 +2401,18 @@ function animateSlide15() {
 const _origOnSlideEnter = onSlideEnter;
 onSlideEnter = function(idx) {
   _origOnSlideEnter(idx);
-  if (idx === 4) animateSlide4();
-  if (idx === 5) animateSlide6();
-  if (idx === 6) animateSlide7();
-  if (idx === 7) animateSlide8();
-  if (idx === 8) animateSlide9();
-  if (idx === 9) animateSlide10();
-  if (idx === 10) animateSlide11();
-  if (idx === 11) animateSlide12();
-  if (idx === 12) animateSlide13();
-  if (idx === 13) animateSlide14();
-  if (idx === 14) animateSlide15();
-  if (idx === 15) animateSlide16();
+  if (idx === 5) animateSlide4();
+  if (idx === 6) animateSlide6();
+  if (idx === 7) animateSlide7();
+  if (idx === 8) animateSlide8();
+  if (idx === 9) animateSlide9();
+  if (idx === 10) animateSlide10();
+  if (idx === 11) animateSlide11();
+  if (idx === 12) animateSlide12();
+  if (idx === 13) animateSlide13();
+  if (idx === 14) animateSlide14();
+  if (idx === 15) animateSlide15();
+  if (idx === 16) animateSlide16();
 };
 
 // Init
