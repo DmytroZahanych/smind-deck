@@ -1447,10 +1447,10 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 13 ═══ -->
+<!-- ═══ SLIDE 13 — RPA-like life admin ═══ -->
 <div class="slide" id="slide13">
   <div class="left">
-    <h1>It runs <em>25</em> automated processes in my life</h1>
+    <h1>To act on these goals, it runs <em>33</em> RPA-like jobs automating my life admin</h1>
   </div>
   <div class="right">
     <div class="cron-list" id="cronList"></div>
@@ -3017,26 +3017,51 @@ function animateTimeline() {
   });
 }
 
-// ─── Cron jobs (slide 9) ───
+// ─── Cron jobs (slide 13) — real RPA-like life admin ───
 const cronJobs = [
-  { name: "Hourly time tracking", time: "09-21h", freq: "hourly", color: "#8a7ac9" },
-  { name: "Cicaplast cream (morning)", time: "10:00", freq: "daily", color: "#4acaaa" },
-  { name: "Cicaplast cream (evening)", time: "21:30", freq: "daily", color: "#4acaaa" },
-  { name: "Withings health sync", time: "22:00", freq: "daily", color: "#5aafcf" },
-  { name: "Database snapshot (pre)", time: "22:30", freq: "daily", color: "#d4845a" },
-  { name: "Database snapshot (post)", time: "06:30", freq: "daily", color: "#d4845a" },
-  { name: "Weekly time tracking analysis", time: "Monday", freq: "weekly", color: "#7aa2d4" },
-  { name: "EDP electricity bill", time: "5th", freq: "monthly", color: "#d4a030" },
-  { name: "Water bill", time: "7th", freq: "monthly", color: "#5abade" },
-  { name: "Nobledrive invoice to Derek", time: "3rd", freq: "monthly", color: "#e8955f" },
-  { name: "Invoices to accountant Carla", time: "3rd", freq: "monthly", color: "#e8955f" },
-  { name: "Vodafone telecom bill", time: "14th", freq: "monthly", color: "#b89a4a" },
-  { name: "Pay taxes (amount from Carla)", time: "20th", freq: "monthly", color: "#d4a030" },
-  { name: "Insurance transfer", time: "25th", freq: "monthly", color: "#c95a8a" },
-  { name: "Rent renewal cycle", time: "Jun/Dec", freq: "biannual", color: "#da7060" },
-  { name: "Accountant annual fee", time: "Sept", freq: "yearly", color: "#d4a070" },
+  // Health & Medical
+  { name: "Cicaplast cream — morning", time: "10:00", freq: "health", color: "#4acaaa" },
+  { name: "Cicaplast cream — evening", time: "21:30", freq: "health", color: "#4acaaa" },
+  { name: "Withings health data sync", time: "22:00", freq: "health", color: "#4acaaa" },
+  { name: "Cicaplast treatment review", time: "Aug 1", freq: "health", color: "#4acaaa" },
+  { name: "Full health check-up project", time: "Mar 18", freq: "health", color: "#4acaaa" },
+  { name: "Book medical exam (back pain)", time: "Mar 11", freq: "health", color: "#4acaaa" },
+  { name: "Enroll in gym + exercise routine", time: "Mar 20", freq: "health", color: "#4acaaa" },
+  // Finance & Bills
+  { name: "EDP electricity bill", time: "5th", freq: "finance", color: "#d4a030" },
+  { name: "Water bill", time: "7th", freq: "finance", color: "#d4a030" },
+  { name: "Vodafone telecom bill", time: "14th", freq: "finance", color: "#d4a030" },
+  { name: "Pay monthly taxes", time: "20th", freq: "finance", color: "#d4a030" },
+  { name: "Insurance transfer to Nastya", time: "25th", freq: "finance", color: "#d4a030" },
+  { name: "Rent renewal — 6-month cycle", time: "Jun/Dec", freq: "finance", color: "#d4a030" },
+  { name: "Accountant annual fee", time: "Sept 1", freq: "finance", color: "#d4a030" },
+  // Work & Invoicing
+  { name: "Send invoices to accountant", time: "3rd", freq: "work", color: "#4a8aca" },
+  { name: "Nobledrive invoice to Derek", time: "3rd", freq: "work", color: "#4a8aca" },
+  // Immigration & Legal
+  { name: "AIMA trip prep reminder", time: "Mar 10", freq: "legal", color: "#8a6aca" },
+  { name: "Book Ukrainian passport (Madrid)", time: "Mar 18", freq: "legal", color: "#8a6aca" },
+  { name: "Document pickup reminder", time: "Mar 6", freq: "legal", color: "#8a6aca" },
+  // Time Tracking & Productivity
+  { name: "Hourly activity tracking", time: "7-22h", freq: "tracking", color: "#8a7ac9" },
+  { name: "Weekly time analysis report", time: "Mon", freq: "tracking", color: "#8a7ac9" },
+  // People & Relationships
+  { name: "Kostya birthday prep", time: "Apr 5", freq: "people", color: "#ca6a8a" },
+  { name: "Alex birthday prep", time: "Jul 2", freq: "people", color: "#ca6a8a" },
+  { name: "Nastya birthday prep", time: "Sep 21", freq: "people", color: "#ca6a8a" },
+  { name: "Father birthday prep", time: "Dec 8", freq: "people", color: "#ca6a8a" },
+  { name: "Mother birthday prep", time: "Dec 14", freq: "people", color: "#ca6a8a" },
+  { name: "March 8th present", time: "Mar 7", freq: "people", color: "#ca6a8a" },
+  // Self-care & Appointments
+  { name: "Massage appointment", time: "Mar 7", freq: "selfcare", color: "#6aca8a" },
+  { name: "Haircut booking", time: "Mar 5", freq: "selfcare", color: "#6aca8a" },
+  // Infrastructure
+  { name: "Database snapshot — pre-cycle", time: "22:30", freq: "infra", color: "#d4845a" },
+  { name: "Database snapshot — post-cycle", time: "06:30", freq: "infra", color: "#d4845a" },
+  { name: "Check on Oleksandr re: OpenClaw", time: "Apr 4", freq: "infra", color: "#d4845a" },
 ];
-const freqOrder = ['hourly', 'daily', 'weekly', 'monthly', 'biannual', 'yearly'];
+const freqOrder = ['health', 'finance', 'work', 'legal', 'tracking', 'people', 'selfcare', 'infra'];
+const freqLabels = { health: '🏥 Health & Medical', finance: '💰 Finance & Bills', work: '💼 Work & Invoicing', legal: '📋 Immigration & Legal', tracking: '⏱️ Tracking', people: '👥 People & Birthdays', selfcare: '💆 Self-care', infra: '🔧 Infrastructure' };
 const cronList = document.getElementById('cronList');
 const cronByFreq = {};
 cronJobs.forEach(j => { (cronByFreq[j.freq] = cronByFreq[j.freq] || []).push(j); });
@@ -3044,7 +3069,7 @@ freqOrder.forEach(freq => {
   if (!cronByFreq[freq]) return;
   const lbl = document.createElement('div');
   lbl.className = 'cron-group-label';
-  lbl.textContent = freq;
+  lbl.textContent = freqLabels[freq] || freq;
   cronList.appendChild(lbl);
   cronByFreq[freq].forEach(j => {
     const el = document.createElement('div');
