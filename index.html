@@ -3517,7 +3517,6 @@ function animateSlide9() { initRpaCanvas(); }
 let coreMapAnimId = null, coreMapInitialized = false;
 
 function initCoreMapCanvas() {
-  console.log('initCoreMapCanvas called', { coreMapInitialized });
   if (coreMapInitialized) {
     if (!coreMapAnimId) coreMapAnimId = requestAnimationFrame(coreMapLoop);
     return;
@@ -3525,7 +3524,7 @@ function initCoreMapCanvas() {
   coreMapInitialized = true;
 
   const canvas = document.getElementById('coreMapCanvas');
-  console.log('canvas:', canvas, 'rect:', canvas && canvas.getBoundingClientRect());
+  const rect0 = canvas && canvas.getBoundingClientRect();
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, cx, cy, dpr;
@@ -3541,28 +3540,7 @@ function initCoreMapCanvas() {
   resize();
   window.addEventListener('resize', resize);
 
-  const base = Math.min(W, H) / 2;
-
-  // ── Ring layout (center outward) ──
-  // Core orb
-  const coreR = base * 0.06;
-
-  // Time rings (from RPA) — compact band
-  const timeRings = {
-    daily:   { r1: base * 0.12, r2: base * 0.20 },
-    monthly: { r1: base * 0.22, r2: base * 0.32 },
-    yearly:  { r1: base * 0.34, r2: base * 0.44 },
-  };
-
-  // Dimensions ring (outer)
-  const dimR1 = base * 0.52;
-  const dimR2 = base * 0.64;
-
-  // Goals ring (outermost)
-  const goalR1 = base * 0.68;
-  const goalR2 = base * 0.82;
-
-  // ── Pre-compute dimension arcs ──
+  // ── Pre-compute angle-only data (no radius dependency) ──
   const dimArcs = [];
   let totalDims = 0;
   dimRingData.forEach(g => totalDims += g.dims.length);
@@ -3570,11 +3548,10 @@ function initCoreMapCanvas() {
   let dimAngle = -Math.PI / 2;
   dimRingData.forEach(g => {
     const groupArc = (g.dims.length / totalDims) * Math.PI * 2 - dimGap;
-    dimArcs.push({ color: g.color, startAngle: dimAngle, endAngle: dimAngle + groupArc, count: g.dims.length });
+    dimArcs.push({ color: g.color, startAngle: dimAngle, endAngle: dimAngle + groupArc });
     dimAngle += groupArc + dimGap;
   });
 
-  // ── Pre-compute goal arcs ──
   const goalArcs = [];
   let totalGoals = 0;
   goalsRingData.forEach(g => totalGoals += g.goals.length);
@@ -3582,28 +3559,42 @@ function initCoreMapCanvas() {
   let goalAngle = -Math.PI / 2;
   goalsRingData.forEach(g => {
     const groupArc = (g.goals.length / totalGoals) * Math.PI * 2 - goalGap;
-    goalArcs.push({ color: g.color, startAngle: goalAngle, endAngle: goalAngle + groupArc, count: g.goals.length });
+    goalArcs.push({ color: g.color, startAngle: goalAngle, endAngle: goalAngle + groupArc });
     goalAngle += groupArc + goalGap;
   });
 
-  // ── Pre-compute RPA job positions ──
   const ringOrder = ['daily', 'monthly', 'yearly'];
-  const rpaPositions = rpaJobs.map(j => {
+  const rpaJobAngles = rpaJobs.map(j => {
     const info = rpaRingLabels[j.ring];
-    const a = -Math.PI / 2 + (j.pos / info.total) * Math.PI * 2;
-    const tr = timeRings[j.ring];
-    const midR = (tr.r1 + tr.r2) / 2;
-    return { x: cx + midR * Math.cos(a), y: cy + midR * Math.sin(a), color: j.color };
+    return { angle: -Math.PI / 2 + (j.pos / info.total) * Math.PI * 2, ring: j.ring, color: j.color };
   });
 
-  // ── Animation ──
+  // Geometry computed lazily (canvas may be 0-sized during slide transition)
   let animStart = 0;
-  // Phases: core pulse (0-1s), time rings (0.5-2s), dim arcs (1.5-3s), goal arcs (2.5-4s), jobs (3-5s)
+  let geomReady = false;
+  let base, coreR, timeRingsG, dimR1, dimR2, goalR1, goalR2;
 
-  let frameCount = 0;
+  function computeGeom() {
+    resize();
+    base = Math.min(W, H) / 2;
+    if (base <= 0) return false;
+    coreR = base * 0.06;
+    timeRingsG = {
+      daily:   { r1: base * 0.12, r2: base * 0.20 },
+      monthly: { r1: base * 0.22, r2: base * 0.32 },
+      yearly:  { r1: base * 0.34, r2: base * 0.44 },
+    };
+    dimR1 = base * 0.52; dimR2 = base * 0.64;
+    goalR1 = base * 0.68; goalR2 = base * 0.82;
+    return true;
+  }
+
   function frame(ts) {
-    if (frameCount++ < 3) console.log('coreMap frame', { active: slides[12].classList.contains('active'), W, H, base });
     if (!slides[12].classList.contains('active')) { coreMapAnimId = null; return; }
+    if (!geomReady) {
+      geomReady = computeGeom();
+      if (!geomReady) { coreMapAnimId = requestAnimationFrame(frame); return; }
+    }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
@@ -3654,7 +3645,7 @@ function initCoreMapCanvas() {
         const ringDelay = ri * 300;
         const ra = Math.min(1, Math.max(0, (t - 600 - ringDelay) / 600)) * timeAlpha;
         if (ra <= 0) return;
-        const { r1, r2 } = timeRings[rk];
+        const { r1, r2 } = timeRingsG[rk];
 
         ctx.globalAlpha = ra;
         // Ring band
@@ -3683,13 +3674,16 @@ function initCoreMapCanvas() {
       // Job dots
       const jobAlpha = Math.min(1, Math.max(0, (t - 1500) / 1500));
       if (jobAlpha > 0) {
-        rpaPositions.forEach(jp => {
+        rpaJobAngles.forEach(ja => {
+          const tr = timeRingsG[ja.ring];
+          const midR = (tr.r1 + tr.r2) / 2;
+          const jx = cx + midR * Math.cos(ja.angle);
+          const jy = cy + midR * Math.sin(ja.angle);
           ctx.globalAlpha = jobAlpha * timeAlpha;
-          ctx.fillStyle = jp.color;
-          ctx.beginPath(); ctx.arc(jp.x, jp.y, 2.5, 0, Math.PI * 2); ctx.fill();
-          // Subtle glow
+          ctx.fillStyle = ja.color;
+          ctx.beginPath(); ctx.arc(jx, jy, 2.5, 0, Math.PI * 2); ctx.fill();
           ctx.globalAlpha = jobAlpha * timeAlpha * 0.3;
-          ctx.beginPath(); ctx.arc(jp.x, jp.y, 5, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(jx, jy, 5, 0, Math.PI * 2); ctx.fill();
         });
       }
     }
