@@ -722,73 +722,56 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 10 — Cron jobs list
+   SLIDE 13 — RPA time rings
    ════════════════════════════════════ */
-.cron-list {
-  width: 92%;
-  max-height: 82vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 2vh 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--cyan-dim) transparent;
+#slide13 canvas {
+  position: absolute;
+  right: 0; top: 0;
+  width: 62%; height: 100%;
 }
-.cron-group-label {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--text-dim);
-  margin-top: 10px;
-  margin-bottom: 2px;
-  padding-left: 20px;
-}
-.cron-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px;
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 4px;
-  background: rgba(255,255,255,0.01);
-  font-size: clamp(11px, 0.95vw, 14px);
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.cron-item.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.cron-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.cron-name {
-  flex: 1;
-  color: var(--text);
-  font-weight: 400;
-}
-.cron-time {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-  color: var(--text-dim);
-  min-width: 60px;
-  text-align: right;
-}
-.cron-badge {
-  font-size: 9px;
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 2px 7px;
-  border-radius: 3px;
-  border: 1px solid;
-  min-width: 58px;
+.rpa-echo {
+  position: absolute;
+  right: 31%; top: 50%;
+  transform: translate(50%, -50%);
+  font-family: var(--font-head);
+  font-size: clamp(18px, 2vw, 32px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
   text-align: center;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  max-width: 50%;
+}
+.rpa-echo.show {
+  animation: rpaPop 1.1s ease forwards;
+}
+@keyframes rpaPop {
+  0% { opacity: 0; transform: translate(50%, -50%) scale(0.7); }
+  15% { opacity: 1; transform: translate(50%, -50%) scale(1.05); }
+  30% { opacity: 1; transform: translate(50%, -50%) scale(1); }
+  85% { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(50%, -50%) scale(0.95); }
+}
+.rpa-counter {
+  position: absolute;
+  bottom: 8%; right: 4%;
+  text-align: right;
+  z-index: 2;
+  pointer-events: none;
+}
+.rpa-counter .num {
+  font-family: var(--font-mono);
+  font-size: clamp(48px, 6vw, 96px);
+  color: var(--cyan);
+  text-shadow: var(--cyan-glow);
+  line-height: 1;
+}
+.rpa-counter .lbl {
+  font-family: var(--font-mono);
+  font-size: clamp(14px, 1.4vw, 22px);
+  color: var(--text-dim);
+  margin-top: 4px;
 }
 
 /* ════════════════════════════════════
@@ -1447,14 +1430,14 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 13 — RPA-like life admin ═══ -->
+<!-- ═══ SLIDE 13 — RPA-like life admin (time rings) ═══ -->
 <div class="slide" id="slide13">
   <div class="left">
     <h1>To act on these goals, it runs <em>33</em> RPA-like jobs automating my life admin</h1>
   </div>
-  <div class="right">
-    <div class="cron-list" id="cronList"></div>
-  </div>
+  <canvas id="rpaCanvas"></canvas>
+  <div class="rpa-echo" id="rpaEcho"></div>
+  <div class="rpa-counter"><div class="num" id="rpaNum">0</div><div class="lbl">automated jobs</div></div>
 </div>
 
 <!-- ═══ SLIDE 14 ═══ -->
@@ -1559,6 +1542,7 @@ function goTo(idx) {
   if (current === 7) stopNetwork();
   if (current === 9) stopDims();
   if (current === 10) stopGoals();
+  if (current === 12) stopRpa();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -3017,78 +3001,267 @@ function animateTimeline() {
   });
 }
 
-// ─── Cron jobs (slide 13) — real RPA-like life admin ───
-const cronJobs = [
-  // Health & Medical
-  { name: "Cicaplast cream — morning", time: "10:00", freq: "health", color: "#4acaaa" },
-  { name: "Cicaplast cream — evening", time: "21:30", freq: "health", color: "#4acaaa" },
-  { name: "Withings health data sync", time: "22:00", freq: "health", color: "#4acaaa" },
-  { name: "Cicaplast treatment review", time: "Aug 1", freq: "health", color: "#4acaaa" },
-  { name: "Full health check-up project", time: "Mar 18", freq: "health", color: "#4acaaa" },
-  { name: "Book medical exam (back pain)", time: "Mar 11", freq: "health", color: "#4acaaa" },
-  { name: "Enroll in gym + exercise routine", time: "Mar 20", freq: "health", color: "#4acaaa" },
-  // Finance & Bills
-  { name: "EDP electricity bill", time: "5th", freq: "finance", color: "#d4a030" },
-  { name: "Water bill", time: "7th", freq: "finance", color: "#d4a030" },
-  { name: "Vodafone telecom bill", time: "14th", freq: "finance", color: "#d4a030" },
-  { name: "Pay monthly taxes", time: "20th", freq: "finance", color: "#d4a030" },
-  { name: "Insurance transfer to Nastya", time: "25th", freq: "finance", color: "#d4a030" },
-  { name: "Rent renewal — 6-month cycle", time: "Jun/Dec", freq: "finance", color: "#d4a030" },
-  { name: "Accountant annual fee", time: "Sept 1", freq: "finance", color: "#d4a030" },
-  // Work & Invoicing
-  { name: "Send invoices to accountant", time: "3rd", freq: "work", color: "#4a8aca" },
-  { name: "Nobledrive invoice to Derek", time: "3rd", freq: "work", color: "#4a8aca" },
-  // Immigration & Legal
-  { name: "AIMA trip prep reminder", time: "Mar 10", freq: "legal", color: "#8a6aca" },
-  { name: "Book Ukrainian passport (Madrid)", time: "Mar 18", freq: "legal", color: "#8a6aca" },
-  { name: "Document pickup reminder", time: "Mar 6", freq: "legal", color: "#8a6aca" },
-  // Time Tracking & Productivity
-  { name: "Hourly activity tracking", time: "7-22h", freq: "tracking", color: "#8a7ac9" },
-  { name: "Weekly time analysis report", time: "Mon", freq: "tracking", color: "#8a7ac9" },
-  // People & Relationships
-  { name: "Kostya birthday prep", time: "Apr 5", freq: "people", color: "#ca6a8a" },
-  { name: "Alex birthday prep", time: "Jul 2", freq: "people", color: "#ca6a8a" },
-  { name: "Nastya birthday prep", time: "Sep 21", freq: "people", color: "#ca6a8a" },
-  { name: "Father birthday prep", time: "Dec 8", freq: "people", color: "#ca6a8a" },
-  { name: "Mother birthday prep", time: "Dec 14", freq: "people", color: "#ca6a8a" },
-  { name: "March 8th present", time: "Mar 7", freq: "people", color: "#ca6a8a" },
-  // Self-care & Appointments
-  { name: "Massage appointment", time: "Mar 7", freq: "selfcare", color: "#6aca8a" },
-  { name: "Haircut booking", time: "Mar 5", freq: "selfcare", color: "#6aca8a" },
-  // Infrastructure
-  { name: "Database snapshot — pre-cycle", time: "22:30", freq: "infra", color: "#d4845a" },
-  { name: "Database snapshot — post-cycle", time: "06:30", freq: "infra", color: "#d4845a" },
-  { name: "Check on Oleksandr re: OpenClaw", time: "Apr 4", freq: "infra", color: "#d4845a" },
+// ─── RPA Time Rings (slide 13) ───
+// Jobs positioned on concentric time rings: daily (24h), monthly (31 days), yearly (12 months)
+const rpaJobs = [
+  // Daily ring (hour position 0-23)
+  { name: "Cicaplast cream — morning", ring: 'daily', pos: 10, color: "#4acaaa" },
+  { name: "Cicaplast cream — evening", ring: 'daily', pos: 21.5, color: "#4acaaa" },
+  { name: "Withings health sync", ring: 'daily', pos: 22, color: "#4acaaa" },
+  { name: "Database snapshot", ring: 'daily', pos: 22.5, color: "#d4845a" },
+  { name: "Database snapshot (morning)", ring: 'daily', pos: 6.5, color: "#d4845a" },
+  { name: "Hourly activity tracking", ring: 'daily', pos: 7, color: "#8a7ac9" },
+  { name: "Hourly activity tracking", ring: 'daily', pos: 10, color: "#8a7ac9" },
+  { name: "Hourly activity tracking", ring: 'daily', pos: 13, color: "#8a7ac9" },
+  { name: "Hourly activity tracking", ring: 'daily', pos: 16, color: "#8a7ac9" },
+  { name: "Hourly activity tracking", ring: 'daily', pos: 19, color: "#8a7ac9" },
+  // Monthly ring (day 1-31)
+  { name: "Send invoices to accountant", ring: 'monthly', pos: 3, color: "#4a8aca" },
+  { name: "Nobledrive invoice", ring: 'monthly', pos: 3, color: "#4a8aca" },
+  { name: "EDP electricity bill", ring: 'monthly', pos: 5, color: "#d4a030" },
+  { name: "Water bill", ring: 'monthly', pos: 7, color: "#d4a030" },
+  { name: "Weekly time analysis", ring: 'monthly', pos: 7, color: "#8a7ac9" },
+  { name: "Vodafone bill", ring: 'monthly', pos: 14, color: "#d4a030" },
+  { name: "Pay taxes", ring: 'monthly', pos: 20, color: "#d4a030" },
+  { name: "Insurance transfer", ring: 'monthly', pos: 25, color: "#d4a030" },
+  // Yearly ring (month 1-12)
+  { name: "March 8th present", ring: 'yearly', pos: 3, color: "#ca6a8a" },
+  { name: "AIMA trip prep", ring: 'yearly', pos: 3, color: "#8a6aca" },
+  { name: "Health check-up project", ring: 'yearly', pos: 3, color: "#4acaaa" },
+  { name: "Passport booking (Madrid)", ring: 'yearly', pos: 3.5, color: "#8a6aca" },
+  { name: "Gym enrollment", ring: 'yearly', pos: 3.5, color: "#4acaaa" },
+  { name: "Oleksandr — OpenClaw check", ring: 'yearly', pos: 4, color: "#d4845a" },
+  { name: "Kostya birthday", ring: 'yearly', pos: 5, color: "#ca6a8a" },
+  { name: "Rent renewal", ring: 'yearly', pos: 6, color: "#d4a030" },
+  { name: "Alex birthday", ring: 'yearly', pos: 8, color: "#ca6a8a" },
+  { name: "Cicaplast treatment review", ring: 'yearly', pos: 8, color: "#4acaaa" },
+  { name: "Accountant annual fee", ring: 'yearly', pos: 9, color: "#d4a030" },
+  { name: "Nastya birthday", ring: 'yearly', pos: 9.5, color: "#ca6a8a" },
+  { name: "Father birthday", ring: 'yearly', pos: 12, color: "#ca6a8a" },
+  { name: "Mother birthday", ring: 'yearly', pos: 12.5, color: "#ca6a8a" },
+  { name: "Rent renewal (Dec)", ring: 'yearly', pos: 12, color: "#d4a030" },
 ];
-const freqOrder = ['health', 'finance', 'work', 'legal', 'tracking', 'people', 'selfcare', 'infra'];
-const freqLabels = { health: '🏥 Health & Medical', finance: '💰 Finance & Bills', work: '💼 Work & Invoicing', legal: '📋 Immigration & Legal', tracking: '⏱️ Tracking', people: '👥 People & Birthdays', selfcare: '💆 Self-care', infra: '🔧 Infrastructure' };
-const cronList = document.getElementById('cronList');
-const cronByFreq = {};
-cronJobs.forEach(j => { (cronByFreq[j.freq] = cronByFreq[j.freq] || []).push(j); });
-freqOrder.forEach(freq => {
-  if (!cronByFreq[freq]) return;
-  const lbl = document.createElement('div');
-  lbl.className = 'cron-group-label';
-  lbl.textContent = freqLabels[freq] || freq;
-  cronList.appendChild(lbl);
-  cronByFreq[freq].forEach(j => {
-    const el = document.createElement('div');
-    el.className = 'cron-item';
-    el.innerHTML = `<span class="cron-dot" style="background:${j.color};box-shadow:0 0 6px ${j.color}"></span><span class="cron-name">${j.name}</span><span class="cron-time">${j.time}</span><span class="cron-badge" style="color:${j.color};border-color:${j.color}44">${j.freq}</span>`;
-    cronList.appendChild(el);
-  });
-});
 
-function animateSlide9() {
-  const items = cronList.querySelectorAll('.cron-item');
-  items.forEach(el => el.classList.remove('visible'));
-  cronList.scrollTop = 0;
-  requestAnimationFrame(() => {
-    items.forEach((el, i) => {
-      setTimeout(() => el.classList.add('visible'), 80 + i * 70);
-    });
+const rpaRingLabels = {
+  daily: { label: '24H', ticks: 24, tickLabel: h => h + ':00', total: 24 },
+  monthly: { label: '31 DAYS', ticks: 31, tickLabel: d => d + 1, total: 31 },
+  yearly: { label: '12 MONTHS', ticks: 12, tickLabel: m => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m], total: 12 },
+};
+
+let rpaAnimId = null, rpaInitialized = false;
+
+function initRpaCanvas() {
+  if (rpaInitialized) {
+    if (!rpaAnimId) rpaAnimId = requestAnimationFrame(rpaLoop);
+    return;
+  }
+  rpaInitialized = true;
+
+  const canvas = document.getElementById('rpaCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const echoEl = document.getElementById('rpaEcho');
+  const numEl = document.getElementById('rpaNum');
+  let W, H, cx, cy, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    const r = canvas.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const base = Math.min(W, H) / 2;
+
+  // Three concentric rings
+  const rings = {
+    daily:   { r1: base * 0.18, r2: base * 0.32, labelR: base * 0.13 },
+    monthly: { r1: base * 0.38, r2: base * 0.58, labelR: base * 0.35 },
+    yearly:  { r1: base * 0.64, r2: base * 0.85, labelR: base * 0.61 },
+  };
+
+  function hosCol(hex, a) {
+    let r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    const grey = (r + g + b) / 3;
+    r = Math.round(r * 0.6 + grey * 0.4);
+    g = Math.round(g * 0.6 + grey * 0.4);
+    b = Math.round(b * 0.6 + grey * 0.4);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  // Animation
+  let animStart = 0;
+  const RING_STAGGER = 600; // ms between rings appearing
+  const JOB_STAGGER = 120;  // ms between jobs landing
+  const ECHO_INTERVAL = 1000;
+  let jobIdx = 0, lastJobT = 0, echoIdx = 0, lastEchoT = 0;
+  let countedUp = false;
+
+  // Sort jobs: daily first, then monthly, then yearly
+  const ringOrder = ['daily', 'monthly', 'yearly'];
+  const sortedJobs = [];
+  ringOrder.forEach(rk => {
+    rpaJobs.filter(j => j.ring === rk).forEach(j => sortedJobs.push({ ...j, alive: false, bornT: 0 }));
   });
+
+  // Pre-compute ring start delays
+  let cumCount = 0;
+  const ringStartDelay = {};
+  ringOrder.forEach((rk, ri) => {
+    ringStartDelay[rk] = ri * RING_STAGGER + cumCount * JOB_STAGGER;
+    cumCount += rpaJobs.filter(j => j.ring === rk).length;
+  });
+
+  function posToAngle(pos, total) {
+    return -Math.PI / 2 + (pos / total) * Math.PI * 2;
+  }
+
+  function frame(ts) {
+    if (!slides[12].classList.contains('active')) { rpaAnimId = null; return; }
+    if (!animStart) animStart = ts;
+    const t = ts - animStart;
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw ring backgrounds + tick marks
+    ringOrder.forEach((rk, ri) => {
+      const ringDelay = ri * RING_STAGGER;
+      const ringAlpha = Math.min(1, Math.max(0, (t - ringDelay) / 500));
+      if (ringAlpha <= 0) return;
+
+      const { r1, r2, labelR } = rings[rk];
+      const info = rpaRingLabels[rk];
+
+      ctx.globalAlpha = ringAlpha;
+
+      // Ring background
+      ctx.beginPath();
+      ctx.arc(cx, cy, r2, 0, Math.PI * 2);
+      ctx.arc(cx, cy, r1, Math.PI * 2, 0, true);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(255,255,255,0.015)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+
+      // Tick marks + labels
+      for (let i = 0; i < info.ticks; i++) {
+        const a = posToAngle(i, info.total);
+        const inner = { x: cx + r1 * Math.cos(a), y: cy + r1 * Math.sin(a) };
+        const outer = { x: cx + r2 * Math.cos(a), y: cy + r2 * Math.sin(a) };
+
+        ctx.globalAlpha = ringAlpha * 0.15;
+        ctx.beginPath(); ctx.moveTo(inner.x, inner.y); ctx.lineTo(outer.x, outer.y);
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 0.3; ctx.stroke();
+
+        // Labels (only every Nth to avoid clutter)
+        const showLabel = (rk === 'daily' && i % 3 === 0) || (rk === 'monthly' && (i % 5 === 0 || i === 0)) || rk === 'yearly';
+        if (showLabel) {
+          const lp = { x: cx + (r2 + 12) * Math.cos(a), y: cy + (r2 + 12) * Math.sin(a) };
+          ctx.globalAlpha = ringAlpha * 0.4;
+          ctx.font = `${rk === 'yearly' ? 9 : 7}px 'Share Tech Mono',monospace`;
+          ctx.fillStyle = '#8a9aaa';
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(info.tickLabel(i), lp.x, lp.y);
+        }
+      }
+
+      // Ring label
+      ctx.globalAlpha = ringAlpha * 0.3;
+      ctx.font = "600 10px 'Rajdhani',sans-serif";
+      ctx.fillStyle = '#6a8090';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(info.label, cx + labelR * Math.cos(-Math.PI / 2), cy + labelR * Math.sin(-Math.PI / 2));
+    });
+
+    // Spawn jobs
+    let aliveCount = 0;
+    sortedJobs.forEach((job, i) => {
+      const ringIdx = ringOrder.indexOf(job.ring);
+      const jobsBeforeThisRing = sortedJobs.filter((j, ji) => ji < i && j.ring !== job.ring && ringOrder.indexOf(j.ring) < ringIdx).length;
+      const jobsInRingBefore = sortedJobs.filter((j, ji) => ji < i && j.ring === job.ring).length;
+      const spawnDelay = ringIdx * RING_STAGGER + 400 + (jobsBeforeThisRing + jobsInRingBefore) * JOB_STAGGER;
+
+      if (t > spawnDelay && !job.alive) {
+        job.alive = true;
+        job.bornT = ts;
+      }
+      if (job.alive) aliveCount++;
+    });
+
+    // Draw jobs
+    sortedJobs.forEach(job => {
+      if (!job.alive) return;
+      const age = ts - job.bornT;
+      const alpha = Math.min(1, age / 400);
+      const { r1, r2 } = rings[job.ring];
+      const info = rpaRingLabels[job.ring];
+      const a = posToAngle(job.pos, info.total);
+      const midR = (r1 + r2) / 2;
+      const jx = cx + midR * Math.cos(a);
+      const jy = cy + midR * Math.sin(a);
+
+      ctx.globalAlpha = alpha;
+
+      // Glow on spawn
+      if (age < 600) {
+        const glowAlpha = (1 - age / 600) * 0.6;
+        ctx.save();
+        ctx.shadowColor = job.color;
+        ctx.shadowBlur = 20 * glowAlpha;
+        ctx.fillStyle = job.color;
+        ctx.beginPath(); ctx.arc(jx, jy, 8, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+
+      // Job dot
+      ctx.fillStyle = job.color;
+      ctx.beginPath(); ctx.arc(jx, jy, 4, 0, Math.PI * 2); ctx.fill();
+
+      // Outer ring
+      ctx.globalAlpha = alpha * 0.3;
+      ctx.strokeStyle = job.color;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath(); ctx.arc(jx, jy, 7, 0, Math.PI * 2); ctx.stroke();
+    });
+
+    ctx.globalAlpha = 1;
+
+    // Echo text — cycle through unique job names
+    if (t > 500 && t - lastEchoT > ECHO_INTERVAL) {
+      // Find next newly spawned job to echo
+      const justSpawned = sortedJobs.filter(j => j.alive && ts - j.bornT < ECHO_INTERVAL * 1.5);
+      if (justSpawned.length > 0) {
+        const eg = justSpawned[justSpawned.length - 1]; // most recent
+        echoEl.textContent = eg.name;
+        echoEl.style.color = eg.color;
+        echoEl.classList.remove('show');
+        void echoEl.offsetWidth;
+        echoEl.classList.add('show');
+        lastEchoT = t;
+      }
+    }
+
+    // Counter
+    if (!countedUp && t > 600) { countedUp = true; animateCounter(numEl, 0, 33, 3000); }
+
+    rpaAnimId = requestAnimationFrame(frame);
+  }
+
+  rpaLoop = frame;
+  rpaAnimId = requestAnimationFrame(frame);
 }
+let rpaLoop = null;
+
+function stopRpa() {
+  if (rpaAnimId) { cancelAnimationFrame(rpaAnimId); rpaAnimId = null; }
+}
+
+function animateSlide9() { initRpaCanvas(); }
 
 // ─── People rings (slide 10) ───
 const peopleData = [
