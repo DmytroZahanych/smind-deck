@@ -728,7 +728,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 13 — AI Core Map
+   SLIDE 13 — Sensing radar
    ════════════════════════════════════ */
 #slide13 canvas {
   position: absolute;
@@ -737,7 +737,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 14 — Sensing radar
+   SLIDE 14 — AI Core Map
    ════════════════════════════════════ */
 #slide14 canvas {
   position: absolute;
@@ -1401,20 +1401,20 @@ html, body {
   <div class="rpa-counter"><div class="num" id="rpaNum">0</div><div class="lbl">automated jobs</div></div>
 </div>
 
-<!-- ═══ SLIDE 13 — AI Core Map ═══ -->
+<!-- ═══ SLIDE 13 — Sensing radar (passive + active) ═══ -->
 <div class="slide" id="slide13">
-  <div class="left">
-    <h1>And at the heart of it all, there is an <em>AI</em> in charge of it all</h1>
-  </div>
-  <canvas id="coreMapCanvas"></canvas>
-</div>
-
-<!-- ═══ SLIDE 14 — Sensing radar (passive + active) ═══ -->
-<div class="slide" id="slide14">
   <div class="left">
     <h1>Every day, it pulls data from my devices — and <em>asks</em> what it can't see</h1>
   </div>
   <canvas id="radarCanvas"></canvas>
+</div>
+
+<!-- ═══ SLIDE 14 — AI Core Map ═══ -->
+<div class="slide" id="slide14">
+  <div class="left">
+    <h1>And at the heart of it all, there is an <em>AI</em> in charge of it all</h1>
+  </div>
+  <canvas id="coreMapCanvas"></canvas>
 </div>
 
 <!-- ═══ SLIDE 15 ═══ -->
@@ -1520,8 +1520,8 @@ function goTo(idx) {
   if (current === 9) stopDims();
   if (current === 10) stopGoals();
   if (current === 11) stopRpa();
-  if (current === 12) stopCoreMap();
-  if (current === 13) stopRadar();
+  if (current === 12) stopRadar();
+  if (current === 13) stopCoreMap();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -2090,10 +2090,10 @@ function onSlideEnter(idx) {
     animateSlide9(); // RPA time rings (slide 12)
   }
   if (idx === 12) {
-    initCoreMapCanvas(); // AI core map (slide 13)
+    animateTimeline(); // sensing radar (slide 13)
   }
   if (idx === 13) {
-    animateTimeline(); // sensing radar (slide 14)
+    initCoreMapCanvas(); // AI core map (slide 14)
   }
   if (idx === 14) {
     animateSlide12(); // entities (slide 15)
@@ -3068,7 +3068,7 @@ function initRadarCanvas() {
   });
 
   function frame(ts) {
-    if (!slides[13].classList.contains('active')) { radarAnimId = null; return; }
+    if (!slides[12].classList.contains('active')) { radarAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
@@ -3613,7 +3613,7 @@ function initCoreMapCanvas() {
   }
 
   function frame(ts) {
-    if (!slides[12].classList.contains('active')) { coreMapAnimId = null; return; }
+    if (!slides[13].classList.contains('active')) { coreMapAnimId = null; return; }
     if (!geomReady) {
       geomReady = computeGeom();
       if (!geomReady) { coreMapAnimId = requestAnimationFrame(frame); return; }
