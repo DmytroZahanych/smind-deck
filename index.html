@@ -541,7 +541,7 @@ html, body {
 /* ════════════════════════════════════
    SLIDE 10 (new) — Smart Goals rings
    ════════════════════════════════════ */
-#slide10 canvas {
+#slide11 canvas {
   position: absolute;
   right: 0;
   top: 0;
@@ -1388,8 +1388,18 @@ html, body {
   <div id="networkHud"><div id="networkYear">1993</div><div id="networkCount">0 nodes</div></div>
 </div>
 
-<!-- ═══ SLIDE 9 — Dimensions (moved, reframed) ═══ -->
+<!-- ═══ SLIDE 9 — People (moved from 13) ═══ -->
 <div class="slide" id="slide9">
+  <div class="left">
+    <h1>It knows the <em>people</em> in my life</h1>
+  </div>
+  <div class="right">
+    <div class="rings-container" id="ringsContainer"></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 10 — Dimensions (moved, reframed) ═══ -->
+<div class="slide" id="slide10">
   <div class="left">
     <h1>It organizes all of this into <em>75</em> concrete dimensions of my life</h1>
   </div>
@@ -1401,8 +1411,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 10 — Smart Goals rings (NEW) ═══ -->
-<div class="slide" id="slide10">
+<!-- ═══ SLIDE 11 — Smart Goals rings ═══ -->
+<div class="slide" id="slide11">
   <div class="left">
     <h1>Then it refines them into specific outcomes — framed as <em>smart goals</em></h1>
   </div>
@@ -1411,8 +1421,8 @@ html, body {
   <div class="goals-center-count"><div class="num" id="goalsNum">0</div><div class="lbl">smart goals</div></div>
 </div>
 
-<!-- ═══ SLIDE 11 ═══ -->
-<div class="slide" id="slide11">
+<!-- ═══ SLIDE 12 ═══ -->
+<div class="slide" id="slide12">
   <div class="left">
     <h1>It tracks what I do <em>every hour</em></h1>
   </div>
@@ -1421,23 +1431,13 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 12 ═══ -->
-<div class="slide" id="slide12">
+<!-- ═══ SLIDE 13 ═══ -->
+<div class="slide" id="slide13">
   <div class="left">
     <h1>It runs <em>25</em> automated processes in my life</h1>
   </div>
   <div class="right">
     <div class="cron-list" id="cronList"></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 13 ═══ -->
-<div class="slide" id="slide13">
-  <div class="left">
-    <h1>It knows the <em>people</em> in my life</h1>
-  </div>
-  <div class="right">
-    <div class="rings-container" id="ringsContainer"></div>
   </div>
 </div>
 
@@ -1541,7 +1541,7 @@ function goTo(idx) {
   if (current === 2) stopOrbital();
   if (current === 4) stopTimeseries();
   if (current === 7) stopNetwork();
-  if (current === 9) stopGoals();
+  if (current === 10) stopGoals();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -2138,19 +2138,19 @@ function onSlideEnter(idx) {
     initNetworkCanvas();
   }
   if (idx === 8) {
-    animateSlide11(); // dimensions (slide 9)
+    animateSlide10(); // people (slide 9)
   }
   if (idx === 9) {
-    initGoalsCanvas(); // smart goals (slide 10)
+    animateSlide11(); // dimensions (slide 10)
   }
   if (idx === 10) {
-    animateTimeline(); // time tracking (slide 11)
+    initGoalsCanvas(); // smart goals (slide 11)
   }
   if (idx === 11) {
-    animateSlide9(); // cron jobs (slide 12)
+    animateTimeline(); // time tracking (slide 12)
   }
   if (idx === 12) {
-    animateSlide10(); // people (slide 13)
+    animateSlide9(); // cron jobs (slide 13)
   }
   if (idx === 13) {
     animateSlide12(); // entities (slide 14)
@@ -2641,7 +2641,7 @@ function initGoalsCanvas() {
   }
 
   function frame(ts) {
-    if (!slides[9].classList.contains('active')) { goalsAnimId = null; return; }
+    if (!slides[10].classList.contains('active')) { goalsAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
