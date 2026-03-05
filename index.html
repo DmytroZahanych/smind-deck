@@ -3238,11 +3238,11 @@ const rpaJobs = [
   { name: "Withings health sync", ring: 'daily', pos: 22, color: "#4acaaa" },
   { name: "Database snapshot", ring: 'daily', pos: 22.5, color: "#d4845a" },
   { name: "Database snapshot (morning)", ring: 'daily', pos: 6.5, color: "#d4845a" },
-  { name: "Hourly activity tracking", ring: 'daily', pos: 7, color: "#8a7ac9" },
-  { name: "Hourly activity tracking", ring: 'daily', pos: 10, color: "#8a7ac9" },
-  { name: "Hourly activity tracking", ring: 'daily', pos: 13, color: "#8a7ac9" },
-  { name: "Hourly activity tracking", ring: 'daily', pos: 16, color: "#8a7ac9" },
-  { name: "Hourly activity tracking", ring: 'daily', pos: 19, color: "#8a7ac9" },
+  { name: "Activity tracking 07:00", ring: 'daily', pos: 7, color: "#8a7ac9" },
+  { name: "Activity tracking 10:00", ring: 'daily', pos: 10, color: "#8a7ac9" },
+  { name: "Activity tracking 13:00", ring: 'daily', pos: 13, color: "#8a7ac9" },
+  { name: "Activity tracking 16:00", ring: 'daily', pos: 16, color: "#8a7ac9" },
+  { name: "Activity tracking 19:00", ring: 'daily', pos: 19, color: "#8a7ac9" },
   // Monthly ring (day 1-31)
   { name: "Send invoices to accountant", ring: 'monthly', pos: 3, color: "#4a8aca" },
   { name: "Nobledrive invoice", ring: 'monthly', pos: 3, color: "#4a8aca" },
@@ -3324,10 +3324,10 @@ function initRpaCanvas() {
   // Animation
   let animStart = 0;
   const RING_STAGGER = 600; // ms between rings appearing
-  const JOB_STAGGER = 120;  // ms between jobs landing
-  const ECHO_INTERVAL = 1000;
-  let jobIdx = 0, lastJobT = 0, echoIdx = 0, lastEchoT = 0;
+  const JOB_STAGGER = 220;  // ms between jobs landing (enough for each echo to read)
+  let jobIdx = 0, lastJobT = 0;
   let countedUp = false;
+  let lastEchoJob = -1; // index of last echoed job
 
   // Sort jobs: daily first, then monthly, then yearly
   const ringOrder = ['daily', 'monthly', 'yearly'];
@@ -3459,18 +3459,19 @@ function initRpaCanvas() {
 
     ctx.globalAlpha = 1;
 
-    // Echo text — cycle through unique job names
-    if (t > 500 && t - lastEchoT > ECHO_INTERVAL) {
-      // Find next newly spawned job to echo
-      const justSpawned = sortedJobs.filter(j => j.alive && ts - j.bornT < ECHO_INTERVAL * 1.5);
-      if (justSpawned.length > 0) {
-        const eg = justSpawned[justSpawned.length - 1]; // most recent
-        echoEl.textContent = eg.name;
-        echoEl.style.color = eg.color;
+    // Echo text — one popup per job, synced to spawn
+    const aliveJobs = sortedJobs.filter(j => j.alive);
+    if (aliveJobs.length > lastEchoJob + 1) {
+      // Show the next job that just spawned
+      const nextIdx = lastEchoJob + 1;
+      const job = sortedJobs.filter(j => j.alive)[nextIdx];
+      if (job) {
+        echoEl.textContent = job.name;
+        echoEl.style.color = job.color;
         echoEl.classList.remove('show');
         void echoEl.offsetWidth;
         echoEl.classList.add('show');
-        lastEchoT = t;
+        lastEchoJob = nextIdx;
       }
     }
 
