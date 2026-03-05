@@ -3197,14 +3197,17 @@ const dimColors = ["#ca8a4a", "#d4a45a", "#4a8aca", "#ca6a8a", "#ca8a4a", "#8a6a
   });
 
   let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
-  // lines between nearby nodes
+  // lines between nearby same-color nodes + a few cross-color short connections
   const lines = [];
   for (let i = 0; i < positions.length; i++) {
     for (let j = i + 1; j < positions.length; j++) {
       const dx = positions[i].x - positions[j].x;
       const dy = positions[i].y - positions[j].y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 100) {
+      const sameColor = dimColors[i] === dimColors[j];
+      if (sameColor && dist < 120) {
+        lines.push({ i, j, dist });
+      } else if (!sameColor && dist < 60) {
         lines.push({ i, j, dist });
       }
     }
@@ -3242,17 +3245,17 @@ function animateSlide11() {
     // shuffle
     for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
     order.forEach((ni, seq) => {
-      setTimeout(() => nodes[ni].classList.add('visible'), 100 + seq * 120);
+      setTimeout(() => nodes[ni].classList.add('visible'), 80 + seq * 30);
     });
-    // Lines appear after nodes
-    const linesDelay = 100 + nodes.length * 120;
+    // Lines appear overlapping with later nodes
+    const linesDelay = 80 + Math.min(nodes.length * 30, 800);
     lines.forEach((l, i) => {
-      setTimeout(() => l.classList.add('visible'), linesDelay + i * 40);
+      setTimeout(() => l.classList.add('visible'), linesDelay + i * 8);
     });
     // Counter
-    setTimeout(() => animateCounter(document.getElementById('dimNum'), 0, 75, 1800), 500);
+    setTimeout(() => animateCounter(document.getElementById('dimNum'), 0, 75, 1800), 300);
     // Note
-    setTimeout(() => note.classList.add('visible'), linesDelay + lines.length * 40 + 300);
+    setTimeout(() => note.classList.add('visible'), linesDelay + lines.length * 8 + 200);
   });
 }
 
