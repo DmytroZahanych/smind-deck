@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide A6 – Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0f1a;font-family:'Rajdhani',sans-serif;color:#c0c8d0}
+.slide{display:flex;width:100%;height:100%;position:relative}
+.left{width:38%;display:flex;align-items:center;justify-content:center;padding:5% 4% 5% 5%}
+.left h1{font-size:clamp(28px,3.2vw,56px);font-weight:700;line-height:1.25;color:#c0c8d0}
+.left h1 em{font-style:normal;color:#d4845a;text-shadow:0 0 15px rgba(212,132,90,0.4)}
+.right{width:62%;padding:1.8% 2% 1.8% 1%;display:flex;flex-direction:column;gap:0;position:relative}
+.counter{position:absolute;top:8px;right:24px;font-family:'Share Tech Mono',monospace;font-size:11px;color:#6a8090;z-index:10;letter-spacing:1px}
+.row{display:flex;gap:8px;flex:1;min-height:0}
+.tile{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;position:relative}
+.tile.show{opacity:1;transform:translateY(0)}
+.tile-bar{height:2px;width:100%;flex-shrink:0}
+.tile-title{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#6a8090;padding:8px 10px 2px;flex-shrink:0}
+.tile-body{flex:1;position:relative;min-height:0;padding:2px 10px 8px}
+canvas{width:100%!important;height:100%!important;display:block}
+.big-num{font-family:'Share Tech Mono',monospace;font-size:clamp(22px,2.4vw,38px);font-weight:400;line-height:1}
+.big-num-sub{font-family:'Share Tech Mono',monospace;font-size:10px;color:#6a8090;margin-top:2px}
+.sparkline-wrap{height:28px;margin-top:4px}
+.bw-row{display:flex;flex-direction:column;gap:3px;height:100%}
+.bw-item{display:flex;align-items:center;gap:6px;flex:1;min-height:0}
+.bw-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:#6a8090;width:62px;flex-shrink:0;text-transform:uppercase;letter-spacing:.5px}
+.bw-spark{flex:1;height:100%}
+.donut-wrap{display:flex;align-items:center;gap:8px;height:100%}
+.donut-legend{font-family:'Share Tech Mono',monospace;font-size:8px;color:#6a8090;line-height:1.6}
+.donut-legend span{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.pulse{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+/* row heights */
+.row:nth-child(1){flex:1.15}.row:nth-child(2){flex:0.9}.row:nth-child(3){flex:1.05}
+/* tile flex sizes */
+.w-wide{flex:2.2}.w-med{flex:1.4}.w-sm{flex:1}
+.rows-wrap{display:flex;flex-direction:column;gap:8px;flex:1;padding-top:24px}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="left">
+    <h1>It defined <em>176 metrics</em> and collected <em>3,279 data points</em></h1>
+  </div>
+  <div class="right">
+    <div class="counter" id="counter"></div>
+    <div class="rows-wrap">
+    <!-- Row 1 -->
+    <div class="row">
+      <div class="tile w-wide" id="t1"><div class="tile-bar" style="background:#4acaaa"></div><div class="tile-title">Weight & Body Composition</div><div class="tile-body"><canvas id="c1"></canvas></div></div>
+      <div class="tile w-med" id="t2"><div class="tile-bar" style="background:#da7060"></div><div class="tile-title">Blood Pressure</div><div class="tile-body"><canvas id="c2"></canvas></div></div>
+      <div class="tile w-sm" id="t3"><div class="tile-bar" style="background:#da7060"></div><div class="tile-title">Resting HR</div><div class="tile-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="big-num" id="hrNum" style="color:#da7060">--</div><div class="big-num-sub">bpm</div><div class="sparkline-wrap"><canvas id="c3"></canvas></div></div></div>
+    </div>
+    <!-- Row 2 -->
+    <div class="row">
+      <div class="tile w-med" id="t4"><div class="tile-bar" style="background:#5ac9a0"></div><div class="tile-title">Daily Steps</div><div class="tile-body"><canvas id="c4"></canvas></div></div>
+      <div class="tile w-med" id="t5"><div class="tile-bar" style="background:#5abade"></div><div class="tile-title">Sleep Duration</div><div class="tile-body"><canvas id="c5"></canvas></div></div>
+      <div class="tile w-sm" id="t6"><div class="tile-bar" style="background:#4acaaa"></div><div class="tile-title">SpO2</div><div class="tile-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="big-num" id="spo2Num" style="color:#4acaaa">--</div><div class="big-num-sub">%</div></div></div>
+      <div class="tile w-sm" id="t7"><div class="tile-bar" style="background:#e8955f"></div><div class="tile-title">Body Temp</div><div class="tile-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center"><div class="big-num" id="tempNum" style="color:#e8955f">--</div><div class="big-num-sub">°C</div><div class="sparkline-wrap"><canvas id="c7"></canvas></div></div></div>
+    </div>
+    <!-- Row 3 -->
+    <div class="row">
+      <div class="tile w-wide" id="t8"><div class="tile-bar" style="background:#d4a030"></div><div class="tile-title">Monthly Spending</div><div class="tile-body"><canvas id="c8"></canvas></div></div>
+      <div class="tile w-med" id="t9"><div class="tile-bar" style="background:#8a7ac9"></div><div class="tile-title">Blood Work</div><div class="tile-body"><div class="bw-row" id="bwRow"></div></div></div>
+      <div class="tile w-sm" id="t10"><div class="tile-bar" style="background:#5aafcf"></div><div class="tile-title">Time Tracking Today</div><div class="tile-body"><div class="donut-wrap"><canvas id="c10" width="80" height="80" style="width:60px!important;height:60px!important;flex-shrink:0"></canvas><div class="donut-legend" id="donutLeg"></div></div></div></div>
+    </div>
+    </div>
+  </div>
+</div>
+<script>
+const DPR=window.devicePixelRatio||1;
+function rc(canvas){
+  const r=canvas.parentElement.getBoundingClientRect();
+  canvas.width=r.width*DPR;canvas.height=r.height*DPR;
+  canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';
+  const ctx=canvas.getContext('2d');ctx.scale(DPR,DPR);
+  return{ctx,w:r.width,h:r.height};
+}
+function rand(a,b){return a+Math.random()*(b-a)}
+function genArr(n,lo,hi){return Array.from({length:n},()=>rand(lo,hi))}
+function lerp(a,b,t){return a+(b-a)*t}
+function smoothData(n,lo,hi,smoothness=.7){
+  const d=[rand(lo,hi)];for(let i=1;i<n;i++)d.push(d[i-1]*smoothness+rand(lo,hi)*(1-smoothness));return d;
+}
+
+// Animation engine
+let startT=null;const DURATION=1800;
+const tiles=document.querySelectorAll('.tile');
+const drawFns=[];
+
+function showTiles(){
+  tiles.forEach((t,i)=>setTimeout(()=>t.classList.add('show'),i*150));
+}
+
+function animateCharts(ts){
+  if(!startT)startT=ts;
+  const p=Math.min((ts-startT)/DURATION,1);
+  const ep=1-(1-p)**3;// ease out cubic
+  drawFns.forEach(fn=>fn(ep));
+  if(p<1)requestAnimationFrame(animateCharts);
+  else startPulse();
+}
+
+function startPulse(){
+  document.getElementById('t3').querySelector('.big-num').classList.add('pulse');
+  document.getElementById('t6').querySelector('.big-num').classList.add('pulse');
+}
+
+// Counter
+function animCounter(){
+  const el=document.getElementById('counter');
+  let f=0;const dur=2000;const st=performance.now();
+  function tick(){
+    const p=Math.min((performance.now()-st)/dur,1);
+    const ep=1-(1-p)**3;
+    const m=Math.round(176*ep);const d=Math.round(3279*ep);
+    el.textContent=m+' metrics · '+d.toLocaleString()+' data points';
+    if(p<1)requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+// === CHARTS ===
+
+// 1: Weight line+area
+function initWeight(){
+  const{ctx,w,h}=rc(document.getElementById('c1'));
+  const data=smoothData(30,81.5,83.5,.85);
+  const pad={t:4,b:14,l:28,r:4};
+  const cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+  const mn=Math.min(...data)-.5,mx=Math.max(...data)+.5;
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,w,h);
+    // y axis
+    ctx.font='8px Share Tech Mono';ctx.fillStyle='#3a4a55';
+    for(let v=Math.ceil(mn);v<=mx;v++){
+      const y=pad.t+ch-(v-mn)/(mx-mn)*ch;
+      ctx.fillText(v+'',2,y+3);
+      ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();
+    }
+    const n=Math.max(1,Math.floor(data.length*pr));
+    // area
+    ctx.beginPath();ctx.moveTo(pad.l,pad.t+ch);
+    for(let i=0;i<n;i++){const x=pad.l+i/(data.length-1)*cw;const y=pad.t+ch-(data[i]-mn)/(mx-mn)*ch;ctx.lineTo(x,y);}
+    ctx.lineTo(pad.l+(n-1)/(data.length-1)*cw,pad.t+ch);ctx.closePath();
+    ctx.fillStyle='rgba(74,202,170,0.08)';ctx.fill();
+    // line
+    ctx.beginPath();
+    for(let i=0;i<n;i++){const x=pad.l+i/(data.length-1)*cw;const y=pad.t+ch-(data[i]-mn)/(mx-mn)*ch;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.strokeStyle='#4acaaa';ctx.lineWidth=1.5;ctx.stroke();
+  });
+}
+
+// 2: Blood Pressure dual line
+function initBP(){
+  const{ctx,w,h}=rc(document.getElementById('c2'));
+  const sys=smoothData(30,124,136,.8),dia=smoothData(30,74,86,.8);
+  const pad={t:4,b:14,l:24,r:4};
+  const cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,w,h);
+    ctx.font='8px Share Tech Mono';ctx.fillStyle='#3a4a55';
+    [80,100,120,140].forEach(v=>{const y=pad.t+ch-(v-70)/(140-70)*ch;ctx.fillText(v+'',1,y+3);ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();});
+    const n=Math.max(1,Math.floor(30*pr));
+    [[sys,'rgba(218,112,96,0.9)'],[dia,'rgba(218,112,96,0.45)']].forEach(([d,c])=>{
+      ctx.beginPath();for(let i=0;i<n;i++){const x=pad.l+i/29*cw;const y=pad.t+ch-(d[i]-70)/70*ch;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+      ctx.strokeStyle=c;ctx.lineWidth=1.2;ctx.stroke();
+    });
+  });
+}
+
+// 3: HR sparkline
+function initHR(){
+  const{ctx,w,h}=rc(document.getElementById('c3'));
+  const data=smoothData(20,68,76,.7);
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,w,h);
+    const n=Math.max(1,Math.floor(20*pr));
+    ctx.beginPath();for(let i=0;i<n;i++){const x=i/19*w;const y=h-(data[i]-65)/15*h;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.strokeStyle='rgba(218,112,96,0.5)';ctx.lineWidth=1;ctx.stroke();
+    document.getElementById('hrNum').textContent=Math.round(lerp(0,72,pr));
+  });
+}
+
+// 4: Steps bar
+function initSteps(){
+  const{ctx,w,h}=rc(document.getElementById('c4'));
+  const data=genArr(14,2000,12000);
+  const pad={t:4,b:10,l:4,r:4};const cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+  const bw=cw/14*.7,gap=cw/14*.3;
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,w,h);
+    data.forEach((v,i)=>{
+      const bh=v/13000*ch*pr;
+      const x=pad.l+i*(bw+gap)+gap/2;
+      const y=pad.t+ch-bh;
+      ctx.fillStyle=v>8000?'#5ac9a0':'rgba(90,201,160,0.4)';
+      ctx.fillRect(x,y,bw,bh);
+    });
+  });
+}
+
+// 5: Sleep stacked area
+function initSleep(){
+  const{ctx,w,h}=rc(document.getElementById('c5'));
+  const n=30;
+  const deep=smoothData(n,1.2,2.2,.75),light=smoothData(n,2.5,3.8,.75),rem=smoothData(n,0.8,1.5,.75);
+  const pad={t:4,b:10,l:4,r:4};const cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+  const mx=9;
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,w,h);
+    const nn=Math.max(1,Math.floor(n*pr));
+    const layers=[[deep,'rgba(90,186,222,0.25)'],[light,'rgba(90,186,222,0.12)'],[rem,'rgba(90,186,222,0.06)']];
+    let cumul=new Array(nn).fill(0);
+    layers.forEach(([d,c])=>{
+      const prev=[...cumul];for(let i=0;i<nn;i++)cumul[i]+=d[i];
+      ctx.beginPath();
+      for(let i=0;i<nn;i++){const x=pad.l+i/(n-1)*cw;const y=pad.t+ch-cumul[i]/mx*ch;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+      for(let i=nn-1;i>=0;i--){const x=pad.l+i/(n-1)*cw;const y=pad.t+ch-prev[i]/mx*ch;ctx.lineTo(x,y);}
+      ctx.closePath();ctx.fillStyle=c;ctx.fill();
+    });
+    // top line
+    ctx.beginPath();for(let i=0;i<nn;i++){const x=pad.l+i/(n-1)*cw;const y=pad.t+ch-cumul[i]/mx*ch;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.strokeStyle='#5abade';ctx.lineWidth=1;ctx.stroke();
+  });
+}
+
+// 6: SpO2
+function initSpO2(){
+  drawFns.push(pr=>{document.getElementById('spo2Num').textContent=Math.round(lerp(0,97,pr));});
+}
+
+// 7: Temp sparkline
+function initTemp(){
+  const{ctx,w,h}=rc(document.getElementById('c7'));
+  const data=smoothData(20,36.1,36.7,.75);
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,w,h);
+    const n=Math.max(1,Math.floor(20*pr));
+    ctx.beginPath();for(let i=0;i<n;i++){const x=i/19*w;const y=h-(data[i]-35.8)/1.2*h;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.strokeStyle='rgba(232,149,95,0.5)';ctx.lineWidth=1;ctx.stroke();
+    document.getElementById('tempNum').textContent=lerp(0,36.4,pr).toFixed(1);
+  });
+}
+
+// 8: Monthly spending stacked bar
+function initSpending(){
+  const{ctx,w,h}=rc(document.getElementById('c8'));
+  const cats=['#d4a030','#c49028','#b08020','#a07018','#906010'];
+  const months=6;const nCats=5;
+  const vals=Array.from({length:months},()=>genArr(nCats,80,400));
+  const pad={t:4,b:14,l:28,r:4};const cw=w-pad.l-pad.r,ch=h-pad.t-pad.b;
+  const bw=cw/months*.6,gap=cw/months*.4;
+  const mx=Math.max(...vals.map(v=>v.reduce((a,b)=>a+b,0)))*1.1;
+  const mLabels=['Sep','Oct','Nov','Dec','Jan','Feb'];
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,w,h);
+    ctx.font='7px Share Tech Mono';ctx.fillStyle='#3a4a55';
+    vals.forEach((v,mi)=>{
+      const x=pad.l+mi*(bw+gap)+gap/2;
+      ctx.fillText(mLabels[mi],x+bw/2-8,h-2);
+      let cum=0;
+      v.forEach((val,ci)=>{
+        const bh=val/mx*ch*pr;
+        ctx.fillStyle=cats[ci];
+        ctx.fillRect(x,pad.t+ch-cum-bh,bw,bh);
+        cum+=bh;
+      });
+    });
+  });
+}
+
+// 9: Blood work sparklines
+function initBloodWork(){
+  const container=document.getElementById('bwRow');
+  const items=[
+    {label:'Glucose',data:smoothData(12,85,105,.7)},
+    {label:'Cholesterol',data:smoothData(12,180,210,.7)},
+    {label:'Vitamin D',data:smoothData(12,28,45,.7)},
+    {label:'Hemoglobin',data:smoothData(12,13.5,15.5,.7)},
+  ];
+  items.forEach((item,idx)=>{
+    const row=document.createElement('div');row.className='bw-item';
+    row.innerHTML=`<div class="bw-label">${item.label}</div><canvas class="bw-spark" id="bw${idx}"></canvas>`;
+    container.appendChild(row);
+  });
+  // defer to let layout settle
+  setTimeout(()=>{
+    items.forEach((item,idx)=>{
+      const{ctx,w,h}=rc(document.getElementById('bw'+idx));
+      const mn=Math.min(...item.data),mx=Math.max(...item.data);
+      drawFns.push(pr=>{
+        ctx.clearRect(0,0,w,h);
+        const n=Math.max(1,Math.floor(12*pr));
+        ctx.beginPath();for(let i=0;i<n;i++){const x=i/11*w;const y=h*.9-(item.data[i]-mn)/(mx-mn||1)*h*.8;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+        ctx.strokeStyle='rgba(138,122,201,0.7)';ctx.lineWidth=1;ctx.stroke();
+      });
+    });
+  },50);
+}
+
+// 10: Donut
+function initDonut(){
+  const canvas=document.getElementById('c10');
+  const ctx=canvas.getContext('2d');
+  const segs=[{l:'Work',v:40,c:'#5aafcf'},{l:'Rest',v:20,c:'#3a8faf'},{l:'Exercise',v:15,c:'#4acaaa'},{l:'Social',v:15,c:'#d4845a'},{l:'Other',v:10,c:'#6a8090'}];
+  const leg=document.getElementById('donutLeg');
+  leg.innerHTML=segs.map(s=>`<div><span style="background:${s.c}"></span>${s.l} ${s.v}%</div>`).join('');
+  const cx=40,cy=40,R=30,r=18;
+  drawFns.push(pr=>{
+    ctx.clearRect(0,0,80,80);
+    let angle=-Math.PI/2;
+    segs.forEach(s=>{
+      const sweep=s.v/100*Math.PI*2*pr;
+      ctx.beginPath();ctx.arc(cx,cy,R,angle,angle+sweep);ctx.arc(cx,cy,r,angle+sweep,angle,true);ctx.closePath();
+      ctx.fillStyle=s.c;ctx.fill();
+      angle+=sweep;
+    });
+  });
+}
+
+// Boot
+window.addEventListener('load',()=>{
+  initWeight();initBP();initHR();initSteps();initSleep();initSpO2();initTemp();initSpending();initBloodWork();initDonut();
+  setTimeout(()=>{
+    showTiles();
+    setTimeout(()=>{animCounter();requestAnimationFrame(animateCharts);},tiles.length*150);
+  },300);
+});
+</script>
+</body>
+</html>

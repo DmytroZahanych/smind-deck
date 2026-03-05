@@ -356,7 +356,99 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 4 — Spending bubbles
+   SLIDE 5 — Timeseries (A3) styles
+   ════════════════════════════════════ */
+#slide5 #metricLabel {
+  font-family: var(--font-mono);
+  font-size: clamp(16px, 1.6vw, 28px);
+  height: 2.2em;
+  display: flex;
+  align-items: baseline;
+  gap: .6em;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+#slide5 #metricName,
+#slide5 #metricUnit {
+  transition: opacity .4s;
+}
+
+#slide5 #metricName {
+  color: var(--text);
+}
+
+#slide5 #metricUnit {
+  color: var(--text-dim);
+  font-size: .75em;
+}
+
+#slide5 #canvasWrap {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+#slide5 #bottomText {
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-size: clamp(11px, 1vw, 16px);
+  padding-top: 8px;
+}
+
+#slide5 #counter {
+  position: absolute;
+  top: 3%;
+  right: 4%;
+  font-family: var(--font-mono);
+  color: var(--cyan);
+  font-size: clamp(13px, 1.2vw, 20px);
+  text-shadow: var(--cyan-glow);
+}
+
+#slide5 .right {
+  display: flex;
+  flex-direction: column;
+  padding: 3% 4% 3% 2%;
+}
+
+/* ════════════════════════════════════
+   SLIDE 6 — Network graph styles
+   ════════════════════════════════════ */
+#slide6 #networkHud {
+  position: absolute;
+  right: 4%;
+  bottom: 8%;
+  text-align: right;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#slide6 #networkYear {
+  font-family: var(--font-mono);
+  font-size: clamp(48px, 6vw, 96px);
+  color: var(--cyan);
+  text-shadow: var(--cyan-glow);
+  line-height: 1;
+}
+
+#slide6 #networkCount {
+  font-family: var(--font-mono);
+  font-size: clamp(16px, 1.6vw, 28px);
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+#slide6 canvas {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 62%;
+  height: 100%;
+}
+
+/* ════════════════════════════════════
+   SLIDE 7 — Spending bubbles
    ════════════════════════════════════ */
 .bubble-chart {
   width: 92%;
@@ -416,7 +508,7 @@ html, body {
 /* Slide 2 infra — now uses canvas orbital model, no CSS needed */
 
 /* ════════════════════════════════════
-   SLIDE 5 — Health devices
+   SLIDE 8 — Health devices
    ════════════════════════════════════ */
 .devices-grid {
   width: 90%;
@@ -499,7 +591,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 6 — Time tracking timeline
+   SLIDE 9 — Time tracking timeline
    ════════════════════════════════════ */
 .timeline-container {
   width: 90%;
@@ -548,7 +640,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 7 — Cron jobs list
+   SLIDE 10 — Cron jobs list
    ════════════════════════════════════ */
 .cron-list {
   width: 92%;
@@ -618,7 +710,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 8 — People rings
+   SLIDE 11 — People rings
    ════════════════════════════════════ */
 .rings-container {
   width: 100%;
@@ -656,7 +748,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 9 — Dimensions constellation
+   SLIDE 12 — Dimensions constellation
    ════════════════════════════════════ */
 .constellation-container {
   width: 100%;
@@ -718,7 +810,7 @@ html, body {
 .dim-note.visible { opacity: 0.7; }
 
 /* ════════════════════════════════════
-   SLIDE 10 — Entity roster + pipeline
+   SLIDE 13 — Entity roster + pipeline
    ════════════════════════════════════ */
 .entity-roster {
   width: 92%;
@@ -807,7 +899,7 @@ html, body {
 .jobs-counter .num { color: var(--cyan); font-weight: 600; font-size: 1.4em; text-shadow: var(--cyan-glow); }
 
 /* ════════════════════════════════════
-   SLIDE 11 — GitHub issues
+   SLIDE 14 — GitHub issues
    ════════════════════════════════════ */
 .github-panel {
   width: 92%;
@@ -891,7 +983,7 @@ html, body {
 .gh-note.visible { opacity: 0.7; }
 
 /* ════════════════════════════════════
-   SLIDE 12 — AI dialog
+   SLIDE 15 — AI dialog
    ════════════════════════════════════ */
 .dialog-panel {
   width: 90%;
@@ -932,7 +1024,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 13 — Notification cascade
+   SLIDE 16 — Notification cascade
    ════════════════════════════════════ */
 .notif-list {
   width: 90%;
@@ -981,7 +1073,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 14 — Big Tech vs SMind comparison
+   SLIDE 17 — Big Tech vs SMind comparison
    ════════════════════════════════════ */
 .comparison-container {
   width: 92%;
@@ -1060,7 +1152,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 15 — Role cards (coworker)
+   SLIDE 18 — Role cards (coworker)
    ════════════════════════════════════ */
 .role-grid {
   width: 92%;
@@ -1096,26 +1188,26 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 16 — Closing / future
+   SLIDE 19 — Closing / future
    ════════════════════════════════════ */
-#slide16 .left {
+#slide19 .left {
   width: 100%;
   align-items: center;
   text-align: center;
   padding: 6vh 10vw;
 }
-#slide16 h1 {
+#slide19 h1 {
   font-size: clamp(32px, 3.8vw, 60px);
   font-weight: 300;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 1s ease, transform 1s ease;
 }
-#slide16 h1.visible {
+#slide19 h1.visible {
   opacity: 1;
   transform: translateY(0);
 }
-#slide16 h1 .glow-word {
+#slide19 h1 .glow-word {
   display: inline;
   animation: breathe 4s ease-in-out infinite;
 }
@@ -1226,8 +1318,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 3 ═══ -->
-<div class="slide" id="slide3">
+<!-- ═══ SLIDE 4 ═══ -->
+<div class="slide" id="slide4">
   <div class="left">
     <h1>So far, it has accumulated <em>158MB</em> of raw data about me</h1>
   </div>
@@ -1256,18 +1348,30 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 4 ═══ -->
-<div class="slide" id="slide4">
+<!-- ═══ SLIDE 5 ═══ -->
+<div class="slide" id="slide5">
   <div class="left">
-    <h1>From that, it extracted <em>93 structured facts</em> about my life</h1>
+    <h1>It defined <em>176 metrics</em> and collected <em>3,279 data points</em></h1>
   </div>
   <div class="right">
-    <div class="knowledge-list" id="kList"></div>
+    <div id="metricLabel"><span id="metricName"></span><span id="metricUnit"></span></div>
+    <div id="canvasWrap"><canvas id="timeseriesCanvas"></canvas></div>
+    <div id="bottomText">cycling through 176 tracked metrics...</div>
+    <div id="counter">0 data points</div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 5 ═══ -->
-<div class="slide" id="slide5">
+<!-- ═══ SLIDE 6 ═══ -->
+<div class="slide" id="slide6">
+  <div class="left">
+    <h1>It built a <em>living model</em> of who I am — <em>123 nodes</em>, tracked since birth</h1>
+  </div>
+  <canvas id="networkCanvas"></canvas>
+  <div id="networkHud"><div id="networkYear">1993</div><div id="networkCount">0 nodes</div></div>
+</div>
+
+<!-- ═══ SLIDE 7 ═══ -->
+<div class="slide" id="slide7">
   <div class="left">
     <h1>It parsed <em>1,425</em> of my bank transactions</h1>
   </div>
@@ -1277,8 +1381,8 @@ html, body {
   <div class="slide-note">12 months of Millennium bank data (Mar 2025 – Feb 2026)</div>
 </div>
 
-<!-- ═══ SLIDE 6 ═══ -->
-<div class="slide" id="slide6">
+<!-- ═══ SLIDE 8 ═══ -->
+<div class="slide" id="slide8">
   <div class="left">
     <h1>It tracks what I do <em>every hour</em></h1>
   </div>
@@ -1287,8 +1391,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 7 ═══ -->
-<div class="slide" id="slide7">
+<!-- ═══ SLIDE 9 ═══ -->
+<div class="slide" id="slide9">
   <div class="left">
     <h1>It runs <em>25</em> automated processes in my life</h1>
   </div>
@@ -1297,8 +1401,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 8 ═══ -->
-<div class="slide" id="slide8">
+<!-- ═══ SLIDE 10 ═══ -->
+<div class="slide" id="slide10">
   <div class="left">
     <h1>It knows the <em>people</em> in my life</h1>
   </div>
@@ -1307,8 +1411,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 9 ═══ -->
-<div class="slide" id="slide9">
+<!-- ═══ SLIDE 11 ═══ -->
+<div class="slide" id="slide11">
   <div class="left">
     <h1>It discovered <em>75</em> dimensions of my life — <em>on its own</em></h1>
   </div>
@@ -1320,8 +1424,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 10 ═══ -->
-<div class="slide" id="slide10">
+<!-- ═══ SLIDE 12 ═══ -->
+<div class="slide" id="slide12">
   <div class="left">
     <h1><em>9 AI entities</em> work on optimizing it while I sleep</h1>
   </div>
@@ -1334,8 +1438,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 11 ═══ -->
-<div class="slide" id="slide11">
+<!-- ═══ SLIDE 13 ═══ -->
+<div class="slide" id="slide13">
   <div class="left">
     <h1>They use <em>GitHub</em> like human engineers</h1>
   </div>
@@ -1352,8 +1456,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 12 ═══ -->
-<div class="slide" id="slide12">
+<!-- ═══ SLIDE 14 ═══ -->
+<div class="slide" id="slide14">
   <div class="left">
     <h1>They <em>talk to each other</em> to problem-solve</h1>
   </div>
@@ -1362,8 +1466,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 13 ═══ -->
-<div class="slide" id="slide13">
+<!-- ═══ SLIDE 15 ═══ -->
+<div class="slide" id="slide15">
   <div class="left">
     <h1>And every day, it tells me <em>what to do next</em></h1>
   </div>
@@ -1372,8 +1476,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 14 ═══ -->
-<div class="slide" id="slide14">
+<!-- ═══ SLIDE 16 ═══ -->
+<div class="slide" id="slide16">
   <div class="left">
     <h1>It knows more about me than <span style="color:var(--text-dim)">Google</span>, <span style="color:var(--text-dim)">Apple</span>, and <span style="color:var(--text-dim)">Meta</span> — <em>combined</em></h1>
   </div>
@@ -1392,8 +1496,8 @@ html, body {
   <div class="slide-note">Big tech sees fragments. SMind sees the whole person.</div>
 </div>
 
-<!-- ═══ SLIDE 15 ═══ -->
-<div class="slide" id="slide15">
+<!-- ═══ SLIDE 17 ═══ -->
+<div class="slide" id="slide17">
   <div class="left">
     <h1>This deck was built by <em>that same assistant</em></h1>
   </div>
@@ -1405,8 +1509,8 @@ html, body {
   <div class="slide-note">Not a tool I query. A collaborator that knows my context.</div>
 </div>
 
-<!-- ═══ SLIDE 16 ═══ -->
-<div class="slide" id="slide16">
+<!-- ═══ SLIDE 18 ═══ -->
+<div class="slide" id="slide18">
   <div class="left">
     <h1>This is just the <span class="glow-word">beginning</span></h1>
     <div class="loop-diagram" id="loopDiagram"></div>
@@ -1417,7 +1521,7 @@ html, body {
 
 <script>
 // ─── Config ───
-const TOTAL_SLIDES = 17;
+const TOTAL_SLIDES = 18;
 let current = 0;
 let transitioning = false;
 
@@ -1436,8 +1540,10 @@ function goTo(idx) {
   const prevSlide = slides[current];
   // Cleanup: remove .visible from all animated children of the exiting slide
   prevSlide.querySelectorAll('.visible').forEach(el => el.classList.remove('visible'));
-  // Stop orbital canvas when leaving slide 3 (index 2)
+  // Stop canvas animations when leaving slides that have them
   if (current === 2) stopOrbital();
+  if (current === 4) stopTimeseries();
+  if (current === 5) stopNetwork();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -1520,18 +1626,9 @@ const knowledgeItems = [
   ['Career', 'Software engineer since 2013 — Android, then full-stack'],
 ];
 
-const kList = document.getElementById('kList');
-knowledgeItems.forEach(([cat, val]) => {
-  const el = document.createElement('div');
-  el.className = 'k-item';
-  const colors = {Health:'#4acaaa',Finance:'#d4a030',Work:'#5aafcf',Habits:'#c95a8a',Relations:'#d47ab0',Pets:'#5ac9a0',Location:'#7aa2d4',Psych:'#8a7ac9',Mission:'#d4845a',Sleep:'#5abade',Diet:'#b89a4a',Career:'#e8955f'};
-  const c = colors[cat] || '#d4845a';
-  el.style.borderLeftColor = c;
-  el.innerHTML = `<span class="k-dot" style="background:${c};box-shadow:0 0 6px ${c}"></span><span class="k-cat" data-cat="${cat}">${cat}</span><span class="k-val">${val}</span>`;
-  kList.appendChild(el);
-});
+// Knowledge list removed (replaced by network graph slide)
 
-// ─── Data bars (slide 3) ───
+// ─── Data bars (slide 4) ───
 const dataBreakdown = [
   ['Session transcripts', 103, 103, '#5aafcf'],
   ['Media', 37, 103, '#4acaaa'],
@@ -1555,6 +1652,427 @@ dataBreakdown.forEach(([label, value, maxRef, color]) => {
   barGroup.appendChild(row);
 });
 
+// ─── Timeseries animation (slide 5) ───
+let timeseriesAnimId = null;
+let timeseriesStartTime = null;
+const metrics = [
+  {name:"weight_kg",color:"#4acaaa",unit:"kg",gen:()=>{const b=82.5;return Array.from({length:60},()=>b+(Math.random()-.5)*1.2)}},
+  {name:"bp_systolic_mmhg",color:"#da7060",unit:"mmHg",gen:()=>Array.from({length:60},()=>120+Math.random()*15+Math.sin(Math.random()*6)*5)},
+  {name:"steps",color:"#5ac9a0",unit:"steps",gen:()=>Array.from({length:60},()=>2000+Math.random()*10000)},
+  {name:"spend_uber_eats",color:"#d4a030",unit:"€",gen:()=>Array.from({length:60},()=>Math.random()<.35?20+Math.random()*60:0)},
+  {name:"deep_sleep_s",color:"#5abade",unit:"seconds",gen:()=>Array.from({length:60},()=>3000+Math.random()*4200)},
+  {name:"glucose_mgdl",color:"#8a7ac9",unit:"mg/dL",gen:()=>Array.from({length:60},()=>85+Math.random()*15)},
+  {name:"heart_pulse_bpm",color:"#da7060",unit:"bpm",gen:()=>Array.from({length:60},()=>60+Math.random()*25)},
+  {name:"fat_ratio_pct",color:"#4acaaa",unit:"%",gen:()=>{const b=23.5;return Array.from({length:60},()=>b+(Math.random()-.5)*3)}}
+];
+const N = 60;
+const datasets = metrics.map(m => m.gen());
+
+function initTimeseriesCanvas() {
+  const canvas = document.getElementById('timeseriesCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const nameEl = document.getElementById('metricName');
+  const unitEl = document.getElementById('metricUnit');
+  const counterEl = document.getElementById('counter');
+
+  let curIdx = 0, nextIdx = 1, morphT = 0, phase = 'show', phaseTime = 0;
+  const SHOW_DUR = 2500, MORPH_DUR = 800;
+  let current = datasets[0].slice(), target = datasets[1].slice();
+
+  // count-up
+  let counted = false, countVal = 0;
+  function tickCounter(dt) {
+    if (counted) return;
+    countVal = Math.min(countVal + dt * 4, 3279);
+    if (countVal >= 3279) { countVal = 3279; counted = true; }
+    counterEl.textContent = Math.round(countVal).toLocaleString() + ' data points';
+  }
+
+  function resize() {
+    const r = canvas.parentElement.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = r.width * dpr;
+    canvas.height = r.height * dpr;
+    canvas.style.width = r.width + 'px';
+    canvas.style.height = r.height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+
+  function getMinMax(arr) {
+    let mn = Infinity, mx = -Infinity;
+    for (const v of arr) { if (v < mn) mn = v; if (v > mx) mx = v; }
+    const pad = (mx - mn) * .15 || 1;
+    return [mn - pad, mx + pad];
+  }
+
+  function drawLine(pts, color, mn, mx, alpha) {
+    const w = canvas.width, h = canvas.height, dpr = window.devicePixelRatio || 1;
+    const px = 40 * dpr, py = 30 * dpr;
+    const cw = w - px * 2, ch = h - py * 2;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.beginPath();
+    for (let i = 0; i < pts.length; i++) {
+      const x = px + i / (pts.length - 1) * cw;
+      const y = py + ch - (pts[i] - mn) / (mx - mn) * ch;
+      if (i === 0) ctx.moveTo(x, y);
+      else {
+        const prev = px + (i - 1) / (pts.length - 1) * cw;
+        const prevY = py + ch - (pts[i - 1] - mn) / (mx - mn) * ch;
+        const cpx1 = prev + (x - prev) * .4, cpx2 = x - (x - prev) * .4;
+        ctx.bezierCurveTo(cpx1, prevY, cpx2, y, x, y);
+      }
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5 * dpr;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+    // area fill
+    const lastX = px + (pts.length - 1) / (pts.length - 1) * cw;
+    const baseY = py + ch;
+    ctx.lineTo(lastX, baseY);
+    ctx.lineTo(px, baseY);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, py, 0, baseY);
+    grad.addColorStop(0, color + '44');
+    grad.addColorStop(1, color + '00');
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawAxes(mn, mx, color) {
+    const w = canvas.width, h = canvas.height, dpr = window.devicePixelRatio || 1;
+    const px = 40 * dpr, py = 30 * dpr, cw = w - px * 2, ch = h - py * 2;
+    ctx.save();
+    ctx.strokeStyle = '#1a2535';
+    ctx.lineWidth = dpr;
+    // horizontal grid
+    for (let i = 0; i <= 4; i++) {
+      const y = py + ch * i / 4;
+      ctx.beginPath(); ctx.moveTo(px, y); ctx.lineTo(px + cw, y); ctx.stroke();
+    }
+    // y labels
+    ctx.fillStyle = '#3a4a5a';
+    ctx.font = `${11 * dpr}px "Share Tech Mono"`;
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (let i = 0; i <= 4; i++) {
+      const y = py + ch * i / 4;
+      const v = mx - (mx - mn) * i / 4;
+      ctx.fillText(v < 10 ? v.toFixed(1) : Math.round(v), px - 6 * dpr, y);
+    }
+    // x ticks
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    const days = ['60d', '45d', '30d', '15d', 'now'];
+    for (let i = 0; i < 5; i++) {
+      const x = px + cw * i / 4;
+      ctx.fillText(days[i], x, py + ch + 6 * dpr);
+    }
+    ctx.restore();
+  }
+
+  function setLabel(idx, alpha) {
+    nameEl.style.opacity = alpha; unitEl.style.opacity = alpha;
+    nameEl.textContent = metrics[idx].name;
+    unitEl.textContent = metrics[idx].unit;
+    nameEl.style.color = metrics[idx].color;
+  }
+
+  let last = performance.now();
+  function frame(now) {
+    if (!slides[4].classList.contains('active')) {
+      timeseriesAnimId = null;
+      return; // Stop if slide not active
+    }
+
+    const dt = now - last; last = now;
+    tickCounter(dt);
+    phaseTime += dt;
+
+    if (phase === 'show') {
+      if (phaseTime >= SHOW_DUR) {
+        phase = 'morph'; phaseTime = 0; morphT = 0;
+        nextIdx = (curIdx + 1) % metrics.length;
+        target = datasets[nextIdx].slice();
+      }
+    }
+    if (phase === 'morph') {
+      morphT = Math.min(phaseTime / MORPH_DUR, 1);
+      const t = ease(morphT);
+      for (let i = 0; i < N; i++) current[i] = lerp(datasets[curIdx][i], target[i], t);
+      // crossfade labels
+      if (morphT < .5) setLabel(curIdx, 1 - morphT * 2);
+      else setLabel(nextIdx, (morphT - .5) * 2);
+      if (morphT >= 1) {
+        curIdx = nextIdx;
+        current = datasets[curIdx].slice();
+        setLabel(curIdx, 1);
+        phase = 'show'; phaseTime = 0;
+      }
+    }
+
+    // determine display range
+    const [mn, mx] = getMinMax(current);
+    const col = phase === 'morph' && morphT > .5 ? metrics[nextIdx].color : metrics[curIdx].color;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawAxes(mn, mx, col);
+    drawLine(current, col, mn, mx, 1);
+
+    timeseriesAnimId = requestAnimationFrame(frame);
+  }
+  setLabel(0, 1);
+  timeseriesAnimId = requestAnimationFrame(frame);
+}
+
+function stopTimeseries() {
+  if (timeseriesAnimId) {
+    cancelAnimationFrame(timeseriesAnimId);
+    timeseriesAnimId = null;
+  }
+}
+
+// ─── Network Graph animation (slide 6) ───
+let networkAnimId = null;
+let networkStartTime = null;
+
+function initNetworkCanvas() {
+  const canvas = document.getElementById('networkCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const yearEl = document.getElementById('networkYear');
+  const countEl = document.getElementById('networkCount');
+  let W, H, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    const r = canvas.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const CAT_COLORS = { health: '#4acaaa', family: '#d47ab0', career: '#5aafcf', habit: '#c95a8a', finance: '#d4a030', immigration: '#7aa2d4', lifestyle: '#8a7ac9', smind: '#d4845a', schedule: '#e8955f' };
+
+  function nc(name) {
+    if (/health|allerg|diet|condition|blood|weight|procedure/.test(name)) return 'health';
+    if (/family|mother|father|kostya|alex|marriage|relationship|social/.test(name)) return 'family';
+    if (/career|work|engineer|people_management/.test(name)) return 'career';
+    if (/habit|alcohol|gaming|overeating/.test(name)) return 'habit';
+    if (/bank|finance|bill/.test(name)) return 'finance';
+    if (/immig|visa|portugal|displaced/.test(name)) return 'immigration';
+    if (/personality|introvert|values|altruism|lifestyle|negative|safety|turbulence/.test(name)) return 'lifestyle';
+    if (/smind|withings|society|ecosystem|device/.test(name)) return 'smind';
+    if (/sched|constraint|appoint|recur|remind/.test(name)) return 'schedule';
+    return 'lifestyle';
+  }
+
+  // Define all 123 nodes with year and name
+  const rawNodes = [];
+  function add(y, names) { names.forEach(n => rawNodes.push({ year: y, name: n, cat: nc(n) })); }
+
+  add(1970, ['birthday_father', 'birthday_mother', 'birthday_kostya', 'birthday_alex']);
+  add(1993, ['health_allergies', 'health_conditions', 'health_diet', 'habit_no_alcohol', 'work_style', 'social_relationship_mother', 'social_relationship_father', 'social_relationship_kostya', 'values_altruism', 'personality_introvert', 'habit_gaming', 'habit_overeating', 'negative_no_children', 'safety_emergency_contact', 'social_circle', 'people_management', 'health_eyesight', 'health_posture', 'lifestyle_sleep', 'lifestyle_cooking', 'family_pets', 'habit_caffeine', 'personality_curiosity']);
+  add(2013, ['career_start_engineer']);
+  add(2016, ['career_milestone_lead']);
+  add(2018, ['marriage']);
+  add(2019, ['career_milestone_senior']);
+  add(2020, ['health_experiment_fasting', 'lifestyle_remote_work', 'habit_walking']);
+  add(2021, ['health_experiment_supplements', 'lifestyle_minimalism']);
+  add(2022, ['war_displacement_ukraine', 'moved_to_portugal', 'trauma_war', 'immigration_start', 'health_stress', 'career_remote_global', 'social_new_circle']);
+  add(2023, ['immigration_process', 'immigration_visa', 'habit_journaling', 'habit_meditation', 'turbulence_anxiety', 'health_therapy', 'lifestyle_portuguese', 'career_contract']);
+  add(2024, ['career_change_ic', 'career_change_company', 'health_discovery_gut', 'health_discovery_sleep', 'lifestyle_fitness', 'habit_reading']);
+  add(2025, ['smind_creation', 'smind_withings_scale', 'smind_withings_bp', 'smind_bank_data', 'health_procedure_checkup', 'health_procedure_dental', 'career_smind_focus', 'lifestyle_quantified', 'smind_face', 'smind_goals', 'smind_scheduling', 'smind_user_data', 'smind_data_pipeline', 'habit_tracking', 'finance_budget_setup', 'smind_tracker_push', 'smind_society_init']);
+  add(2026, ['smind_ecosystem', 'smind_society_architecture', 'smind_hos', 'smind_life_dimensions', 'smind_extended_society', 'smind_dashboard', 'health_blood_work_2026', 'lifestyle_optimization', 'career_presentation', 'smind_society_scheduling', 'smind_core_jobs', 'smind_telegram_integration', 'social_community', 'habit_consistency', 'finance_bill_tracking', 'smind_raw_data', 'smind_workspace', 'health_allergy_update']);
+
+  // scheduling constraints in 2025-2026
+  const schedNames = [];
+  for (let i = 0; i < 14; i++) schedNames.push('sched_constraint_' + i);
+  add(2025, schedNames.slice(0, 8));
+  add(2026, schedNames.slice(8).concat(['sched_appoint_a', 'sched_appoint_b', 'sched_recur_a', 'sched_recur_b', 'sched_recur_c', 'sched_remind_a', 'sched_remind_b']));
+
+  // Pad to exactly 123 if needed (should be close)
+  while (rawNodes.length < 123) rawNodes.push({ year: 2026, name: 'sched_extra_' + rawNodes.length, cat: 'schedule' });
+  rawNodes.length = 123;
+
+  // Sort by year
+  rawNodes.sort((a, b) => a.year - b.year);
+
+  // Build node objects
+  const nodes = rawNodes.map((r, i) => {
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 30 + Math.random() * 180 * (0.3 + 0.7 * ((r.year - 1970) / 56));
+    return {
+      x: W / 2 + Math.cos(angle) * dist,
+      y: H / 2 + Math.sin(angle) * dist,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: 4 + Math.random() * 4,
+      cat: r.cat,
+      year: r.year,
+      name: r.name,
+      alive: false,
+      alpha: 0,
+      bornT: 0
+    };
+  });
+
+  // Build edges: connect nodes of same/related categories that are close in index
+  const edges = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      if (j - i > 30) continue;
+      const a = nodes[i], b = nodes[j];
+      const sameCat = a.cat === b.cat;
+      const related = sameCat || Math.abs(a.year - b.year) <= 2;
+      if (related && Math.random() < (sameCat ? 0.45 : 0.08)) {
+        edges.push([i, j]);
+      }
+    }
+  }
+
+  // Animation timeline
+  const yearOrder = [1970, 1993, 2013, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+  const yearDurations = { 1970: 800, 1993: 2500, 2013: 400, 2016: 350, 2018: 350, 2019: 350, 2020: 600, 2021: 500, 2022: 1200, 2023: 1000, 2024: 800, 2025: 2000, 2026: 2200 };
+
+  let animStart = 0, phase = 'animate', currentYearIdx = 0, yearStartT = 0, aliveCount = 0;
+  let nodesForYear = {};
+  yearOrder.forEach(y => { nodesForYear[y] = nodes.filter(n => n.year === y); });
+
+  function spawnNode(n, t) {
+    n.alive = true; n.bornT = t; n.alpha = 0;
+    // position: burst from center with some spread
+    const cx = W / 2, cy = H / 2;
+    const angle = Math.random() * Math.PI * 2;
+    const yearFrac = (n.year - 1970) / 56;
+    const dist = 40 + Math.random() * (100 + yearFrac * 140);
+    n.x = cx + Math.cos(angle) * dist;
+    n.y = cy + Math.sin(angle) * dist;
+    n.vx = Math.cos(angle) * (1 + Math.random() * 2);
+    n.vy = Math.sin(angle) * (1 + Math.random() * 2);
+    aliveCount++;
+  }
+
+  let pendingQueue = [], pendingIdx = 0, pendingInterval = 0;
+
+  function startYear(idx, t) {
+    currentYearIdx = idx; yearStartT = t;
+    const y = yearOrder[idx];
+    const batch = nodesForYear[y];
+    pendingQueue = batch.slice(); pendingIdx = 0;
+    pendingInterval = batch.length > 0 ? (yearDurations[y] * 0.7) / batch.length : 100;
+  }
+
+  let lastSpawnT = 0;
+
+  function update(t) {
+    if (!animStart) { animStart = t; startYear(0, t); lastSpawnT = t; }
+    const elapsed = t - animStart;
+
+    // Spawn pending nodes
+    if (phase === 'animate' && pendingQueue.length > 0) {
+      while (pendingIdx < pendingQueue.length && t - lastSpawnT >= pendingInterval) {
+        spawnNode(pendingQueue[pendingIdx], t); pendingIdx++; lastSpawnT = t;
+      }
+      // Check if year done
+      const y = yearOrder[currentYearIdx];
+      if (pendingIdx >= pendingQueue.length && t - yearStartT > yearDurations[y]) {
+        if (currentYearIdx < yearOrder.length - 1) {
+          startYear(currentYearIdx + 1, t);
+        } else {
+          phase = 'idle';
+        }
+      }
+    }
+
+    // Physics: gentle repulsion + drift
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i]; if (!n.alive) continue;
+      n.alpha = Math.min(1, (t - n.bornT) / 600);
+      // attract to center gently
+      const dx = W / 2 - n.x, dy = H / 2 - n.y;
+      const d = Math.sqrt(dx * dx + dy * dy) || 1;
+      n.vx += dx / d * 0.01; n.vy += dy / d * 0.01;
+      // repel from close neighbors
+      for (let j = i + 1; j < nodes.length; j++) {
+        const m = nodes[j]; if (!m.alive) continue;
+        const ex = n.x - m.x, ey = n.y - m.y;
+        const ed = Math.sqrt(ex * ex + ey * ey) || 1;
+        if (ed < 40) { const f = 0.3 / ed; n.vx += ex * f; n.vy += ey * f; m.vx -= ex * f; m.vy -= ey * f; }
+      }
+      // breathing in idle
+      if (phase === 'idle') {
+        n.vx += Math.sin(t / 2000 + i) * 0.003;
+        n.vy += Math.cos(t / 2300 + i * 1.3) * 0.003;
+      }
+      n.vx *= 0.97; n.vy *= 0.97;
+      n.x += n.vx; n.y += n.vy;
+      // bounds
+      n.x = Math.max(10, Math.min(W - 10, n.x));
+      n.y = Math.max(10, Math.min(H - 10, n.y));
+    }
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Edges
+    for (const [i, j] of edges) {
+      const a = nodes[i], b = nodes[j];
+      if (!a.alive || !b.alive) continue;
+      const alpha = Math.min(a.alpha, b.alpha) * 0.15;
+      ctx.strokeStyle = CAT_COLORS[a.cat] || '#6a8090';
+      ctx.globalAlpha = alpha;
+      ctx.lineWidth = 0.6;
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    }
+
+    // Nodes
+    ctx.globalAlpha = 1;
+    for (const n of nodes) {
+      if (!n.alive) continue;
+      const col = CAT_COLORS[n.cat] || '#c0c8d0';
+      ctx.globalAlpha = n.alpha;
+      // glow
+      ctx.shadowColor = col; ctx.shadowBlur = 8 * n.alpha;
+      ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    ctx.globalAlpha = 1;
+
+    // HUD
+    if (phase === 'animate') {
+      yearEl.textContent = yearOrder[currentYearIdx];
+    }
+    countEl.textContent = aliveCount + ' nodes';
+  }
+
+  function loop(t) {
+    if (!slides[5].classList.contains('active')) {
+      networkAnimId = null;
+      return; // Stop if slide not active
+    }
+    update(t); draw(t); networkAnimId = requestAnimationFrame(loop);
+  }
+  networkAnimId = requestAnimationFrame(loop);
+}
+
+function stopNetwork() {
+  if (networkAnimId) {
+    cancelAnimationFrame(networkAnimId);
+    networkAnimId = null;
+  }
+}
+
 // ─── Slide enter animations ───
 let slide2Played = false, slide3Played = false;
 
@@ -1563,21 +2081,55 @@ function onSlideEnter(idx) {
     animateInfra(); // infrastructure nervous system (slide 3)
   }
   if (idx === 3) {
-    animateSlide3(); // data footprint (slide 4)
+    animateSlide4(); // data footprint (slide 4)
   }
   if (idx === 4) {
-    // knowledge list (slide 5)
-    const items = kList.querySelectorAll('.k-item');
-    items.forEach(el => el.classList.remove('visible'));
-    requestAnimationFrame(() => {
-      items.forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), 100 + i * 80);
-      });
-    });
+    // Start timeseries animation
+    initTimeseriesCanvas();
+  }
+  if (idx === 5) {
+    // Start network graph animation
+    initNetworkCanvas();
+  }
+  if (idx === 6) {
+    animateSlide7();
+  }
+  if (idx === 7) {
+    animateSlide8();
+  }
+  if (idx === 8) {
+    animateSlide9();
+  }
+  if (idx === 9) {
+    animateSlide10();
+  }
+  if (idx === 10) {
+    animateSlide11();
+  }
+  if (idx === 11) {
+    animateSlide12();
+  }
+  if (idx === 12) {
+    animateSlide13();
+  }
+  if (idx === 13) {
+    animateSlide14();
+  }
+  if (idx === 14) {
+    animateSlide15();
+  }
+  if (idx === 15) {
+    animateSlide16();
+  }
+  if (idx === 16) {
+    animateSlide17();
+  }
+  if (idx === 17) {
+    animateSlide18();
   }
 }
 
-function animateSlide3() {
+function animateSlide4() {
   // Reset
   const ring = document.getElementById('ringFill');
   ring.style.transition = 'none';
@@ -1627,24 +2179,24 @@ function animateCounter(el, from, to, duration, suffix = '') {
   requestAnimationFrame(tick);
 }
 
-// ─── Bubble chart (slide 4) ───
+// ─── Bubble chart (slide 7) ───
 const spendingData = [
-  {name:"Transfers to Nastya",total:24695,color:"#d47ab0"},
-  {name:"Uber Eats",total:10931,color:"#e8955f"},
-  {name:"Health & Medical",total:6952,color:"#4acaaa"},
-  {name:"Transfers (other)",total:4762,color:"#7aa2d4"},
-  {name:"Tax payments",total:3780,color:"#d4a030"},
-  {name:"Rideshare (Uber/Bolt)",total:1696,color:"#5aafcf"},
-  {name:"Electronics & Tech",total:1661,color:"#8a7ac9"},
-  {name:"Clothing",total:1530,color:"#c95a8a"},
-  {name:"Electricity (EDP)",total:1363,color:"#b89a4a"},
-  {name:"Gaming",total:1295,color:"#da7060"},
-  {name:"Padel",total:1168,color:"#5abade"},
-  {name:"Restaurants & Cafés",total:1009,color:"#d4a070"},
-  {name:"Home goods",total:910,color:"#6a9a6a"},
+  { name: "Transfers to Nastya", total: 24695, color: "#d47ab0" },
+  { name: "Uber Eats", total: 10931, color: "#e8955f" },
+  { name: "Health & Medical", total: 6952, color: "#4acaaa" },
+  { name: "Transfers (other)", total: 4762, color: "#7aa2d4" },
+  { name: "Tax payments", total: 3780, color: "#d4a030" },
+  { name: "Rideshare (Uber/Bolt)", total: 1696, color: "#5aafcf" },
+  { name: "Electronics & Tech", total: 1661, color: "#8a7ac9" },
+  { name: "Clothing", total: 1530, color: "#c95a8a" },
+  { name: "Electricity (EDP)", total: 1363, color: "#b89a4a" },
+  { name: "Gaming", total: 1295, color: "#da7060" },
+  { name: "Padel", total: 1168, color: "#5abade" },
+  { name: "Restaurants & Cafés", total: 1009, color: "#d4a070" },
+  { name: "Home goods", total: 910, color: "#6a9a6a" },
 ];
 const bubbleChart = document.getElementById('bubbleChart');
-const maxSpend = Math.max(...spendingData.map(d=>d.total));
+const maxSpend = Math.max(...spendingData.map(d => d.total));
 spendingData.forEach(d => {
   const size = Math.max(60, Math.sqrt(d.total / maxSpend) * 150);
   const el = document.createElement('div');
@@ -1681,49 +2233,59 @@ function initOrbitalCanvas() {
 
   const orbitFracs = [0.14, 0.26, 0.39, 0.55, 0.74];
   const ecc = 0.3;
-  const COLORS = {cloud:'#d4a030',health:'#4acaaa',device:'#5aafcf',telegram:'#5ac9a0',whatsapp:'#6a8090',batch:'#e8955f',network:'#5abade',core:'#d4845a'};
+  const COLORS = { cloud: '#d4a030', health: '#4acaaa', device: '#5aafcf', telegram: '#5ac9a0', whatsapp: '#6a8090', batch: '#e8955f', network: '#5abade', core: '#d4845a' };
 
   const orbits = [
-    {speed:0.00035, items:[
-      {label:'Claude Opus',emoji:'🧠',color:COLORS.cloud},
-      {label:'Tailscale VPN',emoji:'🔒',color:COLORS.network},
-    ]},
-    {speed:0.00025, items:[
-      {label:'Supabase',emoji:'🗄️',color:COLORS.cloud},
-      {label:'GitHub',emoji:'📦',color:COLORS.cloud},
-      {label:'AgentMail',emoji:'📬',color:COLORS.cloud},
-    ]},
-    {speed:0.00018, items:[
-      {label:'iPhone',emoji:'📱',color:COLORS.device},
-      {label:'Mac',emoji:'💻',color:COLORS.device},
-      {label:'Telegram',emoji:'✈️',color:COLORS.telegram},
-    ]},
-    {speed:0.00012, items:[
-      {label:'Calendar',emoji:'📅',color:COLORS.cloud},
-      {label:'Gmail',emoji:'📧',color:COLORS.cloud},
-      {label:'Drive',emoji:'📁',color:COLORS.cloud},
-      {label:'Scale',emoji:'⚖️',color:COLORS.health},
-      {label:'ScanWatch',emoji:'⌚',color:COLORS.health},
-      {label:'BeamO',emoji:'🌡️',color:COLORS.health},
-      {label:'BPM Core',emoji:'❤️',color:COLORS.health},
-    ]},
-    {speed:0.00007, items:[
-      {label:'Millennium',emoji:'🏦',color:COLORS.batch},
-      {label:'Hospital da Luz',emoji:'🏥',color:COLORS.batch},
-      {label:'Brex',emoji:'💳',color:COLORS.batch},
-      {label:'Web access',emoji:'🌐',color:COLORS.network},
-    ]},
+    {
+      speed: 0.00035, items: [
+        { label: 'Claude Opus', emoji: '🧠', color: COLORS.cloud },
+        { label: 'Tailscale VPN', emoji: '🔒', color: COLORS.network },
+      ]
+    },
+    {
+      speed: 0.00025, items: [
+        { label: 'Supabase', emoji: '🗄️', color: COLORS.cloud },
+        { label: 'GitHub', emoji: '📦', color: COLORS.cloud },
+        { label: 'AgentMail', emoji: '📬', color: COLORS.cloud },
+      ]
+    },
+    {
+      speed: 0.00018, items: [
+        { label: 'iPhone', emoji: '📱', color: COLORS.device },
+        { label: 'Mac', emoji: '💻', color: COLORS.device },
+        { label: 'Telegram', emoji: '✈️', color: COLORS.telegram },
+      ]
+    },
+    {
+      speed: 0.00012, items: [
+        { label: 'Calendar', emoji: '📅', color: COLORS.cloud },
+        { label: 'Gmail', emoji: '📧', color: COLORS.cloud },
+        { label: 'Drive', emoji: '📁', color: COLORS.cloud },
+        { label: 'Scale', emoji: '⚖️', color: COLORS.health },
+        { label: 'ScanWatch', emoji: '⌚', color: COLORS.health },
+        { label: 'BeamO', emoji: '🌡️', color: COLORS.health },
+        { label: 'BPM Core', emoji: '❤️', color: COLORS.health },
+      ]
+    },
+    {
+      speed: 0.00007, items: [
+        { label: 'Millennium', emoji: '🏦', color: COLORS.batch },
+        { label: 'Hospital da Luz', emoji: '🏥', color: COLORS.batch },
+        { label: 'Brex', emoji: '💳', color: COLORS.batch },
+        { label: 'Web access', emoji: '🌐', color: COLORS.network },
+      ]
+    },
   ];
   orbits.forEach(o => {
     const n = o.items.length;
     o.items.forEach((it, i) => { it.angle = (Math.PI * 2 / n) * i + Math.random() * 0.3; });
   });
-  const whatsapp = {label:'WhatsApp',emoji:'💬',color:COLORS.whatsapp};
+  const whatsapp = { label: 'WhatsApp', emoji: '💬', color: COLORS.whatsapp };
 
   function getOrbitRadii(idx) {
     const base = Math.min(W, H) / 2;
     const r = orbitFracs[idx] * base;
-    return {rx: r, ry: r * (1 - ecc)};
+    return { rx: r, ry: r * (1 - ecc) };
   }
   function drawEllipse(rx, ry, alpha) {
     ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
@@ -1756,17 +2318,23 @@ function initOrbitalCanvas() {
   }
 
   function frame(ts) {
+    if (!slides[2].classList.contains('active')) {
+      orbitalAnimId = null;
+      return; // Stop if slide not active
+    }
+
     if (!orbitalStartTime) orbitalStartTime = ts;
     const t = ts - orbitalStartTime;
     ctx.clearRect(0, 0, W, H);
     const nucleusAlpha = Math.min(1, t / 800);
     const pulse = Math.sin(t * 0.003);
+
     if (nucleusAlpha > 0) { ctx.globalAlpha = nucleusAlpha; drawNucleus(t, pulse); ctx.globalAlpha = 1; }
     orbits.forEach((orb, oi) => {
       const delay = 1000 + oi * 400;
       const alpha = Math.min(1, Math.max(0, (t - delay) / 600));
       if (alpha <= 0) return;
-      const {rx, ry} = getOrbitRadii(oi);
+      const { rx, ry } = getOrbitRadii(oi);
       drawEllipse(rx, ry, alpha * 0.15);
       orb.items.forEach(it => {
         const nodeDelay = delay + 300;
@@ -1818,36 +2386,34 @@ function animateInfra() {
   initOrbitalCanvas();
 }
 
-// ─── Devices (removed — now part of infra slide) ───
-
-// ─── Timeline (slide 6) ───
+// ─── Timeline (slide 8) ───
 const timeData = [
-  {hour:"08:00",activity:"sleep",color:"#5abade"},
-  {hour:"09:00",activity:"parrots",color:"#5ac9a0"},
-  {hour:"10:00",activity:"work",color:"#5aafcf"},
-  {hour:"11:00",activity:"work",color:"#5aafcf"},
-  {hour:"12:00",activity:"work_then_rest",color:"#7aa2d4"},
-  {hour:"13:00",activity:"planning",color:"#8a7ac9"},
-  {hour:"14:00",activity:"planning_and_rest",color:"#8a7ac9"},
-  {hour:"15:00",activity:"work",color:"#5aafcf"},
-  {hour:"16:00",activity:"work",color:"#5aafcf"},
-  {hour:"17:00",activity:"eating",color:"#d4a030"},
-  {hour:"18:00",activity:"rest",color:"#d47ab0"},
-  {hour:"19:00",activity:"parrots",color:"#5ac9a0"},
-  {hour:"20:00",activity:"gaming",color:"#da7060"},
-  {hour:"21:00",activity:"rest",color:"#d47ab0"},
+  { hour: "08:00", activity: "sleep", color: "#5abade" },
+  { hour: "09:00", activity: "parrots", color: "#5ac9a0" },
+  { hour: "10:00", activity: "work", color: "#5aafcf" },
+  { hour: "11:00", activity: "work", color: "#5aafcf" },
+  { hour: "12:00", activity: "work_then_rest", color: "#7aa2d4" },
+  { hour: "13:00", activity: "planning", color: "#8a7ac9" },
+  { hour: "14:00", activity: "planning_and_rest", color: "#8a7ac9" },
+  { hour: "15:00", activity: "work", color: "#5aafcf" },
+  { hour: "16:00", activity: "work", color: "#5aafcf" },
+  { hour: "17:00", activity: "eating", color: "#d4a030" },
+  { hour: "18:00", activity: "rest", color: "#d47ab0" },
+  { hour: "19:00", activity: "parrots", color: "#5ac9a0" },
+  { hour: "20:00", activity: "gaming", color: "#da7060" },
+  { hour: "21:00", activity: "rest", color: "#d47ab0" },
 ];
 const timeline = document.getElementById('timeline');
 timeData.forEach(d => {
   const row = document.createElement('div');
   row.className = 'timeline-row';
-  const label = d.activity.replace(/_/g,' ');
+  const label = d.activity.replace(/_/g, ' ');
   row.innerHTML = `<span class="timeline-hour">${d.hour}</span><div class="timeline-block" style="background:linear-gradient(90deg,${d.color}dd,${d.color}88)">${label}</div>`;
   timeline.appendChild(row);
 });
 
 // ─── Extended slide enter handlers ───
-function animateSlide4() {
+function animateSlide7() {
   const bubbles = bubbleChart.querySelectorAll('.bubble');
   bubbles.forEach(b => b.classList.remove('visible'));
   requestAnimationFrame(() => {
@@ -1857,11 +2423,7 @@ function animateSlide4() {
   });
 }
 
-function animateSlide5() {
-  // Devices removed — now part of infra slide
-}
-
-function animateSlide6() {
+function animateSlide8() {
   const rows = timeline.querySelectorAll('.timeline-row');
   rows.forEach(r => r.classList.remove('visible'));
   requestAnimationFrame(() => {
@@ -1871,26 +2433,26 @@ function animateSlide6() {
   });
 }
 
-// ─── Cron jobs (slide 7) ───
+// ─── Cron jobs (slide 9) ───
 const cronJobs = [
-  {name:"Hourly time tracking",time:"09-21h",freq:"hourly",color:"#8a7ac9"},
-  {name:"Cicaplast cream (morning)",time:"10:00",freq:"daily",color:"#4acaaa"},
-  {name:"Cicaplast cream (evening)",time:"21:30",freq:"daily",color:"#4acaaa"},
-  {name:"Withings health sync",time:"22:00",freq:"daily",color:"#5aafcf"},
-  {name:"Database snapshot (pre)",time:"22:30",freq:"daily",color:"#d4845a"},
-  {name:"Database snapshot (post)",time:"06:30",freq:"daily",color:"#d4845a"},
-  {name:"Weekly time tracking analysis",time:"Monday",freq:"weekly",color:"#7aa2d4"},
-  {name:"EDP electricity bill",time:"5th",freq:"monthly",color:"#d4a030"},
-  {name:"Water bill",time:"7th",freq:"monthly",color:"#5abade"},
-  {name:"Nobledrive invoice to Derek",time:"3rd",freq:"monthly",color:"#e8955f"},
-  {name:"Invoices to accountant Carla",time:"3rd",freq:"monthly",color:"#e8955f"},
-  {name:"Vodafone telecom bill",time:"14th",freq:"monthly",color:"#b89a4a"},
-  {name:"Pay taxes (amount from Carla)",time:"20th",freq:"monthly",color:"#d4a030"},
-  {name:"Insurance transfer",time:"25th",freq:"monthly",color:"#c95a8a"},
-  {name:"Rent renewal cycle",time:"Jun/Dec",freq:"biannual",color:"#da7060"},
-  {name:"Accountant annual fee",time:"Sept",freq:"yearly",color:"#d4a070"},
+  { name: "Hourly time tracking", time: "09-21h", freq: "hourly", color: "#8a7ac9" },
+  { name: "Cicaplast cream (morning)", time: "10:00", freq: "daily", color: "#4acaaa" },
+  { name: "Cicaplast cream (evening)", time: "21:30", freq: "daily", color: "#4acaaa" },
+  { name: "Withings health sync", time: "22:00", freq: "daily", color: "#5aafcf" },
+  { name: "Database snapshot (pre)", time: "22:30", freq: "daily", color: "#d4845a" },
+  { name: "Database snapshot (post)", time: "06:30", freq: "daily", color: "#d4845a" },
+  { name: "Weekly time tracking analysis", time: "Monday", freq: "weekly", color: "#7aa2d4" },
+  { name: "EDP electricity bill", time: "5th", freq: "monthly", color: "#d4a030" },
+  { name: "Water bill", time: "7th", freq: "monthly", color: "#5abade" },
+  { name: "Nobledrive invoice to Derek", time: "3rd", freq: "monthly", color: "#e8955f" },
+  { name: "Invoices to accountant Carla", time: "3rd", freq: "monthly", color: "#e8955f" },
+  { name: "Vodafone telecom bill", time: "14th", freq: "monthly", color: "#b89a4a" },
+  { name: "Pay taxes (amount from Carla)", time: "20th", freq: "monthly", color: "#d4a030" },
+  { name: "Insurance transfer", time: "25th", freq: "monthly", color: "#c95a8a" },
+  { name: "Rent renewal cycle", time: "Jun/Dec", freq: "biannual", color: "#da7060" },
+  { name: "Accountant annual fee", time: "Sept", freq: "yearly", color: "#d4a070" },
 ];
-const freqOrder = ['hourly','daily','weekly','monthly','biannual','yearly'];
+const freqOrder = ['hourly', 'daily', 'weekly', 'monthly', 'biannual', 'yearly'];
 const cronList = document.getElementById('cronList');
 const cronByFreq = {};
 cronJobs.forEach(j => { (cronByFreq[j.freq] = cronByFreq[j.freq] || []).push(j); });
@@ -1908,7 +2470,7 @@ freqOrder.forEach(freq => {
   });
 });
 
-function animateSlide7() {
+function animateSlide9() {
   const items = cronList.querySelectorAll('.cron-item');
   items.forEach(el => el.classList.remove('visible'));
   cronList.scrollTop = 0;
@@ -1919,27 +2481,27 @@ function animateSlide7() {
   });
 }
 
-// ─── People rings (slide 8) ───
+// ─── People rings (slide 10) ───
 const peopleData = [
-  {name:"Anastasiia",role:"Wife",color:"#d47ab0",ring:1},
-  {name:"Father",role:"Family",color:"#d4845a",ring:2},
-  {name:"Mother",role:"Family",color:"#d4845a",ring:2},
-  {name:"Kostya",role:"Brother",color:"#d4845a",ring:2},
-  {name:"Grandparents",role:"Family",color:"#d4845a",ring:2},
-  {name:"Oleksandr",role:"Friend",color:"#5aafcf",ring:3},
-  {name:"Ivan",role:"Friend",color:"#5aafcf",ring:3},
-  {name:"Jeremy",role:"Boss",color:"#8a7ac9",ring:3},
-  {name:"Barry",role:"Colleague",color:"#8a7ac9",ring:3},
-  {name:"Max Ioli",role:"Colleague",color:"#8a7ac9",ring:3},
-  {name:"Carla",role:"Accountant",color:"#d4a030",ring:4},
-  {name:"Inna Shemet",role:"Translator",color:"#d4a030",ring:4},
+  { name: "Anastasiia", role: "Wife", color: "#d47ab0", ring: 1 },
+  { name: "Father", role: "Family", color: "#d4845a", ring: 2 },
+  { name: "Mother", role: "Family", color: "#d4845a", ring: 2 },
+  { name: "Kostya", role: "Brother", color: "#d4845a", ring: 2 },
+  { name: "Grandparents", role: "Family", color: "#d4845a", ring: 2 },
+  { name: "Oleksandr", role: "Friend", color: "#5aafcf", ring: 3 },
+  { name: "Ivan", role: "Friend", color: "#5aafcf", ring: 3 },
+  { name: "Jeremy", role: "Boss", color: "#8a7ac9", ring: 3 },
+  { name: "Barry", role: "Colleague", color: "#8a7ac9", ring: 3 },
+  { name: "Max Ioli", role: "Colleague", color: "#8a7ac9", ring: 3 },
+  { name: "Carla", role: "Accountant", color: "#d4a030", ring: 4 },
+  { name: "Inna Shemet", role: "Translator", color: "#d4a030", ring: 4 },
 ];
 
 (function buildRings() {
   const rc = document.getElementById('ringsContainer');
-  const w = 520, h = 520, cx = w/2, cy = h/2;
+  const w = 520, h = 520, cx = w / 2, cy = h / 2;
   const radii = [0, 55, 120, 190, 260];
-  const ringColors = ['','#d47ab044','#d4845a33','#5aafcf28','#d4a03022'];
+  const ringColors = ['', '#d47ab044', '#d4845a33', '#5aafcf28', '#d4a03022'];
   let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
   // rings
   for (let r = 1; r <= 4; r++) {
@@ -1947,7 +2509,7 @@ const peopleData = [
   }
   // center me node
   svg += `<circle cx="${cx}" cy="${cy}" r="18" fill="#0a0f1a" stroke="var(--cyan)" stroke-width="1.5"/>`;
-  svg += `<text x="${cx}" y="${cy+4}" text-anchor="middle" fill="var(--cyan)" font-family="Rajdhani" font-size="12" font-weight="600">me</text>`;
+  svg += `<text x="${cx}" y="${cy + 4}" text-anchor="middle" fill="var(--cyan)" font-family="Rajdhani" font-size="12" font-weight="600">me</text>`;
   // people nodes
   const ringCounts = {};
   peopleData.forEach(p => { ringCounts[p.ring] = (ringCounts[p.ring] || 0); });
@@ -1956,7 +2518,7 @@ const peopleData = [
     const ring = p.ring;
     const count = peopleData.filter(pp => pp.ring === ring).length;
     ringIdx[ring] = (ringIdx[ring] || 0);
-    const angle = (ringIdx[ring] / count) * Math.PI * 2 - Math.PI/2;
+    const angle = (ringIdx[ring] / count) * Math.PI * 2 - Math.PI / 2;
     ringIdx[ring]++;
     const px = cx + radii[ring] * Math.cos(angle);
     const py = cy + radii[ring] * Math.sin(angle);
@@ -1970,7 +2532,7 @@ const peopleData = [
   rc.innerHTML = svg;
 })();
 
-function animateSlide8() {
+function animateSlide10() {
   const rings = document.querySelectorAll('#ringsContainer .ring-circle');
   const nodes = document.querySelectorAll('#ringsContainer .person-node');
   rings.forEach(r => r.classList.remove('visible'));
@@ -1984,20 +2546,20 @@ function animateSlide8() {
   });
 }
 
-// ─── Dimensions constellation (slide 9) ───
+// ─── Dimensions constellation (slide 11) ───
 const dimensions = [
-  "Nutrition & Diet","Career & Professional Life","Movement & Physical Activity",
-  "Mental Health & Psychological Wellbeing","Immigration & Legal Status",
-  "Longevity Mission & Life Purpose","Marriage & Partnership",
-  "Financial Goals & Planning Horizon","Sleep & Recovery",
-  "Daily Routines & Habit Systems","Living Environment & Home",
-  "Stress Management & Resilience","Pain Management & Physical Rehabilitation",
-  "Tax Planning & Optimization","Personal Projects & Technology",
-  "Education & Learning","Substance Use & Behavioral Patterns",
-  "Sexual & Reproductive Health","Immune System & Illness Resilience",
+  "Nutrition & Diet", "Career & Professional Life", "Movement & Physical Activity",
+  "Mental Health & Psychological Wellbeing", "Immigration & Legal Status",
+  "Longevity Mission & Life Purpose", "Marriage & Partnership",
+  "Financial Goals & Planning Horizon", "Sleep & Recovery",
+  "Daily Routines & Habit Systems", "Living Environment & Home",
+  "Stress Management & Resilience", "Pain Management & Physical Rehabilitation",
+  "Tax Planning & Optimization", "Personal Projects & Technology",
+  "Education & Learning", "Substance Use & Behavioral Patterns",
+  "Sexual & Reproductive Health", "Immune System & Illness Resilience",
   "Retirement & Long-term Financial Planning"
 ];
-const dimColors = ['#4acaaa','#5aafcf','#8a7ac9','#d4845a','#d47ab0','#d4a030','#5ac9a0','#7aa2d4','#c95a8a','#da7060','#5abade','#e8955f','#b89a4a','#d4a070','#6a9a6a'];
+const dimColors = ['#4acaaa', '#5aafcf', '#8a7ac9', '#d4845a', '#d47ab0', '#d4a030', '#5ac9a0', '#7aa2d4', '#c95a8a', '#da7060', '#5abade', '#e8955f', '#b89a4a', '#d4a070', '#6a9a6a'];
 
 (function buildConstellation() {
   const cc = document.getElementById('constellationContainer');
@@ -2009,27 +2571,27 @@ const dimColors = ['#4acaaa','#5aafcf','#8a7ac9','#d4845a','#d47ab0','#d4a030','
   dimensions.forEach((_, i) => {
     const angle = i * 2.399963; // golden angle
     const r = 40 + (i / dimensions.length) * 170;
-    const x = w/2 + r * Math.cos(angle);
-    const y = h/2 + r * Math.sin(angle);
-    positions.push({x: Math.max(pad, Math.min(w-pad, x)), y: Math.max(30, Math.min(h-50, y))});
+    const x = w / 2 + r * Math.cos(angle);
+    const y = h / 2 + r * Math.sin(angle);
+    positions.push({ x: Math.max(pad, Math.min(w - pad, x)), y: Math.max(30, Math.min(h - 50, y)) });
   });
 
   let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
   // lines between nearby nodes
   const lines = [];
   for (let i = 0; i < positions.length; i++) {
-    for (let j = i+1; j < positions.length; j++) {
+    for (let j = i + 1; j < positions.length; j++) {
       const dx = positions[i].x - positions[j].x;
       const dy = positions[i].y - positions[j].y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
+      const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < 140) {
-        lines.push({i, j, dist});
+        lines.push({ i, j, dist });
       }
     }
   }
   lines.forEach((l, idx) => {
     const a = positions[l.i], b = positions[l.j];
-    const opacity = Math.max(0.06, 0.2 - l.dist/700);
+    const opacity = Math.max(0.06, 0.2 - l.dist / 700);
     svg += `<line class="dim-line" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#d4845a" stroke-opacity="${opacity}" stroke-width="0.5" data-idx="${idx}"/>`;
   });
   // nodes
@@ -2046,7 +2608,7 @@ const dimColors = ['#4acaaa','#5aafcf','#8a7ac9','#d4845a','#d47ab0','#d4a030','
   cc.insertAdjacentHTML('afterbegin', svg);
 })();
 
-function animateSlide9() {
+function animateSlide11() {
   const nodes = document.querySelectorAll('#constellationContainer .dim-node');
   const lines = document.querySelectorAll('#constellationContainer .dim-line');
   const note = document.getElementById('dimNote');
@@ -2056,9 +2618,9 @@ function animateSlide9() {
   document.getElementById('dimNum').textContent = '0';
   requestAnimationFrame(() => {
     // Stagger nodes randomly
-    const order = Array.from({length: nodes.length}, (_,i) => i);
+    const order = Array.from({ length: nodes.length }, (_, i) => i);
     // shuffle
-    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i+1)); [order[i], order[j]] = [order[j], order[i]]; }
+    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
     order.forEach((ni, seq) => {
       setTimeout(() => nodes[ni].classList.add('visible'), 100 + seq * 120);
     });
@@ -2074,17 +2636,17 @@ function animateSlide9() {
   });
 }
 
-// ─── Entity roster (slide 10) ───
+// ─── Entity roster (slide 12) ───
 const entities = [
-  {name:"Scientist",role:"Builds quality benchmarks for data tables",jobs:5,color:"#5aafcf"},
-  {name:"Evaluator",role:"Grades data against benchmarks → files issues",jobs:5,color:"#d4a030"},
-  {name:"User Data Maintainer",role:"Maintains health data + Withings integration",jobs:2,color:"#4acaaa"},
-  {name:"Life Dimensions Locator",role:"Discovers life dimensions autonomously",jobs:1,color:"#8a7ac9"},
-  {name:"Smart Goal Creator",role:"Creates goals covering all life dimensions",jobs:1,color:"#5ac9a0"},
-  {name:"Scheduler",role:"Plans daily schedules",jobs:1,color:"#d47ab0"},
-  {name:"Face Data Gaps Assistant",role:"Crafts questions for data gaps",jobs:1,color:"#e8955f"},
-  {name:"Face",role:"Delivers questions to user via notifications",jobs:0,color:"#c95a8a"},
-  {name:"Snapshot",role:"Nightly database backup to GitHub",jobs:1,color:"#d4845a"},
+  { name: "Scientist", role: "Builds quality benchmarks for data tables", jobs: 5, color: "#5aafcf" },
+  { name: "Evaluator", role: "Grades data against benchmarks → files issues", jobs: 5, color: "#d4a030" },
+  { name: "User Data Maintainer", role: "Maintains health data + Withings integration", jobs: 2, color: "#4acaaa" },
+  { name: "Life Dimensions Locator", role: "Discovers life dimensions autonomously", jobs: 1, color: "#8a7ac9" },
+  { name: "Smart Goal Creator", role: "Creates goals covering all life dimensions", jobs: 1, color: "#5ac9a0" },
+  { name: "Scheduler", role: "Plans daily schedules", jobs: 1, color: "#d47ab0" },
+  { name: "Face Data Gaps Assistant", role: "Crafts questions for data gaps", jobs: 1, color: "#e8955f" },
+  { name: "Face", role: "Delivers questions to user via notifications", jobs: 0, color: "#c95a8a" },
+  { name: "Snapshot", role: "Nightly database backup to GitHub", jobs: 1, color: "#d4845a" },
 ];
 const entityRoster = document.getElementById('entityRoster');
 entities.forEach(e => {
@@ -2096,13 +2658,13 @@ entities.forEach(e => {
 });
 // Pipeline
 const pipelineFlow = document.getElementById('pipelineFlow');
-const pipelineSteps = ['Scientist','Evaluator','Workers','GitHub Issues'];
+const pipelineSteps = ['Scientist', 'Evaluator', 'Workers', 'GitHub Issues'];
 pipelineSteps.forEach((s, i) => {
   if (i > 0) { const arr = document.createElement('span'); arr.className = 'pipeline-arrow'; arr.textContent = '→'; pipelineFlow.appendChild(arr); }
   const nd = document.createElement('span'); nd.className = 'pipeline-node'; nd.textContent = s; pipelineFlow.appendChild(nd);
 });
 
-function animateSlide10() {
+function animateSlide12() {
   const cards = entityRoster.querySelectorAll('.entity-card');
   const pNodes = pipelineFlow.querySelectorAll('.pipeline-node');
   const pArrows = pipelineFlow.querySelectorAll('.pipeline-arrow');
@@ -2123,14 +2685,14 @@ function animateSlide10() {
   });
 }
 
-// ─── GitHub issues (slide 11) ───
+// ─── GitHub issues (slide 13) ───
 const ghIssuesData = [
-  {title:"§6.1 — 8 goals have empty evidence arrays",tag:"HIGH",closed:false},
-  {title:"§3.2 — 2 goals describe activities, not outcomes",tag:"HIGH",closed:false},
-  {title:"§4.2 — Vague metrics on 3 goals lack specific units",tag:"HIGH",closed:true},
-  {title:"Spirituality gap: Missing dimension for Gratitude & Appreciation",tag:"LOW",closed:true},
-  {title:"Enjoyment collapsed into single dimension (anti-pattern)",tag:"LOW",closed:false},
-  {title:"finances scientist: initial benchmark v1.0",tag:"INFO",closed:true},
+  { title: "§6.1 — 8 goals have empty evidence arrays", tag: "HIGH", closed: false },
+  { title: "§3.2 — 2 goals describe activities, not outcomes", tag: "HIGH", closed: false },
+  { title: "§4.2 — Vague metrics on 3 goals lack specific units", tag: "HIGH", closed: true },
+  { title: "Spirituality gap: Missing dimension for Gratitude & Appreciation", tag: "LOW", closed: true },
+  { title: "Enjoyment collapsed into single dimension (anti-pattern)", tag: "LOW", closed: false },
+  { title: "finances scientist: initial benchmark v1.0", tag: "INFO", closed: true },
 ];
 const ghIssuesList = document.getElementById('ghIssues');
 ghIssuesData.forEach(iss => {
@@ -2143,7 +2705,7 @@ ghIssuesData.forEach(iss => {
   ghIssuesList.appendChild(el);
 });
 
-function animateSlide11() {
+function animateSlide13() {
   const issues = ghIssuesList.querySelectorAll('.gh-issue');
   const note = document.getElementById('ghNote');
   issues.forEach(i => i.classList.remove('visible'));
@@ -2159,12 +2721,12 @@ function animateSlide11() {
   });
 }
 
-// ─── Dialog (slide 12) ───
+// ─── Dialog (slide 14) ───
 const dialogData = [
-  {entity:"Scientist",text:"Benchmark v1.2 for user_model_history: §3.2 requires all items have evidence arrays with at least one entry...",color:"#5aafcf"},
-  {entity:"Evaluator",text:"Grading user_model_history against benchmark v1.2. Found 8 items with empty evidence. Filing issue [HIGH] §6.1...",color:"#d4a030"},
-  {entity:"User Data Maintainer",text:"Addressing issue #142: Adding evidence entries for 8 items missing source documentation...",color:"#4acaaa"},
-  {entity:"Evaluator",text:"Re-evaluation: 6/8 items now have valid evidence. 2 remaining need conversation source. Closing partial, new issue filed for remainder.",color:"#d4a030"},
+  { entity: "Scientist", text: "Benchmark v1.2 for user_model_history: §3.2 requires all items have evidence arrays with at least one entry...", color: "#5aafcf" },
+  { entity: "Evaluator", text: "Grading user_model_history against benchmark v1.2. Found 8 items with empty evidence. Filing issue [HIGH] §6.1...", color: "#d4a030" },
+  { entity: "User Data Maintainer", text: "Addressing issue #142: Adding evidence entries for 8 items missing source documentation...", color: "#4acaaa" },
+  { entity: "Evaluator", text: "Re-evaluation: 6/8 items now have valid evidence. 2 remaining need conversation source. Closing partial, new issue filed for remainder.", color: "#d4a030" },
 ];
 const dialogPanel = document.getElementById('dialogPanel');
 dialogData.forEach((msg, i) => {
@@ -2174,7 +2736,7 @@ dialogData.forEach((msg, i) => {
   dialogPanel.appendChild(el);
 });
 
-function animateSlide12() {
+function animateSlide14() {
   const msgs = dialogPanel.querySelectorAll('.chat-msg');
   msgs.forEach(m => m.classList.remove('visible'));
   requestAnimationFrame(() => {
@@ -2182,18 +2744,18 @@ function animateSlide12() {
   });
 }
 
-// ─── Notifications (slide 13) ───
+// ─── Notifications (slide 15) ───
 const remindersData = [
-  {icon:"💊",text:"Apply Cicaplast cream to surgery sites",time:"10:00 AM",color:"#4acaaa"},
-  {icon:"📄",text:"Get document at Largo Machado de Assis",time:"Tomorrow 9:30",color:"#7aa2d4"},
-  {icon:"💈",text:"Book a haircut for early next week",time:"Tomorrow",color:"#5aafcf"},
-  {icon:"🎁",text:"March 8th is tomorrow — figure out a present",time:"Mar 7",color:"#d47ab0"},
-  {icon:"🔔",text:"Back pain still there? Book medical exam",time:"Mar 11",color:"#da7060"},
-  {icon:"📍",text:"AIMA appointment in Faro — check documents",time:"Mar 10",color:"#8a7ac9"},
-  {icon:"🏥",text:"Start full health check-up project",time:"Mar 18",color:"#4acaaa"},
-  {icon:"🏋️",text:"Enroll in Lemonfit, build exercise routine",time:"Mar 20",color:"#5ac9a0"},
-  {icon:"💶",text:"Pay monthly taxes — check WhatsApp from Carla",time:"20th",color:"#d4a030"},
-  {icon:"🛡️",text:"Transfer €130 to Nastya for insurance",time:"25th",color:"#c95a8a"},
+  { icon: "💊", text: "Apply Cicaplast cream to surgery sites", time: "10:00 AM", color: "#4acaaa" },
+  { icon: "📄", text: "Get document at Largo Machado de Assis", time: "Tomorrow 9:30", color: "#7aa2d4" },
+  { icon: "💈", text: "Book a haircut for early next week", time: "Tomorrow", color: "#5aafcf" },
+  { icon: "🎁", text: "March 8th is tomorrow — figure out a present", time: "Mar 7", color: "#d47ab0" },
+  { icon: "🔔", text: "Back pain still there? Book medical exam", time: "Mar 11", color: "#da7060" },
+  { icon: "📍", text: "AIMA appointment in Faro — check documents", time: "Mar 10", color: "#8a7ac9" },
+  { icon: "🏥", text: "Start full health check-up project", time: "Mar 18", color: "#4acaaa" },
+  { icon: "🏋️", text: "Enroll in Lemonfit, build exercise routine", time: "Mar 20", color: "#5ac9a0" },
+  { icon: "💶", text: "Pay monthly taxes — check WhatsApp from Carla", time: "20th", color: "#d4a030" },
+  { icon: "🛡️", text: "Transfer €130 to Nastya for insurance", time: "25th", color: "#c95a8a" },
 ];
 const notifList = document.getElementById('notifList');
 remindersData.forEach(r => {
@@ -2204,7 +2766,7 @@ remindersData.forEach(r => {
   notifList.appendChild(el);
 });
 
-function animateSlide13() {
+function animateSlide15() {
   const cards = notifList.querySelectorAll('.notif-card');
   cards.forEach(c => c.classList.remove('visible'));
   requestAnimationFrame(() => {
@@ -2212,10 +2774,88 @@ function animateSlide13() {
   });
 }
 
-// ─── Closing (slide 14) ───
-const loopWords = ['Sense','Compute','Deliver','Measure','Learn'];
+// ─── Comparison columns (slide 16) ───
+const bigTechItems = [
+  "Search history fragments",
+  "Location pings",
+  "Purchase receipts",
+  "App usage time",
+  "Ad click patterns",
+  "Email keywords",
+];
+const smindItems = [
+  { text: "93 profile items across every life dimension", color: "#d4845a" },
+  { text: "1,425 financial transactions with context", color: "#d4a030" },
+  { text: "171 health metrics from 4 devices", color: "#4acaaa" },
+  { text: "Every person in my life and their role", color: "#d47ab0" },
+  { text: "My fears, habits, goals, and mission", color: "#8a7ac9" },
+  { text: "Why I do things, not just what I click", color: "#5aafcf" },
+];
+const colBT = document.getElementById('colBigTech');
+bigTechItems.forEach(t => {
+  const el = document.createElement('div');
+  el.className = 'compare-item dim-item';
+  el.innerHTML = `<span class="ci-dot"></span>${t}`;
+  colBT.appendChild(el);
+});
+const colSM = document.getElementById('colSmind');
+smindItems.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'compare-item bright-item';
+  el.style.borderLeftColor = s.color;
+  el.style.color = s.color;
+  el.innerHTML = `<span class="ci-dot" style="background:${s.color};box-shadow:0 0 6px ${s.color}"></span>${s.text}`;
+  colSM.appendChild(el);
+});
+
+function animateSlide16() {
+  const btCol = document.getElementById('colBigTech');
+  const smCol = document.getElementById('colSmind');
+  const btItems = btCol.querySelectorAll('.compare-item');
+  const smItems = smCol.querySelectorAll('.compare-item');
+  btCol.classList.remove('visible');
+  smCol.classList.remove('visible');
+  btItems.forEach(i => i.classList.remove('visible'));
+  smItems.forEach(i => i.classList.remove('visible'));
+  requestAnimationFrame(() => {
+    setTimeout(() => btCol.classList.add('visible'), 200);
+    btItems.forEach((item, i) => setTimeout(() => item.classList.add('visible'), 400 + i * 120));
+    const smStart = 400 + btItems.length * 120 + 400;
+    setTimeout(() => smCol.classList.add('visible'), smStart);
+    smItems.forEach((item, i) => setTimeout(() => item.classList.add('visible'), smStart + 200 + i * 150));
+  });
+}
+
+// ─── Role cards (slide 17) ───
+const rolesData = [
+  { role: "Coder", example: "Built 14 animated slides in 30 minutes", color: "#5aafcf" },
+  { role: "Brainstorm buddy", example: "Shaped the narrative structure together", color: "#d47ab0" },
+  { role: "Advisor", example: "Flagged blind spots in my reminder system", color: "#d4a030" },
+  { role: "Data analyst", example: "Pulled real numbers from 12 Supabase tables", color: "#8a7ac9" },
+  { role: "Life admin", example: "Manages 25 automated processes daily", color: "#5ac9a0" },
+  { role: "Memory", example: "Knows more about me than I remember myself", color: "#d4845a" },
+];
+const roleGrid = document.getElementById('roleGrid');
+rolesData.forEach(r => {
+  const el = document.createElement('div');
+  el.className = 'role-card';
+  el.style.borderTopColor = r.color;
+  el.innerHTML = `<div class="role-name" style="color:${r.color}">${r.role}</div><div class="role-example">${r.example}</div>`;
+  roleGrid.appendChild(el);
+});
+
+function animateSlide17() {
+  const cards = roleGrid.querySelectorAll('.role-card');
+  cards.forEach(c => c.classList.remove('visible'));
+  requestAnimationFrame(() => {
+    cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), 200 + i * 200));
+  });
+}
+
+// ─── Closing (slide 18) ───
+const loopWords = ['Sense', 'Compute', 'Deliver', 'Measure', 'Learn'];
 const loopDiagram = document.getElementById('loopDiagram');
-const loopWordColors = ['#d4845a','#4acaaa','#8a7ac9','#d4a030','#5aafcf','#c95a8a'];
+const loopWordColors = ['#d4845a', '#4acaaa', '#8a7ac9', '#d4a030', '#5aafcf', '#c95a8a'];
 loopWords.forEach((w, i) => {
   if (i > 0) { const arr = document.createElement('span'); arr.className = 'loop-arrow'; arr.textContent = '→'; loopDiagram.appendChild(arr); }
   const nd = document.createElement('span');
@@ -2247,8 +2887,8 @@ gapsData.forEach(g => {
   gapList.appendChild(el);
 });
 
-function animateSlide16() {
-  const title = document.querySelector('#slide16 h1');
+function animateSlide18() {
+  const title = document.querySelector('#slide18 h1');
   const loop = loopDiagram;
   const words = loop.querySelectorAll('.loop-word');
   const arrows = loop.querySelectorAll('.loop-arrow');
@@ -2280,102 +2920,6 @@ function animateSlide16() {
     setTimeout(() => note.classList.add('visible'), gapStart + gaps.length * 200 + 400);
   });
 }
-
-// ─── Comparison columns (slide 14) ───
-const bigTechItems = [
-  "Search history fragments",
-  "Location pings",
-  "Purchase receipts",
-  "App usage time",
-  "Ad click patterns",
-  "Email keywords",
-];
-const smindItems = [
-  {text:"93 profile items across every life dimension",color:"#d4845a"},
-  {text:"1,425 financial transactions with context",color:"#d4a030"},
-  {text:"171 health metrics from 4 devices",color:"#4acaaa"},
-  {text:"Every person in my life and their role",color:"#d47ab0"},
-  {text:"My fears, habits, goals, and mission",color:"#8a7ac9"},
-  {text:"Why I do things, not just what I click",color:"#5aafcf"},
-];
-const colBT = document.getElementById('colBigTech');
-bigTechItems.forEach(t => {
-  const el = document.createElement('div');
-  el.className = 'compare-item dim-item';
-  el.innerHTML = `<span class="ci-dot"></span>${t}`;
-  colBT.appendChild(el);
-});
-const colSM = document.getElementById('colSmind');
-smindItems.forEach(s => {
-  const el = document.createElement('div');
-  el.className = 'compare-item bright-item';
-  el.style.borderLeftColor = s.color;
-  el.style.color = s.color;
-  el.innerHTML = `<span class="ci-dot" style="background:${s.color};box-shadow:0 0 6px ${s.color}"></span>${s.text}`;
-  colSM.appendChild(el);
-});
-
-function animateSlide14() {
-  const btCol = document.getElementById('colBigTech');
-  const smCol = document.getElementById('colSmind');
-  const btItems = btCol.querySelectorAll('.compare-item');
-  const smItems = smCol.querySelectorAll('.compare-item');
-  btCol.classList.remove('visible');
-  smCol.classList.remove('visible');
-  btItems.forEach(i => i.classList.remove('visible'));
-  smItems.forEach(i => i.classList.remove('visible'));
-  requestAnimationFrame(() => {
-    setTimeout(() => btCol.classList.add('visible'), 200);
-    btItems.forEach((item, i) => setTimeout(() => item.classList.add('visible'), 400 + i * 120));
-    const smStart = 400 + btItems.length * 120 + 400;
-    setTimeout(() => smCol.classList.add('visible'), smStart);
-    smItems.forEach((item, i) => setTimeout(() => item.classList.add('visible'), smStart + 200 + i * 150));
-  });
-}
-
-// ─── Role cards (slide 15) ───
-const rolesData = [
-  {role:"Coder",example:"Built 14 animated slides in 30 minutes",color:"#5aafcf"},
-  {role:"Brainstorm buddy",example:"Shaped the narrative structure together",color:"#d47ab0"},
-  {role:"Advisor",example:"Flagged blind spots in my reminder system",color:"#d4a030"},
-  {role:"Data analyst",example:"Pulled real numbers from 12 Supabase tables",color:"#8a7ac9"},
-  {role:"Life admin",example:"Manages 25 automated processes daily",color:"#5ac9a0"},
-  {role:"Memory",example:"Knows more about me than I remember myself",color:"#d4845a"},
-];
-const roleGrid = document.getElementById('roleGrid');
-rolesData.forEach(r => {
-  const el = document.createElement('div');
-  el.className = 'role-card';
-  el.style.borderTopColor = r.color;
-  el.innerHTML = `<div class="role-name" style="color:${r.color}">${r.role}</div><div class="role-example">${r.example}</div>`;
-  roleGrid.appendChild(el);
-});
-
-function animateSlide15() {
-  const cards = roleGrid.querySelectorAll('.role-card');
-  cards.forEach(c => c.classList.remove('visible'));
-  requestAnimationFrame(() => {
-    cards.forEach((c, i) => setTimeout(() => c.classList.add('visible'), 200 + i * 200));
-  });
-}
-
-// Patch onSlideEnter for new slides
-const _origOnSlideEnter = onSlideEnter;
-onSlideEnter = function(idx) {
-  _origOnSlideEnter(idx);
-  if (idx === 5) animateSlide4();
-  if (idx === 6) animateSlide6();
-  if (idx === 7) animateSlide7();
-  if (idx === 8) animateSlide8();
-  if (idx === 9) animateSlide9();
-  if (idx === 10) animateSlide10();
-  if (idx === 11) animateSlide11();
-  if (idx === 12) animateSlide12();
-  if (idx === 13) animateSlide13();
-  if (idx === 14) animateSlide14();
-  if (idx === 15) animateSlide15();
-  if (idx === 16) animateSlide16();
-};
 
 // Init
 updateProgress();

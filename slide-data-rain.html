@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMind — Data Rain</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0f1a;color:#c0c8d0;font-family:'Rajdhani',sans-serif}
+#slide{display:flex;width:100%;height:100%}
+#left{width:38%;display:flex;align-items:center;justify-content:center;padding:6% 5% 6% 6%;position:relative;z-index:2}
+#left h1{font-size:clamp(28px,3.2vw,56px);font-weight:600;line-height:1.25;color:#c0c8d0}
+#left h1 em{font-style:normal;color:#d4845a;text-shadow:0 0 15px rgba(212,132,90,0.4)}
+#right{width:62%;position:relative;overflow:hidden}
+#counters{position:absolute;top:5%;left:0;right:0;display:flex;justify-content:center;gap:8%;z-index:3;pointer-events:none}
+.counter{text-align:center}
+.counter .num{font-family:'Share Tech Mono',monospace;font-size:clamp(36px,4.5vw,72px);color:#d4845a;text-shadow:0 0 15px rgba(212,132,90,0.4)}
+.counter .lbl{font-size:clamp(12px,1.1vw,18px);color:#6a8090;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+#rain{position:absolute;top:0;left:0;width:100%;height:100%}
+.col{position:absolute;top:0;height:100%;overflow:hidden;opacity:0;transition:opacity .6s}
+.drop{position:absolute;font-family:'Share Tech Mono',monospace;font-size:clamp(10px,.82vw,14px);white-space:nowrap;opacity:.85;text-shadow:0 0 6px currentColor;transition:opacity .3s}
+</style>
+</head>
+<body>
+<div id="slide">
+<div id="left"><h1>It defined <em>176 metrics</em> and collected <em>3,279 data points</em></h1></div>
+<div id="right">
+<div id="counters">
+<div class="counter"><div class="num" id="c1">0</div><div class="lbl">metrics defined</div></div>
+<div class="counter"><div class="num" id="c2">0</div><div class="lbl">data points collected</div></div>
+</div>
+<div id="rain"></div>
+</div>
+</div>
+<script>
+const CATS={
+health:{color:'#4acaaa',items:['body_temp_c: 36.7','bp_systolic: 128','bp_diastolic: 82','heart_pulse_bpm: 72','spo2_pct: 98','weight_kg: 82.6','fat_ratio_pct: 18.4','bone_mass_kg: 3.2','muscle_mass_kg: 38.1','bmr_kcal: 1,842','steps: 8,432','total_calories: 2,310']},
+blood:{color:'#8a7ac9',items:['hemoglobin: 14.8','glucose: 94 mg/dl','cholesterol: 189','hdl: 58 mg/dl','ldl: 112','triglycerides: 96','creatinine: 0.94','vitamin_d: 32 ng/ml','iron: 87 μg/dl','ferritin: 62 ng/ml','tsh: 2.1 mIU/ml','platelets: 242']},
+spending:{color:'#d4a030',items:['spend_uber_eats: €47.20','spend_rideshare: €18.50','spend_electricity: €62','spend_gaming: €9.99','spend_clothing: €0','spend_restaurants: €34','spend_health: €15','spend_groceries: €87.40','transfers_nastya: €500']},
+time:{color:'#5aafcf',items:['time_07: deep_work','time_08: deep_work','time_09: meetings','time_10: deep_work','time_11: admin','time_12: lunch','time_14: deep_work','time_15: review','time_17: exercise','time_20: reading','time_22: wind_down']},
+cardiac:{color:'#da7060',items:['ecg_hr_bpm: 68','ecg_axis_qrs: 42°','ecg: normal_sinus','ecg_hr_bpm: 74','ecg_axis_qrs: 38°']},
+sleep:{color:'#5abade',items:['deep_sleep: 4,820s','rem_sleep: 6,140s','sleep_hr_avg: 58','deep_sleep: 5,102s','rem_sleep: 5,890s','sleep_hr_avg: 56']},
+pulm:{color:'#4acaaa',items:['fev1: 3.82 L','fvc: 4.91 L','fev1_fvc: 77.8%']}
+};
+const allCats=Object.values(CATS);
+const NUM_COLS=9;
+const rain=document.getElementById('rain');
+const drops=[];
+
+function randItem(){const c=allCats[Math.random()*allCats.length|0];return{text:c.items[Math.random()*c.items.length|0],color:c.color}}
+function createCol(i){
+const col=document.createElement('div');
+col.className='col';
+const w=100/NUM_COLS;
+col.style.left=(w*i)+'%';col.style.width=w+'%';
+rain.appendChild(col);
+const speed=.3+Math.random()*.25;
+const pool=[];
+const POOL_SIZE=12;
+for(let j=0;j<POOL_SIZE;j++){const d=document.createElement('div');d.className='drop';d.style.left=(5+Math.random()*60)+'%';col.appendChild(d);pool.push({el:d,y:-30-Math.random()*200,active:false})}
+setTimeout(()=>col.style.opacity='1',i*220);
+drops.push({col,pool,speed,nextSpawn:i*220+600});
+}
+for(let i=0;i<NUM_COLS;i++)createCol(i);
+
+let last=0;
+function tick(t){
+if(!last)last=t;
+const dt=t-last;last=t;
+for(const c of drops){
+if(t>c.nextSpawn){
+const free=c.pool.find(p=>!p.active);
+if(free){const d=randItem();free.el.textContent=d.text;free.el.style.color=d.color;free.y=-20;free.active=true;free.el.style.opacity='.85'}
+c.nextSpawn=t+800+Math.random()*1200;
+}
+for(const p of c.pool){
+if(!p.active)continue;
+p.y+=c.speed*(dt);
+p.el.style.transform='translateY('+p.y+'px)';
+if(p.y>window.innerHeight+30){p.active=false;p.el.style.opacity='0'}
+}
+}
+requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+// Counter animation
+function animateCounter(el,target,dur){
+const start=performance.now();
+const fmt=target>=1000;
+const step=()=>{
+const p=Math.min((performance.now()-start)/dur,1);
+const ease=1-Math.pow(1-p,3);
+let v=Math.round(target*ease);
+el.textContent=fmt?v.toLocaleString():v;
+if(p<1)requestAnimationFrame(step);
+};step();
+}
+setTimeout(()=>{animateCounter(document.getElementById('c1'),176,2200);animateCounter(document.getElementById('c2'),3279,2800)},NUM_COLS*220+400);
+</script>
+</body>
+</html>

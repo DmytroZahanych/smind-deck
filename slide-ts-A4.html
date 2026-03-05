@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide A4 – Multi-Plot Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0f1a;font-family:'Rajdhani',sans-serif;color:#c0c8d0}
+#slide{display:flex;width:100%;height:100%;position:relative}
+#left{width:38%;display:flex;align-items:center;justify-content:center;padding:5% 4% 5% 5%}
+#left h1{font-size:clamp(28px,3.2vw,54px);font-weight:700;line-height:1.25;letter-spacing:0.5px}
+#left h1 em{font-style:normal;color:#d4845a;text-shadow:0 0 15px rgba(212,132,90,0.4)}
+#right{width:62%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:2% 3% 2% 1%}
+#counter{position:absolute;top:24px;right:32px;text-align:right;font-family:'Share Tech Mono',monospace;font-size:13px;color:#6a8090}
+#counter .val{color:#d4845a;font-size:18px;text-shadow:0 0 10px rgba(212,132,90,0.3)}
+#grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;max-width:560px}
+.tile{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;position:relative;background:rgba(255,255,255,0.02);border:1px solid rgba(106,128,144,0.15);border-radius:4px;padding:4px 5px 3px;cursor:default}
+.tile.show{opacity:1;transform:translateY(0)}
+.tile .name{font-family:'Share Tech Mono',monospace;font-size:8px;color:#6a8090;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile canvas{display:block;width:100%;height:60px}
+#note{font-family:'Share Tech Mono',monospace;font-size:10px;color:#6a8090;margin-top:10px;opacity:0;transition:opacity 1s}
+#note.show{opacity:1}
+/* zoom overlay */
+#overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:100;display:flex;align-items:center;justify-content:center}
+#zoomed{opacity:0;transform:scale(0.3);transition:opacity .45s ease,transform .45s ease;background:#0d1322;border:1px solid rgba(212,132,90,0.3);border-radius:6px;padding:12px 14px 10px;box-shadow:0 0 30px rgba(212,132,90,0.15)}
+#zoomed.show{opacity:1;transform:scale(1)}
+#zoomed .name{font-family:'Share Tech Mono',monospace;font-size:11px;color:#d4845a;margin-bottom:4px}
+#zoomed canvas{display:block}
+#zoomed .axes{font-family:'Share Tech Mono',monospace;font-size:8px;color:#6a8090;display:flex;justify-content:space-between;margin-top:3px}
+</style>
+</head>
+<body>
+<div id="slide">
+  <div id="left">
+    <h1>It defined <em>176 metrics</em> and collected <em>3,279 data points</em></h1>
+  </div>
+  <div id="right">
+    <div id="counter">
+      <div class="val" id="cMetrics">0</div><div>metrics</div>
+      <div class="val" id="cPoints" style="margin-top:8px">0</div><div>data points</div>
+    </div>
+    <div id="grid"></div>
+    <div id="note">showing 24 of 176 tracked metrics</div>
+  </div>
+</div>
+<div id="overlay"><div id="zoomed"><div class="name"></div><canvas></canvas><div class="axes"><span></span><span></span></div></div></div>
+
+<script>
+const CHARTS=[
+  {name:'weight_kg',type:'line',color:'#4acaaa',data:()=>genLine(82,78,20)},
+  {name:'bp_systolic',type:'line',color:'#da7060',data:()=>genLine(125,135,20)},
+  {name:'steps',type:'bar',color:'#5ac9a0',data:()=>genBar(3000,12000,14)},
+  {name:'glucose',type:'line',color:'#8a7ac9',data:()=>genLine(85,105,20)},
+  {name:'spend_uber_eats',type:'bar',color:'#d4a030',data:()=>genBar(0,65,14)},
+  {name:'deep_sleep',type:'area',color:'#5abade',data:()=>genLine(0.8,2.2,20)},
+  {name:'heart_rate',type:'line',color:'#da7060',data:()=>genLine(58,78,20)},
+  {name:'fat_ratio',type:'line',color:'#4acaaa',data:()=>genLine(18,22,20)},
+  {name:'cholesterol',type:'line',color:'#8a7ac9',data:()=>genLine(170,210,20)},
+  {name:'rem_sleep',type:'area',color:'#5abade',data:()=>genLine(1.0,2.5,20)},
+  {name:'calories',type:'bar',color:'#5ac9a0',data:()=>genBar(1600,2800,14)},
+  {name:'spend_rideshare',type:'bar',color:'#d4a030',data:()=>genBar(0,45,14)},
+  {name:'vitamin_d',type:'line',color:'#8a7ac9',data:()=>genLine(25,55,20)},
+  {name:'bone_mass',type:'line',color:'#4acaaa',data:()=>genLine(3.0,3.6,20)},
+  {name:'spo2',type:'line',color:'#4acaaa',data:()=>genLine(95,99,20)},
+  {name:'ecg_hr',type:'line',color:'#da7060',data:()=>genLine(55,75,20)},
+  {name:'spend_electricity',type:'bar',color:'#d4a030',data:()=>genBar(40,120,12)},
+  {name:'time_activity',type:'heatmap',color:'#5aafcf',data:()=>genBar(0,100,28)},
+  {name:'muscle_mass',type:'line',color:'#4acaaa',data:()=>genLine(32,36,20)},
+  {name:'ferritin',type:'line',color:'#8a7ac9',data:()=>genLine(40,120,20)},
+  {name:'triglycerides',type:'line',color:'#8a7ac9',data:()=>genLine(90,160,20)},
+  {name:'sleep_hr_avg',type:'line',color:'#5abade',data:()=>genLine(48,58,20)},
+  {name:'total_spend',type:'area',color:'#d4a030',data:()=>genLine(800,2200,20)},
+  {name:'hemoglobin',type:'line',color:'#8a7ac9',data:()=>genLine(13,16,20)},
+];
+
+function genLine(lo,hi,n){const d=[];let v=lo+Math.random()*(hi-lo);for(let i=0;i<n;i++){v+=((Math.random()-0.48)*(hi-lo)*0.15);v=Math.max(lo*0.9,Math.min(hi*1.1,v));d.push(v)}return d}
+function genBar(lo,hi,n){const d=[];for(let i=0;i<n;i++) d.push(lo+Math.random()*(hi-lo));return d}
+
+const grid=document.getElementById('grid');
+const tiles=[];
+
+CHARTS.forEach((c,i)=>{
+  c._data=c.data();
+  const div=document.createElement('div');div.className='tile';
+  const nm=document.createElement('div');nm.className='name';nm.textContent=c.name;
+  const cvs=document.createElement('canvas');cvs.width=240;cvs.height=120;
+  div.appendChild(nm);div.appendChild(cvs);grid.appendChild(div);
+  tiles.push({el:div,canvas:cvs,chart:c});
+});
+
+function drawChart(cvs,c,progress){
+  const ctx=cvs.getContext('2d');const W=cvs.width,H=cvs.height;
+  ctx.clearRect(0,0,W,H);
+  // subtle axes
+  ctx.strokeStyle='rgba(106,128,144,0.15)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,H-1);ctx.lineTo(W,H-1);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,H);ctx.stroke();
+
+  const d=c._data;const n=d.length;
+  const mn=Math.min(...d),mx=Math.max(...d);
+  const range=mx-mn||1;
+  const p=Math.min(1,progress);
+
+  if(c.type==='bar'||c.type==='heatmap'){
+    const bw=W/n*0.7;const gap=W/n*0.3;
+    if(c.type==='heatmap'){
+      const cols=7,rows=Math.ceil(n/cols);
+      const cw=W/cols,ch=H/rows;
+      const drawn=Math.floor(p*n);
+      for(let i=0;i<drawn;i++){
+        const r=Math.floor(i/cols),cl=i%cols;
+        const val=(d[i]-mn)/range;
+        ctx.fillStyle=c.color;ctx.globalAlpha=0.15+val*0.7;
+        ctx.fillRect(cl*cw+1,r*ch+1,cw-2,ch-2);
+      }
+      ctx.globalAlpha=1;
+    } else {
+      const drawn=Math.floor(p*n);
+      for(let i=0;i<drawn;i++){
+        const x=i*(W/n)+(gap/2);
+        const h=((d[i]-mn)/range)*H*0.85;
+        const barP=Math.min(1,(p*n-i));
+        ctx.fillStyle=c.color;ctx.globalAlpha=0.8;
+        ctx.fillRect(x,H-h*barP,bw,h*barP);
+      }
+      ctx.globalAlpha=1;
+    }
+  } else {
+    const drawn=Math.floor(p*(n-1));
+    const frac=p*(n-1)-drawn;
+    ctx.beginPath();
+    if(c.type==='area'){
+      ctx.moveTo(0,H);
+    }
+    for(let i=0;i<=drawn+1&&i<n;i++){
+      let x=i/(n-1)*W;
+      let y=H-((d[i]-mn)/range)*H*0.85-H*0.05;
+      if(i===drawn+1){x=drawn/(n-1)*W+(1/(n-1)*W)*frac;y=H-((d[drawn]+(d[Math.min(drawn+1,n-1)]-d[drawn])*frac-mn)/range)*H*0.85-H*0.05;}
+      if(i===0&&c.type!=='area') ctx.moveTo(x,y);
+      else if(i===0) {ctx.lineTo(x,y);}
+      else ctx.lineTo(x,y);
+    }
+    if(c.type==='area'){
+      const lastX=Math.min(drawn+frac,n-1)/(n-1)*W;
+      ctx.lineTo(lastX,H);ctx.closePath();
+      ctx.fillStyle=c.color;ctx.globalAlpha=0.15;ctx.fill();ctx.globalAlpha=1;
+    }
+    ctx.strokeStyle=c.color;ctx.lineWidth=1.5;ctx.stroke();
+  }
+}
+
+function drawZoomed(cvs,c,w,h){
+  cvs.width=w*2;cvs.height=h*2;cvs.style.width=w+'px';cvs.style.height=h+'px';
+  const ctx=cvs.getContext('2d');const W=cvs.width,H=cvs.height;
+  ctx.clearRect(0,0,W,H);
+  // axes
+  ctx.strokeStyle='rgba(106,128,144,0.25)';ctx.lineWidth=1;
+  for(let i=0;i<5;i++){const y=H*0.05+i*(H*0.85/4);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.beginPath();ctx.moveTo(0,H-1);ctx.lineTo(W,H-1);ctx.stroke();
+
+  const d=c._data;const n=d.length;const mn=Math.min(...d),mx=Math.max(...d);const range=mx-mn||1;
+
+  if(c.type==='bar'){
+    const bw=W/n*0.65;
+    for(let i=0;i<n;i++){
+      const x=i*(W/n)+(W/n*0.35/2);
+      const h2=((d[i]-mn)/range)*H*0.8;
+      ctx.fillStyle=c.color;ctx.globalAlpha=0.85;
+      ctx.fillRect(x,H-h2,bw,h2);
+      // value label
+      ctx.globalAlpha=1;ctx.fillStyle='#c0c8d0';ctx.font='16px Share Tech Mono';ctx.textAlign='center';
+      ctx.fillText(Math.round(d[i]),x+bw/2,H-h2-4);
+    }
+    ctx.globalAlpha=1;
+  } else {
+    ctx.beginPath();
+    if(c.type==='area') ctx.moveTo(0,H);
+    for(let i=0;i<n;i++){
+      const x=i/(n-1)*W;const y=H-((d[i]-mn)/range)*H*0.8-H*0.05;
+      if(i===0&&c.type!=='area') ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    if(c.type==='area'){ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=c.color;ctx.globalAlpha=0.12;ctx.fill();ctx.globalAlpha=1;}
+    ctx.strokeStyle=c.color;ctx.lineWidth=2.5;ctx.stroke();
+    // dots + values
+    for(let i=0;i<n;i+=Math.max(1,Math.floor(n/8))){
+      const x=i/(n-1)*W;const y=H-((d[i]-mn)/range)*H*0.8-H*0.05;
+      ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle=c.color;ctx.fill();
+      ctx.fillStyle='#c0c8d0';ctx.font='14px Share Tech Mono';ctx.textAlign='center';
+      ctx.fillText(d[i].toFixed(1),x,y-8);
+    }
+  }
+}
+
+// Animation
+let startTime=0;
+function animate(ts){
+  if(!startTime)startTime=ts;
+  const elapsed=(ts-startTime)/1000;
+
+  // stagger tiles
+  tiles.forEach((t,i)=>{
+    const delay=i*0.08;
+    if(elapsed>=delay&&!t.el.classList.contains('show')){
+      t.el.classList.add('show');t._showTime=elapsed;
+    }
+    if(t._showTime!=null){
+      const p=Math.min(1,(elapsed-t._showTime)/0.8);
+      drawChart(t.canvas,t.chart,p);
+    }
+  });
+
+  // counters
+  const cp=Math.min(1,elapsed/2.5);
+  document.getElementById('cMetrics').textContent=Math.round(176*cp);
+  document.getElementById('cPoints').textContent=Math.round(3279*cp).toLocaleString();
+
+  // note
+  if(elapsed>2.2)document.getElementById('note').classList.add('show');
+
+  // zoom cycles
+  const zoomStart=3;const zoomTargets=[0,2,6,20];// weight,steps,heart_rate,triglycerides
+  const cycleDur=3.5;
+  if(elapsed>zoomStart){
+    const ce=(elapsed-zoomStart)%((zoomTargets.length)*cycleDur);
+    const ci=Math.floor(ce/cycleDur);
+    const ct=ce-ci*cycleDur;
+    const zEl=document.getElementById('zoomed');
+    if(ct<0.1){
+      // setup
+      const c=CHARTS[zoomTargets[ci]];
+      zEl.querySelector('.name').textContent=c.name;
+      const mn=Math.min(...c._data),mx=Math.max(...c._data);
+      zEl.querySelector('.axes').children[0].textContent=mn.toFixed(1);
+      zEl.querySelector('.axes').children[1].textContent=mx.toFixed(1);
+      drawZoomed(zEl.querySelector('canvas'),c,320,160);
+    }
+    if(ct>0.15&&ct<2.8) zEl.classList.add('show');
+    else zEl.classList.remove('show');
+  }
+
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>

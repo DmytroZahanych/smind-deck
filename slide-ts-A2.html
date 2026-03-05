@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide A2 – Metrics</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0f1a;font-family:'Rajdhani',sans-serif;color:#c0c8d0}
+#slide{display:flex;width:100%;height:100%;position:relative}
+#left{width:38%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:5% 4% 5% 6%;position:relative;z-index:2}
+#left h1{font-size:clamp(28px,3.2vw,56px);font-weight:700;line-height:1.25;letter-spacing:-0.5px}
+#left h1 em{font-style:normal;color:#d4845a;text-shadow:0 0 15px rgba(212,132,90,0.4)}
+#right{width:62%;height:100%;position:relative;overflow:hidden}
+canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+#counters{position:absolute;top:4%;right:4%;text-align:right;opacity:0;font-family:'Share Tech Mono',monospace;z-index:3}
+#counters .val{font-size:clamp(20px,2.4vw,42px);color:#d4845a;text-shadow:0 0 15px rgba(212,132,90,0.4);line-height:1.1}
+#counters .lbl{font-size:clamp(10px,0.9vw,16px);color:#6a8090;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div id="slide">
+  <div id="left">
+    <h1>It defined <em>176 metrics</em> and collected <em>3,279 data points</em></h1>
+  </div>
+  <div id="right">
+    <canvas id="c"></canvas>
+    <div id="counters">
+      <div class="val" id="cMetrics">0</div>
+      <div class="lbl">metrics</div>
+      <div class="val" id="cPoints">0</div>
+      <div class="lbl">data points</div>
+    </div>
+  </div>
+</div>
+<script>
+const cats=[
+  {name:'Blood work',count:57,color:[138,122,201]},
+  {name:'Spending',count:41,color:[212,160,48]},
+  {name:'Time tracking',count:16,color:[90,175,207]},
+  {name:'Body composition',count:10,color:[74,202,170]},
+  {name:'Sleep',count:10,color:[90,186,222]},
+  {name:'Cardiac',count:10,color:[218,112,96]},
+  {name:'Vitals',count:8,color:[74,202,170]},
+  {name:'Pulmonology',count:8,color:[122,162,212]},
+  {name:'Activity',count:5,color:[90,201,160]},
+  {name:'Other',count:11,color:[232,149,95]}
+];
+
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,dpr;
+const totalWeight=cats.reduce((s,c)=>s+c.count,0);
+const gap=2;
+const labelW=120;
+const POINTS=400;
+const rowDelay=200;
+const drawDuration=1200;
+let startTime=0;
+let scrollOffset=0;
+let allDone=false;
+let countersStarted=false;
+
+// generate waveform data per category
+cats.forEach(c=>{
+  c.data=[];
+  // multiple overlapping sine waves for organic look
+  const freqs=[];
+  for(let i=0;i<4+Math.random()*3;i++) freqs.push({f:0.005+Math.random()*0.04,a:0.15+Math.random()*0.6,p:Math.random()*Math.PI*2});
+  for(let x=0;x<POINTS+200;x++){
+    let v=0;
+    freqs.forEach(f=>v+=Math.sin(x*f.f+f.p)*f.a);
+    // add noise
+    v+=((Math.random()-0.5)*0.3);
+    c.data.push(Math.max(0,Math.min(1,(v+1)/2)));
+  }
+});
+
+function resize(){
+  dpr=window.devicePixelRatio||1;
+  const r=canvas.parentElement.getBoundingClientRect();
+  W=r.width; H=r.height;
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+resize();
+window.addEventListener('resize',resize);
+
+function hexA(rgb,a){return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`}
+
+function drawRow(cat,y,h,progress,scrollOff){
+  const chartX=labelW;
+  const chartW=W-labelW;
+  if(chartW<=0)return;
+
+  // label
+  const labelAlpha=Math.min(1,progress*3);
+  ctx.save();
+  ctx.globalAlpha=labelAlpha;
+  ctx.font=`600 ${Math.max(10,h*0.35)}px Rajdhani`;
+  ctx.fillStyle=hexA(cat.color,0.9);
+  ctx.textBaseline='middle';
+  ctx.fillText(cat.name,8,y+h/2-h*0.12);
+  ctx.font=`${Math.max(9,h*0.25)}px 'Share Tech Mono'`;
+  ctx.fillStyle='#6a8090';
+  ctx.fillText(cat.count+' metrics',8,y+h/2+h*0.22);
+  ctx.restore();
+
+  // clip chart area
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(chartX,y,chartW,h);
+  ctx.clip();
+
+  const visiblePoints=Math.floor(progress*POINTS);
+  if(visiblePoints<2){ctx.restore();return;}
+
+  const stepX=chartW/(POINTS-1);
+  const bandH=h/3;
+
+  // draw 3 bands (horizon chart style)
+  for(let band=0;band<3;band++){
+    const alpha=[0.25,0.5,0.85][band];
+    const threshold=band/3;
+    ctx.fillStyle=hexA(cat.color,alpha);
+    ctx.beginPath();
+    ctx.moveTo(chartX-scrollOff*stepX,y+h);
+    for(let i=0;i<visiblePoints;i++){
+      let v=cat.data[i+Math.floor(scrollOff)];
+      // fold: only show portion above threshold, capped at 1/3
+      let folded=Math.max(0,Math.min(1/3,v-threshold));
+      let py=y+h-folded*3*h;
+      ctx.lineTo(chartX+i*stepX-((scrollOff%1)*stepX),py);
+    }
+    ctx.lineTo(chartX+(visiblePoints-1)*stepX-((scrollOff%1)*stepX),y+h);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // scanline at draw edge during animation
+  if(progress<1){
+    const edgeX=chartX+visiblePoints*stepX;
+    const g=ctx.createLinearGradient(edgeX-30,0,edgeX,0);
+    g.addColorStop(0,'transparent');
+    g.addColorStop(1,hexA(cat.color,0.3));
+    ctx.fillStyle=g;
+    ctx.fillRect(edgeX-30,y,30,h);
+  }
+
+  ctx.restore();
+
+  // subtle top/bottom lines
+  ctx.strokeStyle=hexA(cat.color,0.12);
+  ctx.lineWidth=0.5;
+  ctx.beginPath();ctx.moveTo(chartX,y+h);ctx.lineTo(W,y+h);ctx.stroke();
+}
+
+function animateCounters(t){
+  if(!countersStarted)return;
+  const el=document.getElementById('counters');
+  const dur=1500;
+  const p=Math.min(1,(t-countersStart)/dur);
+  const ease=1-Math.pow(1-p,3);
+  el.style.opacity=ease;
+  document.getElementById('cMetrics').textContent=Math.round(176*ease);
+  document.getElementById('cPoints').textContent=Math.round(3279*ease).toLocaleString();
+}
+
+let countersStart=0;
+function frame(t){
+  if(!startTime)startTime=t;
+  const elapsed=t-startTime;
+
+  ctx.clearRect(0,0,W,H);
+
+  const topPad=H*0.03;
+  const botPad=H*0.03;
+  const totalH=H-topPad-botPad;
+  const totalGap=gap*(cats.length-1);
+  const availH=totalH-totalGap;
+
+  let y=topPad;
+  let allComplete=true;
+
+  cats.forEach((cat,i)=>{
+    const h=Math.max(12,(cat.count/totalWeight)*availH);
+    const rowStart=i*rowDelay;
+    const rowElapsed=elapsed-rowStart;
+    if(rowElapsed<=0){allComplete=false;y+=h+gap;return;}
+    const progress=Math.min(1,rowElapsed/drawDuration);
+    if(progress<1)allComplete=false;
+
+    const fadeIn=Math.min(1,rowElapsed/400);
+    ctx.globalAlpha=fadeIn;
+
+    const scroll=allComplete?scrollOffset:0;
+    drawRow(cat,y,h,progress,scroll);
+    ctx.globalAlpha=1;
+    y+=h+gap;
+  });
+
+  if(allComplete){
+    scrollOffset+=0.15;
+    if(!countersStarted){countersStarted=true;countersStart=t;}
+  }
+
+  animateCounters(t);
+  requestAnimationFrame(frame);
+}
+
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

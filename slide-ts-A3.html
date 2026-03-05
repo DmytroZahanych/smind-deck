@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide A3 – Metrics</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0f1a;font-family:'Rajdhani',sans-serif;color:#c0c8d0}
+#slide{display:flex;width:100%;height:100%}
+#left{width:38%;display:flex;align-items:center;justify-content:center;padding:6% 5% 6% 6%}
+#left h1{font-size:clamp(28px,3.2vw,56px);font-weight:600;line-height:1.25;letter-spacing:.5px}
+#left h1 em{font-style:normal;color:#d4845a;text-shadow:0 0 15px rgba(212,132,90,.4)}
+#right{width:62%;position:relative;display:flex;flex-direction:column;padding:3% 4% 3% 2%}
+#metricLabel{font-family:'Share Tech Mono',monospace;font-size:clamp(16px,1.6vw,28px);height:2.2em;display:flex;align-items:baseline;gap:.6em;position:relative}
+#metricName,#metricUnit{transition:opacity .4s}
+#metricName{color:#c0c8d0}
+#metricUnit{color:#6a8090;font-size:.75em}
+#canvasWrap{flex:1;position:relative;min-height:0}
+canvas{width:100%;height:100%;display:block}
+#bottomText{font-family:'Share Tech Mono',monospace;color:#6a8090;font-size:clamp(11px,1vw,16px);padding-top:8px}
+#counter{position:absolute;top:3%;right:4%;font-family:'Share Tech Mono',monospace;color:#d4845a;font-size:clamp(13px,1.2vw,20px);text-shadow:0 0 15px rgba(212,132,90,.4)}
+</style>
+</head>
+<body>
+<div id="slide">
+  <div id="left">
+    <h1>It defined <em>176 metrics</em> and collected <em>3,279 data points</em></h1>
+  </div>
+  <div id="right">
+    <div id="metricLabel"><span id="metricName"></span><span id="metricUnit"></span></div>
+    <div id="canvasWrap"><canvas id="c"></canvas></div>
+    <div id="bottomText">cycling through 176 tracked metrics...</div>
+    <div id="counter">0 data points</div>
+  </div>
+</div>
+<script>
+const metrics=[
+  {name:"weight_kg",color:"#4acaaa",unit:"kg",gen:()=>{const b=82.5;return Array.from({length:60},()=>b+(Math.random()-.5)*1.2)}},
+  {name:"bp_systolic_mmhg",color:"#da7060",unit:"mmHg",gen:()=>Array.from({length:60},()=>120+Math.random()*15+Math.sin(Math.random()*6)*5)},
+  {name:"steps",color:"#5ac9a0",unit:"steps",gen:()=>Array.from({length:60},()=>2000+Math.random()*10000)},
+  {name:"spend_uber_eats",color:"#d4a030",unit:"€",gen:()=>Array.from({length:60},()=>Math.random()<.35?20+Math.random()*60:0)},
+  {name:"deep_sleep_s",color:"#5abade",unit:"seconds",gen:()=>Array.from({length:60},()=>3000+Math.random()*4200)},
+  {name:"glucose_mgdl",color:"#8a7ac9",unit:"mg/dL",gen:()=>Array.from({length:60},()=>85+Math.random()*15)},
+  {name:"heart_pulse_bpm",color:"#da7060",unit:"bpm",gen:()=>Array.from({length:60},()=>60+Math.random()*25)},
+  {name:"fat_ratio_pct",color:"#4acaaa",unit:"%",gen:()=>{const b=23.5;return Array.from({length:60},()=>b+(Math.random()-.5)*3)}}
+];
+const N=60;
+const datasets=metrics.map(m=>m.gen());
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+const nameEl=document.getElementById('metricName');
+const unitEl=document.getElementById('metricUnit');
+const counterEl=document.getElementById('counter');
+
+let curIdx=0,nextIdx=1,morphT=0,phase='show',phaseTime=0;
+const SHOW_DUR=2500,MORPH_DUR=800;
+let current=datasets[0].slice(),target=datasets[1].slice();
+
+// count-up
+let counted=false,countVal=0;
+function tickCounter(dt){
+  if(counted)return;
+  countVal=Math.min(countVal+dt*4,3279);
+  if(countVal>=3279){countVal=3279;counted=true}
+  counterEl.textContent=Math.round(countVal).toLocaleString()+' data points';
+}
+
+function resize(){
+  const r=canvas.parentElement.getBoundingClientRect();
+  canvas.width=r.width*devicePixelRatio;
+  canvas.height=r.height*devicePixelRatio;
+  canvas.style.width=r.width+'px';
+  canvas.style.height=r.height+'px';
+}
+window.addEventListener('resize',resize);
+resize();
+
+function lerp(a,b,t){return a+(b-a)*t}
+function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+
+function getMinMax(arr){let mn=Infinity,mx=-Infinity;for(const v of arr){if(v<mn)mn=v;if(v>mx)mx=v}const pad=(mx-mn)*.15||1;return[mn-pad,mx+pad]}
+
+function drawLine(pts,color,mn,mx,alpha){
+  const w=canvas.width,h=canvas.height,dpr=devicePixelRatio;
+  const px=40*dpr,py=30*dpr;
+  const cw=w-px*2,ch=h-py*2;
+  ctx.save();
+  ctx.globalAlpha=alpha;
+  ctx.beginPath();
+  for(let i=0;i<pts.length;i++){
+    const x=px+i/(pts.length-1)*cw;
+    const y=py+ch-(pts[i]-mn)/(mx-mn)*ch;
+    if(i===0)ctx.moveTo(x,y);
+    else{
+      const prev=px+(i-1)/(pts.length-1)*cw;
+      const prevY=py+ch-(pts[i-1]-mn)/(mx-mn)*ch;
+      const cpx1=prev+(x-prev)*.4,cpx2=x-(x-prev)*.4;
+      ctx.bezierCurveTo(cpx1,prevY,cpx2,y,x,y);
+    }
+  }
+  ctx.strokeStyle=color;
+  ctx.lineWidth=2.5*dpr;
+  ctx.lineJoin='round';
+  ctx.stroke();
+  // area fill
+  const lastX=px+(pts.length-1)/(pts.length-1)*cw;
+  const baseY=py+ch;
+  ctx.lineTo(lastX,baseY);
+  ctx.lineTo(px,baseY);
+  ctx.closePath();
+  const grad=ctx.createLinearGradient(0,py,0,baseY);
+  grad.addColorStop(0,color+'44');
+  grad.addColorStop(1,color+'00');
+  ctx.fillStyle=grad;
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawAxes(mn,mx,color){
+  const w=canvas.width,h=canvas.height,dpr=devicePixelRatio;
+  const px=40*dpr,py=30*dpr,cw=w-px*2,ch=h-py*2;
+  ctx.save();
+  ctx.strokeStyle='#1a2535';
+  ctx.lineWidth=dpr;
+  // horizontal grid
+  for(let i=0;i<=4;i++){
+    const y=py+ch*i/4;
+    ctx.beginPath();ctx.moveTo(px,y);ctx.lineTo(px+cw,y);ctx.stroke();
+  }
+  // y labels
+  ctx.fillStyle='#3a4a5a';
+  ctx.font=`${11*dpr}px "Share Tech Mono"`;
+  ctx.textAlign='right';ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){
+    const y=py+ch*i/4;
+    const v=mx-(mx-mn)*i/4;
+    ctx.fillText(v<10?v.toFixed(1):Math.round(v),px-6*dpr,y);
+  }
+  // x ticks
+  ctx.textAlign='center';ctx.textBaseline='top';
+  const days=['60d','45d','30d','15d','now'];
+  for(let i=0;i<5;i++){
+    const x=px+cw*i/4;
+    ctx.fillText(days[i],x,py+ch+6*dpr);
+  }
+  ctx.restore();
+}
+
+function setLabel(idx,alpha){
+  nameEl.style.opacity=alpha;unitEl.style.opacity=alpha;
+  nameEl.textContent=metrics[idx].name;
+  unitEl.textContent=metrics[idx].unit;
+  nameEl.style.color=metrics[idx].color;
+}
+
+let last=performance.now();
+function frame(now){
+  const dt=now-last;last=now;
+  tickCounter(dt);
+  phaseTime+=dt;
+
+  if(phase==='show'){
+    if(phaseTime>=SHOW_DUR){
+      phase='morph';phaseTime=0;morphT=0;
+      nextIdx=(curIdx+1)%metrics.length;
+      target=datasets[nextIdx].slice();
+    }
+  }
+  if(phase==='morph'){
+    morphT=Math.min(phaseTime/MORPH_DUR,1);
+    const t=ease(morphT);
+    for(let i=0;i<N;i++)current[i]=lerp(datasets[curIdx][i],target[i],t);
+    // crossfade labels
+    if(morphT<.5)setLabel(curIdx,1-morphT*2);
+    else setLabel(nextIdx,(morphT-.5)*2);
+    if(morphT>=1){
+      curIdx=nextIdx;
+      current=datasets[curIdx].slice();
+      setLabel(curIdx,1);
+      phase='show';phaseTime=0;
+    }
+  }
+
+  // determine display range
+  const [mn,mx]=getMinMax(current);
+  const col=phase==='morph'&&morphT>.5?metrics[nextIdx].color:metrics[curIdx].color;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawAxes(mn,mx,col);
+  drawLine(current,col,mn,mx,1);
+
+  requestAnimationFrame(frame);
+}
+setLabel(0,1);
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
