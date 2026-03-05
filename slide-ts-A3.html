@@ -49,7 +49,7 @@ const metrics=[
 const N=60;
 const datasets=metrics.map(m=>m.gen());
 const canvas=document.getElementById('c');
-const ctx=canvas.getContext('2d');
+const ctx=canvas.getContext('2d',{willReadFrequently:true});
 const nameEl=document.getElementById('metricName');
 const unitEl=document.getElementById('metricUnit');
 const counterEl=document.getElementById('counter');
@@ -161,6 +161,7 @@ function setLabel(idx,alpha){
 
 let last=0;
 function frame(now){
+  if(!running)return;
   if(!last){last=now;phaseTime=0;}
   const dt=Math.min(now-last,50);last=now;
   tickCounter(dt);
@@ -196,9 +197,23 @@ function frame(now){
   drawAxes(mn,mx,col);
   drawLine(current,col,mn,mx,1);
 
-  requestAnimationFrame(frame);
+  if(running)requestAnimationFrame(frame);
 }
 setLabel(0,1);
+let running=true;
+function startAnim(){if(!running){running=true;last=0;requestAnimationFrame(frame)}}
+function stopAnim(){running=false}
+
+// Pause when iframe is hidden (parent slide inactive)
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)stopAnim();else startAnim();
+});
+// Also check via IntersectionObserver for display:none
+if(window.IntersectionObserver){
+  new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting)startAnim();else stopAnim();
+  },{threshold:0}).observe(document.documentElement);
+}
 requestAnimationFrame(frame);
 
 // Forward navigation events to parent deck

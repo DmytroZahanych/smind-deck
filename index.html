@@ -28,17 +28,19 @@ html, body {
   cursor: none;
 }
 
-/* Slide container */
+/* Slide container — only active slide stays in rendering tree */
 .slide {
   position: absolute;
   inset: 0;
   display: none;
-  opacity: 0;
+  visibility: hidden;
+  content-visibility: hidden;
   pointer-events: none;
-  contain: strict;
 }
 .slide.active {
   display: flex;
+  visibility: visible;
+  content-visibility: visible;
   opacity: 1;
   pointer-events: auto;
   animation: slideFadeIn 0.6s ease forwards;
@@ -1422,25 +1424,7 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 16 ═══ -->
-<div class="slide" id="slide16">
-  <div class="left">
-    <h1>It knows more about me than <span style="color:var(--text-dim)">Google</span>, <span style="color:var(--text-dim)">Apple</span>, and <span style="color:var(--text-dim)">Meta</span> — <em>combined</em></h1>
-  </div>
-  <div class="right">
-    <div class="comparison-container" id="comparisonContainer">
-      <div class="compare-col bigtech" id="colBigTech">
-        <div class="compare-header dim">Big Tech sees:</div>
-      </div>
-      <div class="compare-vs"></div>
-      <div class="compare-vs-label">vs</div>
-      <div class="compare-col smind" id="colSmind">
-        <div class="compare-header bright">SMind sees:</div>
-      </div>
-    </div>
-  </div>
-  <div class="slide-note">Big tech sees fragments. SMind sees the whole person.</div>
-</div>
+<!-- SLIDE 16 (Big Tech comparison) REMOVED -->
 
 <!-- ═══ SLIDE 17 ═══ -->
 <div class="slide" id="slide17">
@@ -1467,7 +1451,7 @@ html, body {
 
 <script>
 // ─── Config ───
-const TOTAL_SLIDES = 18;
+const TOTAL_SLIDES = 17;
 let current = 0;
 let transitioning = false;
 
@@ -1613,8 +1597,23 @@ dataBreakdown.forEach(([label, value, maxRef, color]) => {
 });
 
 // ─── Timeseries (slide 5) — handled by iframe, no JS needed ───
-function initTimeseriesCanvas() {} // no-op, iframe handles it
-function stopTimeseries() {} // no-op
+function initTimeseriesCanvas() {
+  const iframe = document.querySelector('#slide5 iframe');
+  if (iframe) {
+    iframe.style.display = 'block';
+    if (iframe.src === 'about:blank' || !iframe.src) {
+      iframe.src = iframe.dataset.src || 'slide-ts-A3.html';
+    }
+  }
+}
+function stopTimeseries() {
+  const iframe = document.querySelector('#slide5 iframe');
+  if (iframe) {
+    iframe.dataset.src = iframe.src;
+    iframe.src = 'about:blank'; // fully unload iframe content
+    iframe.style.display = 'none';
+  }
+}
 
 // REMOVED timeseries code — now in slide-ts-A3.html iframe
 /* const metrics = [
@@ -1633,7 +1632,7 @@ const datasets = metrics.map(m => m.gen());
 function initTimeseriesCanvas() {
   const canvas = document.getElementById('timeseriesCanvas');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', {willReadFrequently: true});
   const nameEl = document.getElementById('metricName');
   const unitEl = document.getElementById('metricUnit');
   const counterEl = document.getElementById('counter');
@@ -1799,10 +1798,22 @@ function initTimeseriesCanvas() {
 let networkAnimId = null;
 let networkStartTime = null;
 
+let networkInitialized = false, networkUpdate = null, networkDraw = null;
 function initNetworkCanvas() {
+  if (networkInitialized) {
+    // Just resume animation
+    if (!networkAnimId) {
+      networkAnimId = requestAnimationFrame(function resumeLoop(t) {
+        if (!slides[5].classList.contains('active')) { networkAnimId = null; return; }
+        networkUpdate(t); networkDraw(t); networkAnimId = requestAnimationFrame(resumeLoop);
+      });
+    }
+    return;
+  }
+  networkInitialized = true;
   const canvas = document.getElementById('networkCanvas');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', {willReadFrequently: true});
   const yearEl = document.getElementById('networkYear');
   const countEl = document.getElementById('networkCount');
   let W, H, dpr;
@@ -1999,10 +2010,8 @@ function initNetworkCanvas() {
       const col = CAT_COLORS[n.cat] || '#c0c8d0';
       ctx.globalAlpha = n.alpha;
       // glow
-      ctx.shadowColor = col; ctx.shadowBlur = 8 * n.alpha;
       ctx.fillStyle = col;
       ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
-      ctx.shadowBlur = 0;
     }
     ctx.globalAlpha = 1;
 
@@ -2020,6 +2029,9 @@ function initNetworkCanvas() {
     }
     update(t); draw(t); networkAnimId = requestAnimationFrame(loop);
   }
+  // Expose loop for resume
+  networkUpdate = update;
+  networkDraw = draw;
   networkAnimId = requestAnimationFrame(loop);
 }
 
@@ -2028,6 +2040,9 @@ function stopNetwork() {
     cancelAnimationFrame(networkAnimId);
     networkAnimId = null;
   }
+  // Free GPU memory
+  const c = document.getElementById('networkCanvas');
+  if (c) { c.width = 0; c.height = 0; }
 }
 
 // ─── Slide enter animations ───
@@ -2076,12 +2091,9 @@ function onSlideEnter(idx) {
     animateSlide15();
   }
   if (idx === 15) {
-    animateSlide16();
-  }
-  if (idx === 16) {
     animateSlide17();
   }
-  if (idx === 17) {
+  if (idx === 16) {
     animateSlide18();
   }
 }
@@ -2170,11 +2182,22 @@ spendingData.forEach(d => {
 // ─── Orbital Model (slide 3) ───
 let orbitalAnimId = null;
 let orbitalStartTime = null;
+let orbitalLoopFn = null;
 
+let orbitalInitialized = false;
 function initOrbitalCanvas() {
+  if (orbitalInitialized) {
+    // Just resume
+    orbitalStartTime = null;
+    if (!orbitalAnimId) {
+      orbitalAnimId = requestAnimationFrame(orbitalLoopFn);
+    }
+    return;
+  }
+  orbitalInitialized = true;
   const canvas = document.getElementById('orbitalCanvas');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', {willReadFrequently: true});
   let W, H, cx, cy, dpr;
 
   function resize() {
@@ -2328,6 +2351,8 @@ function initOrbitalCanvas() {
     orbitalAnimId = requestAnimationFrame(frame);
   }
 
+  // Expose frame for resume
+  orbitalLoopFn = frame;
   // Start animation
   orbitalStartTime = null;
   orbitalAnimId = requestAnimationFrame(frame);
@@ -2335,6 +2360,9 @@ function initOrbitalCanvas() {
 
 function stopOrbital() {
   if (orbitalAnimId) { cancelAnimationFrame(orbitalAnimId); orbitalAnimId = null; }
+  // Free GPU memory
+  const c = document.getElementById('orbitalCanvas');
+  if (c) { c.width = 0; c.height = 0; }
 }
 
 function animateInfra() {
@@ -2731,57 +2759,9 @@ function animateSlide15() {
   });
 }
 
-// ─── Comparison columns (slide 16) ───
-const bigTechItems = [
-  "Search history fragments",
-  "Location pings",
-  "Purchase receipts",
-  "App usage time",
-  "Ad click patterns",
-  "Email keywords",
-];
-const smindItems = [
-  { text: "93 profile items across every life dimension", color: "#d4845a" },
-  { text: "1,425 financial transactions with context", color: "#d4a030" },
-  { text: "171 health metrics from 4 devices", color: "#4acaaa" },
-  { text: "Every person in my life and their role", color: "#d47ab0" },
-  { text: "My fears, habits, goals, and mission", color: "#8a7ac9" },
-  { text: "Why I do things, not just what I click", color: "#5aafcf" },
-];
-const colBT = document.getElementById('colBigTech');
-bigTechItems.forEach(t => {
-  const el = document.createElement('div');
-  el.className = 'compare-item dim-item';
-  el.innerHTML = `<span class="ci-dot"></span>${t}`;
-  colBT.appendChild(el);
-});
-const colSM = document.getElementById('colSmind');
-smindItems.forEach(s => {
-  const el = document.createElement('div');
-  el.className = 'compare-item bright-item';
-  el.style.borderLeftColor = s.color;
-  el.style.color = s.color;
-  el.innerHTML = `<span class="ci-dot" style="background:${s.color};box-shadow:0 0 6px ${s.color}"></span>${s.text}`;
-  colSM.appendChild(el);
-});
+// ─── Comparison slide removed ───
 
-function animateSlide16() {
-  const btCol = document.getElementById('colBigTech');
-  const smCol = document.getElementById('colSmind');
-  const btItems = btCol.querySelectorAll('.compare-item');
-  const smItems = smCol.querySelectorAll('.compare-item');
-  btCol.classList.remove('visible');
-  smCol.classList.remove('visible');
-  btItems.forEach(i => i.classList.remove('visible'));
-  smItems.forEach(i => i.classList.remove('visible'));
-  requestAnimationFrame(() => {
-    setTimeout(() => btCol.classList.add('visible'), 200);
-    btItems.forEach((item, i) => setTimeout(() => item.classList.add('visible'), 400 + i * 120));
-    const smStart = 400 + btItems.length * 120 + 400;
-    setTimeout(() => smCol.classList.add('visible'), smStart);
-    smItems.forEach((item, i) => setTimeout(() => item.classList.add('visible'), smStart + 200 + i * 150));
-  });
-}
+// animateSlide16 removed (Big Tech comparison slide removed)
 
 // ─── Role cards (slide 17) ───
 const rolesData = [
