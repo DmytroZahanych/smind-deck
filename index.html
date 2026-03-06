@@ -1430,7 +1430,7 @@ html, body {
 <!-- ═══ SLIDE 14 — AI Core Map ═══ -->
 <div class="slide" id="slide14">
   <div class="left">
-    <h1>This is the map. At its core — <em>AI</em></h1>
+    <h1>So, how does it <em>work</em>?</h1>
   </div>
   <canvas id="coreMapCanvas"></canvas>
 </div>
@@ -3842,36 +3842,72 @@ function stopCoreMap() {
 
 // ─── People rings (slide 10) ───
 const peopleData = [
+  // Ring 1: spouse
   { name: "Anastasiia", role: "Wife", color: "#d47ab0", ring: 1 },
+  // Ring 2: family
   { name: "Father", role: "Family", color: "#d4845a", ring: 2 },
   { name: "Mother", role: "Family", color: "#d4845a", ring: 2 },
   { name: "Kostya", role: "Brother", color: "#d4845a", ring: 2 },
   { name: "Grandparents", role: "Family", color: "#d4845a", ring: 2 },
+  // Ring 3: close friends + key people
   { name: "Oleksandr", role: "Friend", color: "#5aafcf", ring: 3 },
   { name: "Ivan", role: "Friend", color: "#5aafcf", ring: 3 },
+  { name: "Volodymyr", role: "Friend", color: "#5aafcf", ring: 3 },
   { name: "Jeremy", role: "Boss", color: "#8a7ac9", ring: 3 },
   { name: "Barry", role: "Colleague", color: "#8a7ac9", ring: 3 },
   { name: "Max Ioli", role: "Colleague", color: "#8a7ac9", ring: 3 },
+  // Ring 4: professional contacts + distant friends
   { name: "Carla", role: "Accountant", color: "#d4a030", ring: 4 },
   { name: "Inna Shemet", role: "Translator", color: "#d4a030", ring: 4 },
+  { name: "Andrii Sugak", role: "Friend", color: "#5aafcf", ring: 4 },
+  // Ring 5: Neo Cybernetica colleagues (periphery)
+  { name: "Derek D.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Alexey P.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Kyryll S.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Derek R.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Ahmet A.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Mykhailo D.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Slater V.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Amanda S.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Viktor G.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Oresta L.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Lyndsey M.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Sofiia D.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Viktoriia D.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Mario N.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Nuno F.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Norman S.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Federico W.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Jacob M.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Shawn S.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Robert P.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Andrii T.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Vadym V.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Peter P.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Jona S.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Kateryna B.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Sasha M.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Mykhailo O.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Alexander B.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Oleksandr B.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Osnat I.", role: "Neo", color: "#6a8090", ring: 5 },
+  { name: "Glen K.", role: "Neo", color: "#6a8090", ring: 5 },
 ];
 
 (function buildRings() {
   const rc = document.getElementById('ringsContainer');
-  const w = 520, h = 520, cx = w / 2, cy = h / 2;
-  const radii = [0, 55, 120, 190, 260];
-  const ringColors = ['', '#d47ab044', '#d4845a33', '#5aafcf28', '#d4a03022'];
+  const w = 620, h = 620, cx = w / 2, cy = h / 2;
+  const radii = [0, 45, 95, 155, 210, 280];
+  const ringColors = ['', '#d47ab044', '#d4845a33', '#5aafcf28', '#d4a03022', '#6a809018'];
   let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">`;
   // rings
-  for (let r = 1; r <= 4; r++) {
+  for (let r = 1; r <= 5; r++) {
     svg += `<circle class="ring-circle" data-ring="${r}" cx="${cx}" cy="${cy}" r="${radii[r]}" stroke="${ringColors[r]}" stroke-dasharray="4,4"/>`;
   }
   // center me node
-  svg += `<circle cx="${cx}" cy="${cy}" r="18" fill="#0a0f1a" stroke="var(--cyan)" stroke-width="1.5"/>`;
-  svg += `<text x="${cx}" y="${cy + 4}" text-anchor="middle" fill="var(--cyan)" font-family="Rajdhani" font-size="12" font-weight="600">me</text>`;
+  svg += `<circle cx="${cx}" cy="${cy}" r="16" fill="#0a0f1a" stroke="var(--cyan)" stroke-width="1.5"/>`;
+  svg += `<text x="${cx}" y="${cy + 4}" text-anchor="middle" fill="var(--cyan)" font-family="Rajdhani" font-size="11" font-weight="600">me</text>`;
   // people nodes
-  const ringCounts = {};
-  peopleData.forEach(p => { ringCounts[p.ring] = (ringCounts[p.ring] || 0); });
   const ringIdx = {};
   peopleData.forEach(p => {
     const ring = p.ring;
@@ -3881,10 +3917,14 @@ const peopleData = [
     ringIdx[ring]++;
     const px = cx + radii[ring] * Math.cos(angle);
     const py = cy + radii[ring] * Math.sin(angle);
+    const isPeriphery = ring === 5;
+    const nodeR = isPeriphery ? 3.5 : 6;
+    const fontSize = isPeriphery ? 7 : 10;
+    const roleSize = isPeriphery ? 0 : 8;
     svg += `<g class="person-node" data-ring="${ring}">`;
-    svg += `<circle cx="${px}" cy="${py}" r="6" fill="${p.color}" opacity="0.85"/>`;
-    svg += `<text class="person-label" x="${px}" y="${py - 12}">${p.name}</text>`;
-    svg += `<text class="person-role" x="${px}" y="${py + 18}">${p.role}</text>`;
+    svg += `<circle cx="${px}" cy="${py}" r="${nodeR}" fill="${p.color}" opacity="${isPeriphery ? 0.5 : 0.85}"/>`;
+    svg += `<text class="person-label" x="${px}" y="${py - (isPeriphery ? 7 : 12)}" font-size="${fontSize}">${p.name}</text>`;
+    if (!isPeriphery) svg += `<text class="person-role" x="${px}" y="${py + 18}" font-size="${roleSize}">${p.role}</text>`;
     svg += `</g>`;
   });
   svg += `</svg>`;
@@ -3897,7 +3937,7 @@ function animateSlide10() {
   rings.forEach(r => r.classList.remove('visible'));
   nodes.forEach(n => n.classList.remove('visible'));
   requestAnimationFrame(() => {
-    for (let r = 1; r <= 4; r++) {
+    for (let r = 1; r <= 5; r++) {
       const delay = r * 350;
       rings.forEach(ring => { if (+ring.dataset.ring === r) setTimeout(() => ring.classList.add('visible'), delay); });
       nodes.forEach(node => { if (+node.dataset.ring === r) setTimeout(() => node.classList.add('visible'), delay + 200); });

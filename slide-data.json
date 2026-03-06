@@ -82,8 +82,10 @@
       {"name": "Jeremy", "role": "Boss", "detail": "Runs STW/Neo/hOS umbrella", "color": "#8a7ac9", "ring": 3},
       {"name": "Barry", "role": "Colleague", "detail": "Chief of Staff at STW, Boston", "color": "#8a7ac9", "ring": 3},
       {"name": "Max Ioli", "role": "Colleague", "detail": "COO at Neo Cybernetica", "color": "#8a7ac9", "ring": 3},
+      {"name": "Volodymyr Bubelych", "role": "Close Friend", "detail": "Lives in US", "color": "#5aafcf", "ring": 3},
       {"name": "Carla", "role": "Accountant", "detail": "Manages tax obligations", "color": "#d4a030", "ring": 4},
-      {"name": "Inna Shemet", "role": "Translator", "detail": "Immigration documents", "color": "#d4a030", "ring": 4}
+      {"name": "Inna Shemet", "role": "Translator", "detail": "Immigration documents", "color": "#d4a030", "ring": 4},
+      {"name": "Andrii Sugak", "role": "Distant Friend", "detail": "Lives in Ukraine", "color": "#5aafcf", "ring": 4}
     ]
   },
   "slide9_dimensions": {
