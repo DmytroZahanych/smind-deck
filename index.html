@@ -4641,15 +4641,17 @@ function initSleepCanvas() {
   // Animation state
   let animStart = 0;
   const TIMELINE_DRAW_MS = 1500;
-  const ISSUE_START_MS = 2000;
-  const ISSUE_STAGGER_MS = 400;
-  const ISSUE_FLY_MS = 800;
-  const INTEGRATE_DELAY_MS = 600;
+  const AGENT_APPEAR_MS = 1200;
+  const ISSUE_START_MS = 2200;
+  const ISSUE_STAGGER_MS = 450;
+  const ISSUE_FLY_MS = 900;
+  const INTEGRATE_DELAY_MS = 700;
   const INTEGRATE_MS = 600;
 
   // Colors
   const GLOW_COLOR = '#5abade';
   const TIMELINE_COLOR = '#5abade';
+  const AGENT_COLOR = '#5abade';
 
   function drawGlowLine(x1, y1, x2, y2, color, alpha, width) {
     ctx.save();
@@ -4738,27 +4740,77 @@ function initSleepCanvas() {
       ctx.beginPath(); ctx.arc(mx, tlY, 4, 0, Math.PI * 2); ctx.fill();
     });
 
-    // ── Issues flying in and integrating ──
+    // ── Sleep Agent origin card (top-right corner) ──
+    const agentX = W * 0.88;
+    const agentY = H * 0.10;
+    const agentW = W * 0.18;
+    const agentH = 70;
+    const agentAlpha = Math.min(1, Math.max(0, (t - AGENT_APPEAR_MS) / 600));
+
+    if (agentAlpha > 0) {
+      ctx.save();
+      ctx.globalAlpha = agentAlpha;
+
+      // Agent card glow
+      ctx.shadowColor = AGENT_COLOR;
+      ctx.shadowBlur = 20 * (0.6 + 0.4 * Math.sin(ts / 800));
+      ctx.fillStyle = 'rgba(10, 15, 26, 0.9)';
+      ctx.strokeStyle = AGENT_COLOR;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(agentX - agentW / 2, agentY - agentH / 2, agentW, agentH, 8);
+      ctx.fill(); ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Moon icon
+      ctx.font = '22px sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('😴', agentX - agentW / 2 + 24, agentY);
+
+      // Agent name
+      ctx.font = `600 ${Math.min(15, W * 0.012)}px 'Rajdhani', sans-serif`;
+      ctx.fillStyle = AGENT_COLOR;
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText('Sleep Evaluator', agentX - agentW / 2 + 42, agentY - 10);
+
+      // Sub text
+      ctx.font = `${Math.min(11, W * 0.009)}px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = '#6a8090';
+      ctx.fillText('benchmark v1.2', agentX - agentW / 2 + 42, agentY + 10);
+
+      // Issue counter
+      const spawnedCount = sleepIssues.filter((_, idx) => t > ISSUE_START_MS + idx * ISSUE_STAGGER_MS).length;
+      if (spawnedCount > 0) {
+        ctx.font = `600 ${Math.min(11, W * 0.009)}px 'Share Tech Mono', monospace`;
+        ctx.fillStyle = '#da4a3a';
+        ctx.textAlign = 'right';
+        ctx.fillText(spawnedCount + ' issues', agentX + agentW / 2 - 10, agentY + 10);
+      }
+
+      ctx.restore();
+    }
+
+    // ── Issues flying from agent card to timeline ──
     sleepIssues.forEach((issue, i) => {
       const issueStartT = ISSUE_START_MS + i * ISSUE_STAGGER_MS;
       const issueAge = t - issueStartT;
       if (issueAge < 0) return;
 
-      // Phase 1: fly in from right (card appears)
+      // Phase 1: fly from agent card to staging area above timeline
       const flyProgress = Math.min(1, issueAge / ISSUE_FLY_MS);
       const flyEase = 1 - Math.pow(1 - flyProgress, 3);
 
-      // Phase 2: integrate into timeline (card morphs to label)
+      // Phase 2: integrate into timeline
       const integrateStartT = ISSUE_FLY_MS + INTEGRATE_DELAY_MS;
       const integrateAge = issueAge - integrateStartT;
       const integrateProgress = integrateAge > 0 ? Math.min(1, integrateAge / INTEGRATE_MS) : 0;
       const intEase = integrateProgress > 0 ? 1 - Math.pow(1 - integrateProgress, 2) : 0;
 
-      // Card position: starts from right edge, flies to a staging area above timeline
+      // Card position: starts from agent card, flies to staging area above timeline
       const cardTargetX = tlLeft + 30 + (i % 5) * ((tlRight - tlLeft - 60) / 5);
-      const cardStartX = W + 200;
-      const cardStartY = H * 0.15 + (i % 3) * 25;
-      const cardTargetY = tlY - 70 - (i % 2) * 35;
+      const cardStartX = agentX;
+      const cardStartY = agentY + agentH / 2 + 10;
+      const cardTargetY = tlY - 80 - (i % 2) * 40;
 
       const cardX = cardStartX + (cardTargetX - cardStartX) * flyEase;
       const cardY = cardStartY + (cardTargetY - cardStartY) * flyEase;
@@ -4767,42 +4819,60 @@ function initSleepCanvas() {
       const cardAlpha = flyProgress * (1 - intEase * 0.85);
       const labelAlpha = intEase;
 
-      // Draw issue card
+      // Draw issue card (bigger)
       if (cardAlpha > 0.01) {
         ctx.save();
         ctx.globalAlpha = cardAlpha;
 
-        // Card background
-        const cw = Math.min(200, W * 0.14);
-        const ch = 42;
+        const cw = Math.min(280, W * 0.20);
+        const ch = 58;
         const cx = cardX - cw / 2;
         const cy = cardY - ch / 2;
-        ctx.fillStyle = 'rgba(10, 15, 26, 0.85)';
-        ctx.strokeStyle = issue.color + '88';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(cx, cy, cw, ch, 4);
-        ctx.fill(); ctx.stroke();
 
-        // Issue number
-        ctx.font = `600 ${Math.min(11, W * 0.009)}px 'Share Tech Mono', monospace`;
+        // Card shadow/glow on spawn
+        if (issueAge < 400) {
+          ctx.shadowColor = issue.color;
+          ctx.shadowBlur = 15 * (1 - issueAge / 400);
+        }
+
+        ctx.fillStyle = 'rgba(10, 15, 26, 0.9)';
+        ctx.strokeStyle = issue.color + 'aa';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.roundRect(cx, cy, cw, ch, 5);
+        ctx.fill(); ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Severity color bar on left edge
+        ctx.fillStyle = issue.color;
+        ctx.beginPath();
+        ctx.roundRect(cx, cy, 4, ch, [5, 0, 0, 5]);
+        ctx.fill();
+
+        // Issue number + severity
+        ctx.font = `600 ${Math.min(13, W * 0.011)}px 'Share Tech Mono', monospace`;
         ctx.fillStyle = issue.color;
         ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-        ctx.fillText(`#${issue.num} [${issue.sev}]`, cx + 8, cy + 6);
+        ctx.fillText(`#${issue.num}  [${issue.sev}]`, cx + 12, cy + 8);
 
-        // Issue title
-        ctx.font = `${Math.min(10, W * 0.008)}px 'Rajdhani', sans-serif`;
-        ctx.fillStyle = '#c0c8d0';
-        const titleTrunc = issue.title.length > 30 ? issue.title.slice(0, 29) + '…' : issue.title;
-        ctx.fillText(titleTrunc, cx + 8, cy + 22);
+        // Issue title (full, wrapped if needed)
+        ctx.font = `${Math.min(13, W * 0.01)}px 'Rajdhani', sans-serif`;
+        ctx.fillStyle = '#d0d8e0';
+        const maxChars = Math.floor(cw / 7);
+        const titleLine1 = issue.title.length > maxChars ? issue.title.slice(0, maxChars) : issue.title;
+        const titleLine2 = issue.title.length > maxChars ? issue.title.slice(maxChars) : '';
+        ctx.fillText(titleLine1, cx + 12, cy + 26);
+        if (titleLine2) {
+          ctx.fillText(titleLine2.slice(0, maxChars), cx + 12, cy + 40);
+        }
 
         // Connecting line from card to timeline
-        if (flyProgress > 0.8) {
-          const lineAlpha = (flyProgress - 0.8) / 0.2 * cardAlpha * 0.3;
+        if (flyProgress > 0.7) {
+          const lineAlpha = (flyProgress - 0.7) / 0.3 * cardAlpha * 0.35;
           ctx.globalAlpha = lineAlpha;
           ctx.strokeStyle = issue.color;
           ctx.lineWidth = 0.8;
-          ctx.setLineDash([3, 3]);
+          ctx.setLineDash([4, 4]);
           ctx.beginPath();
           ctx.moveTo(cardX, cardY + ch / 2);
           ctx.lineTo(cardTargetX, tlY);
@@ -4819,12 +4889,12 @@ function initSleepCanvas() {
         ctx.globalAlpha = labelAlpha;
 
         const lx = cardTargetX;
-        const ly = tlY + 50 + (i % 3) * 22;
+        const ly = tlY + 50 + (i % 3) * 24;
 
-        // Small glow dot on timeline
+        // Glow dot on timeline
         ctx.fillStyle = issue.color;
         ctx.shadowColor = issue.color;
-        ctx.shadowBlur = 12 * labelAlpha;
+        ctx.shadowBlur = 14 * labelAlpha;
         ctx.beginPath(); ctx.arc(lx, tlY, 5, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0;
 
@@ -4834,13 +4904,13 @@ function initSleepCanvas() {
         ctx.beginPath(); ctx.moveTo(lx, tlY + 5); ctx.lineTo(lx, ly - 6); ctx.stroke();
 
         // Goal label
-        ctx.font = `500 ${Math.min(11, W * 0.009)}px 'Rajdhani', sans-serif`;
+        ctx.font = `500 ${Math.min(12, W * 0.01)}px 'Rajdhani', sans-serif`;
         ctx.fillStyle = issue.color;
         ctx.textAlign = 'center'; ctx.textBaseline = 'top';
         ctx.fillText(issue.goalLabel, lx, ly);
 
         // Checkmark
-        ctx.font = `${Math.min(10, W * 0.008)}px sans-serif`;
+        ctx.font = `${Math.min(11, W * 0.009)}px sans-serif`;
         ctx.fillStyle = '#5ac9a0';
         ctx.fillText('✓', lx + ctx.measureText(issue.goalLabel).width / 2 + 8, ly);
 
