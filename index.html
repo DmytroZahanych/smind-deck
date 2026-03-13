@@ -4626,16 +4626,16 @@ function initSleepCanvas() {
 
   // Sleep issues from sleep_evaluator — positioned along timeline day 0 (all opened Mar 11)
   const sleepIssues = [
-    { num: 336, sev: 'CRITICAL', title: 'No sleep blocks in 30+ day schedules', color: '#da4a3a', goalLabel: '100-day sleep coverage' },
-    { num: 337, sev: 'HIGH', title: 'Only 3 nights tracked in 2+ weeks', color: '#e8955f', goalLabel: 'Consistent sleep tracking' },
-    { num: 338, sev: 'HIGH', title: 'REM < 20% target', color: '#e8955f', goalLabel: 'REM optimization' },
-    { num: 339, sev: 'HIGH', title: 'Snoring/apnea unaddressed', color: '#e8955f', goalLabel: 'Apnea screening' },
-    { num: 340, sev: 'HIGH', title: 'Missing bedtime & efficiency metrics', color: '#e8955f', goalLabel: 'Sleep metrics baseline' },
-    { num: 341, sev: 'MEDIUM', title: 'No morning light on weekends', color: '#d4a030', goalLabel: 'Morning light routine' },
-    { num: 342, sev: 'MEDIUM', title: 'DST strategy incomplete', color: '#d4a030', goalLabel: 'DST transition plan' },
-    { num: 343, sev: 'MEDIUM', title: 'No chronotype/caffeine data', color: '#d4a030', goalLabel: 'Sleep profile data' },
-    { num: 344, sev: 'LOW', title: 'Missing thermoregulation detail', color: '#5abade', goalLabel: 'Sleep hygiene detail' },
-    { num: 358, sev: 'MEDIUM', title: 'Near-term missing hygiene blocks', color: '#d4a030', goalLabel: 'Hygiene consistency' },
+    { num: 340, sev: 'HIGH', title: 'Missing bedtime & efficiency metrics', color: '#e8955f', goalLabel: 'Sleep metrics baseline', goalDay: 7 },
+    { num: 343, sev: 'MEDIUM', title: 'No chronotype/caffeine data', color: '#d4a030', goalLabel: 'Sleep profile collected', goalDay: 10 },
+    { num: 337, sev: 'HIGH', title: 'Only 3 nights tracked in 2+ weeks', color: '#e8955f', goalLabel: '7-night tracking baseline', goalDay: 14 },
+    { num: 358, sev: 'MEDIUM', title: 'Near-term missing hygiene blocks', color: '#d4a030', goalLabel: 'Near-term hygiene blocks', goalDay: 14 },
+    { num: 342, sev: 'MEDIUM', title: 'DST strategy incomplete', color: '#d4a030', goalLabel: 'DST transition executed', goalDay: 18 },
+    { num: 339, sev: 'HIGH', title: 'Snoring/apnea unaddressed', color: '#e8955f', goalLabel: 'Apnea screening done', goalDay: 28 },
+    { num: 341, sev: 'MEDIUM', title: 'No morning light on weekends', color: '#d4a030', goalLabel: 'Morning light habit', goalDay: 35 },
+    { num: 344, sev: 'LOW', title: 'Missing thermoregulation detail', color: '#5abade', goalLabel: 'Environment optimized', goalDay: 50 },
+    { num: 338, sev: 'HIGH', title: 'REM < 20% target', color: '#e8955f', goalLabel: 'REM ≥ 20% sustained', goalDay: 75 },
+    { num: 336, sev: 'CRITICAL', title: 'No sleep blocks in 30+ day schedules', color: '#da4a3a', goalLabel: 'Full 100-day coverage', goalDay: 99 },
   ];
 
   // Animation state
@@ -4806,8 +4806,8 @@ function initSleepCanvas() {
       const integrateProgress = integrateAge > 0 ? Math.min(1, integrateAge / INTEGRATE_MS) : 0;
       const intEase = integrateProgress > 0 ? 1 - Math.pow(1 - integrateProgress, 2) : 0;
 
-      // Card position: starts from agent card, flies to staging area above timeline
-      const cardTargetX = tlLeft + 30 + (i % 5) * ((tlRight - tlLeft - 60) / 5);
+      // Card position: starts from agent card, flies to staging area above timeline at goal's day
+      const cardTargetX = dayToX(issue.goalDay);
       const cardStartX = agentX;
       const cardStartY = agentY + agentH / 2 + 10;
       const cardTargetY = tlY - 80 - (i % 2) * 40;
