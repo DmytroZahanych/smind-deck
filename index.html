@@ -371,7 +371,7 @@ html, body {
 /* ════════════════════════════════════
    SLIDE 6 — Network graph styles
    ════════════════════════════════════ */
-#slide8 #networkHud {
+#slide9 #networkHud {
   position: absolute;
   right: 4%;
   bottom: 8%;
@@ -380,7 +380,7 @@ html, body {
   pointer-events: none;
 }
 
-#slide8 #networkCount {
+#slide9 #networkCount {
   font-family: var(--font-mono);
   font-size: clamp(16px, 1.6vw, 28px);
   color: var(--text-dim);
@@ -415,7 +415,7 @@ html, body {
   100% { opacity: 0; transform: translate(50%, -50%) scale(0.95); }
 }
 
-#slide8 canvas {
+#slide9 canvas {
   position: absolute;
   right: 0;
   top: 0;
@@ -559,9 +559,9 @@ html, body {
 .health-cat-label.visible { opacity: 0.7; }
 
 /* ════════════════════════════════════
-   SLIDE 10 — Dimensions ring
+   SLIDE 11 — Dimensions ring
    ════════════════════════════════════ */
-#slide10 canvas {
+#slide11 canvas {
   position: absolute;
   right: 0;
   top: 0;
@@ -616,9 +616,9 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 11 — Smart Goals rings
+   SLIDE 12 — Smart Goals rings
    ════════════════════════════════════ */
-#slide11 canvas {
+#slide12 canvas {
   position: absolute;
   right: 0;
   top: 0;
@@ -675,9 +675,9 @@ html, body {
 /* (old timeline CSS removed — replaced by sensing radar) */
 
 /* ════════════════════════════════════
-   SLIDE 13 — RPA time rings
+   SLIDE 14 — RPA time rings
    ════════════════════════════════════ */
-#slide12 canvas {
+#slide13 canvas {
   position: absolute;
   right: 0; top: 0;
   width: 62%; height: 100%;
@@ -728,16 +728,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 13 — Sensing radar
-   ════════════════════════════════════ */
-#slide13 canvas {
-  position: absolute;
-  right: 0; top: 0;
-  width: 62%; height: 100%;
-}
-
-/* ════════════════════════════════════
-   SLIDE 14 — AI Core Map
+   SLIDE 14 — Sensing radar
    ════════════════════════════════════ */
 #slide14 canvas {
   position: absolute;
@@ -746,7 +737,16 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 11 — People rings
+   SLIDE 15 — AI Core Map
+   ════════════════════════════════════ */
+#slide15 canvas {
+  position: absolute;
+  right: 0; top: 0;
+  width: 62%; height: 100%;
+}
+
+/* ════════════════════════════════════
+   SLIDE 12 — People rings
    ════════════════════════════════════ */
 .rings-container {
   width: 100%;
@@ -784,10 +784,10 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 10 — Dimensions (old constellation CSS removed, now uses canvas ring)
+   SLIDE 11 — Dimensions (old constellation CSS removed, now uses canvas ring)
 
 /* ════════════════════════════════════
-   SLIDE 13 — Entity roster + pipeline
+   SLIDE 14 — Entity roster + pipeline
    ════════════════════════════════════ */
 .entity-roster {
   width: 92%;
@@ -894,7 +894,7 @@ html, body {
 .jobs-counter .num { color: var(--cyan); font-weight: 600; font-size: 1.4em; text-shadow: var(--cyan-glow); }
 
 /* ════════════════════════════════════
-   SLIDE 14 — GitHub issues
+   SLIDE 15 — GitHub issues
    ════════════════════════════════════ */
 .github-panel {
   width: 92%;
@@ -978,7 +978,7 @@ html, body {
 .gh-note.visible { opacity: 0.7; }
 
 /* ════════════════════════════════════
-   SLIDE 15 — AI dialog
+   SLIDE 16 — AI dialog
    ════════════════════════════════════ */
 .dialog-panel {
   width: 90%;
@@ -1019,7 +1019,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 16 — Notification cascade
+   SLIDE 17 — Notification cascade
    ════════════════════════════════════ */
 .notif-list {
   width: 90%;
@@ -1068,7 +1068,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 17 — Big Tech vs SMind comparison
+   SLIDE 18 — Big Tech vs SMind comparison
    ════════════════════════════════════ */
 .comparison-container {
   width: 92%;
@@ -1147,7 +1147,7 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 18 — Role cards (coworker)
+   SLIDE 19 — Role cards (coworker)
    ════════════════════════════════════ */
 .role-grid {
   width: 92%;
@@ -1183,26 +1183,26 @@ html, body {
 }
 
 /* ════════════════════════════════════
-   SLIDE 19 — Closing / future
+   SLIDE 20 — Closing / future
    ════════════════════════════════════ */
-#slide19 .left {
+#slide20 .left {
   width: 100%;
   align-items: center;
   text-align: center;
   padding: 6vh 10vw;
 }
-#slide19 h1 {
+#slide20 h1 {
   font-size: clamp(32px, 3.8vw, 60px);
   font-weight: 300;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 1s ease, transform 1s ease;
 }
-#slide19 h1.visible {
+#slide20 h1.visible {
   opacity: 1;
   transform: translateY(0);
 }
-#slide19 h1 .glow-word {
+#slide20 h1 .glow-word {
   display: inline;
   animation: breathe 4s ease-in-out infinite;
 }
@@ -1279,6 +1279,16 @@ html, body {
   margin-top: 2vh;
 }
 .closing-note.visible { opacity: 0.5; }
+
+/* ════════════════════════════════════
+   SLIDE 21 — Sleep 100-day timeline
+   ════════════════════════════════════ */
+#slide21 canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>
 </head>
 <body>
@@ -1316,7 +1326,7 @@ html, body {
 <!-- ═══ SLIDE 4 ═══ -->
 <div class="slide" id="slide4">
   <div class="left">
-    <h1>So far, it has accumulated <em>158MB</em> of raw data about me</h1>
+    <h1>So far, it has accumulated <em>163MB</em> of raw data about me</h1>
   </div>
   <div class="right">
     <div class="data-viz" id="dataViz">
@@ -1369,8 +1379,19 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 8 — Network graph (was 6, reframed for soft data) ═══ -->
+
+<!-- ═══ SLIDE 9 — Uber Eats food orders (NEW) ═══ -->
 <div class="slide" id="slide8">
+  <div class="left">
+    <h1>It tracks every meal I order — <em>694 items</em> across 229 unique dishes</h1>
+  </div>
+  <div class="right">
+    <div class="health-grid" id="foodGrid"></div>
+  </div>
+  <div class="slide-note">151 days of Uber Eats data (Jun 2025 – Mar 2026) · 10 food categories</div>
+</div>
+<!-- ═══ SLIDE 9 — Network graph (was 6, reframed for soft data) ═══ -->
+<div class="slide" id="slide9">
   <div class="left">
     <h1>Beyond the numbers, it knows my <em>story</em> — fears, goals, mission — <em>132 facts</em> since birth</h1>
   </div>
@@ -1379,8 +1400,8 @@ html, body {
   <div id="networkHud"><div id="networkCount">0 nodes</div></div>
 </div>
 
-<!-- ═══ SLIDE 9 — People (moved from 13) ═══ -->
-<div class="slide" id="slide9">
+<!-- ═══ SLIDE 10 — People (moved from 13) ═══ -->
+<div class="slide" id="slide10">
   <div class="left">
     <h1>It knows the <em>people</em> in my life</h1>
   </div>
@@ -1389,8 +1410,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 10 — Dimensions ring (consistent with goals) ═══ -->
-<div class="slide" id="slide10">
+<!-- ═══ SLIDE 11 — Dimensions ring (consistent with goals) ═══ -->
+<div class="slide" id="slide11">
   <div class="left">
     <h1>It organizes all of this into <em>75</em> concrete dimensions of my life</h1>
   </div>
@@ -1399,8 +1420,8 @@ html, body {
   <div class="dims-center-count"><div class="num" id="dimNum">0</div><div class="lbl">dimensions</div></div>
 </div>
 
-<!-- ═══ SLIDE 11 — Smart Goals rings ═══ -->
-<div class="slide" id="slide11">
+<!-- ═══ SLIDE 12 — Smart Goals rings ═══ -->
+<div class="slide" id="slide12">
   <div class="left">
     <h1>Then it refines them into specific outcomes — framed as <em>smart goals</em></h1>
   </div>
@@ -1409,8 +1430,8 @@ html, body {
   <div class="goals-center-count"><div class="num" id="goalsNum">0</div><div class="lbl">smart goals</div></div>
 </div>
 
-<!-- ═══ SLIDE 12 — RPA-like life admin (time rings) ═══ -->
-<div class="slide" id="slide12">
+<!-- ═══ SLIDE 13 — RPA-like life admin (time rings) ═══ -->
+<div class="slide" id="slide13">
   <div class="left">
     <h1>To act on these goals, it runs <em>33</em> RPA-like jobs automating my life admin</h1>
   </div>
@@ -1419,24 +1440,24 @@ html, body {
   <div class="rpa-counter"><div class="num" id="rpaNum">0</div><div class="lbl">automated jobs</div></div>
 </div>
 
-<!-- ═══ SLIDE 13 — Sensing radar (passive + active) ═══ -->
-<div class="slide" id="slide13">
+<!-- ═══ SLIDE 14 — Sensing radar (passive + active) ═══ -->
+<div class="slide" id="slide14">
   <div class="left">
     <h1>Every day, it pulls data from my devices — and <em>asks</em> what it can't see</h1>
   </div>
   <canvas id="radarCanvas"></canvas>
 </div>
 
-<!-- ═══ SLIDE 14 — AI Core Map ═══ -->
-<div class="slide" id="slide14">
+<!-- ═══ SLIDE 15 — AI Core Map ═══ -->
+<div class="slide" id="slide15">
   <div class="left">
     <h1>So, how does it <em>work</em>?</h1>
   </div>
   <canvas id="coreMapCanvas"></canvas>
 </div>
 
-<!-- ═══ SLIDE 15 ═══ -->
-<div class="slide" id="slide15">
+<!-- ═══ SLIDE 16 ═══ -->
+<div class="slide" id="slide16">
   <div class="left">
     <h1>Inside, there is a <em>society of 16 agents</em></h1>
   </div>
@@ -1449,8 +1470,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 15 ═══ -->
-<div class="slide" id="slide16">
+<!-- ═══ SLIDE 16 ═══ -->
+<div class="slide" id="slide17">
   <div class="left">
     <h1>They treat my life like a software project on <em>GitHub</em>, and use it like human engineers</h1>
   </div>
@@ -1467,8 +1488,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 16 ═══ -->
-<div class="slide" id="slide17">
+<!-- ═══ SLIDE 17 ═══ -->
+<div class="slide" id="slide18">
   <div class="left">
     <h1>They <em>talk to each other</em> to problem-solve</h1>
   </div>
@@ -1477,8 +1498,8 @@ html, body {
   </div>
 </div>
 
-<!-- ═══ SLIDE 18 ═══ -->
-<div class="slide" id="slide18">
+<!-- ═══ SLIDE 19 ═══ -->
+<div class="slide" id="slide19">
   <div class="left">
     <h1>It went beyond my original aspiration of having a superpower to <em>plan</em></h1>
   </div>
@@ -1490,8 +1511,8 @@ html, body {
   <div class="slide-note"></div>
 </div>
 
-<!-- ═══ SLIDE 19 ═══ -->
-<div class="slide" id="slide19">
+<!-- ═══ SLIDE 20 ═══ -->
+<div class="slide" id="slide20">
   <div class="left">
     <h1>This is just the <span class="glow-word">beginning</span></h1>
     <div class="loop-diagram" id="loopDiagram"></div>
@@ -1500,9 +1521,14 @@ html, body {
   </div>
 </div>
 
+<!-- ═══ SLIDE 21 — Sleep 100-day timeline ═══ -->
+<div class="slide" id="slide21">
+  <canvas id="sleepCanvas"></canvas>
+</div>
+
 <script>
 // ─── Config ───
-const TOTAL_SLIDES = 19;
+const TOTAL_SLIDES = 21;
 let current = 0;
 let transitioning = false;
 
@@ -1524,12 +1550,13 @@ function goTo(idx) {
   // Stop canvas animations when leaving slides that have them
   if (current === 2) stopOrbital();
   if (current === 4) stopTimeseries();
-  if (current === 7) stopNetwork();
-  if (current === 9) stopDims();
-  if (current === 10) stopGoals();
-  if (current === 11) stopRpa();
-  if (current === 12) stopRadar();
-  if (current === 13) stopCoreMap();
+  if (current === 8) stopNetwork();
+  if (current === 10) stopDims();
+  if (current === 11) stopGoals();
+  if (current === 12) stopRpa();
+  if (current === 13) stopRadar();
+  if (current === 14) stopCoreMap();
+  if (current === 20) stopSleep();
   prevSlide.classList.remove('active');
   current = idx;
   slides[current].classList.add('active');
@@ -1632,7 +1659,7 @@ const knowledgeItems = [
 const dataBreakdown = [
   ['Session transcripts', 103, 103, '#5aafcf'],
   ['Media', 37, 103, '#4acaaa'],
-  ['Documents', 17, 103, '#d4845a'],
+  ['Documents', 22, 103, '#d4845a'],
   ['Supabase (3,778 rows)', 0.3, 103, '#5ac9a0'],
   ['Memory & agent docs', 0.3, 103, '#c95a8a'],
 ];
@@ -1701,8 +1728,8 @@ function initTimeseriesCanvas() {
   let counted = false, countVal = 0;
   function tickCounter(dt) {
     if (counted) return;
-    countVal = Math.min(countVal + dt * 4, 3280);
-    if (countVal >= 3280) { countVal = 3280; counted = true; }
+    countVal = Math.min(countVal + dt * 4, 3509);
+    if (countVal >= 3509) { countVal = 3509; counted = true; }
     counterEl.textContent = Math.round(countVal).toLocaleString() + ' data points';
   }
 
@@ -1867,7 +1894,7 @@ function initNetworkCanvas() {
   if (networkInitialized) {
     if (!networkAnimId) {
       networkAnimId = requestAnimationFrame(function resumeLoop(t) {
-        if (!slides[7].classList.contains('active')) { networkAnimId = null; return; }
+        if (!slides[8].classList.contains('active')) { networkAnimId = null; return; }
         networkUpdate(t); networkDraw(t); networkAnimId = requestAnimationFrame(resumeLoop);
       });
     }
@@ -2045,7 +2072,7 @@ function initNetworkCanvas() {
   }
 
   function loop(t) {
-    if (!slides[7].classList.contains('active')) { networkAnimId = null; return; }
+    if (!slides[8].classList.contains('active')) { networkAnimId = null; return; }
     update(t); draw(t); networkAnimId = requestAnimationFrame(loop);
   }
   networkUpdate = update;
@@ -2082,41 +2109,47 @@ function onSlideEnter(idx) {
     animateHealth(); // health tiles (slide 7)
   }
   if (idx === 7) {
+    animateFood(); // food bubbles (slide 8)
+  }
+  if (idx === 8) {
     // Start network graph animation
     initNetworkCanvas();
   }
-  if (idx === 8) {
-    animateSlide10(); // people (slide 9)
-  }
   if (idx === 9) {
-    initDimsCanvas(); // dimensions ring (slide 10)
+    animateSlide10(); // people (slide 10)
   }
   if (idx === 10) {
-    initGoalsCanvas(); // smart goals (slide 11)
+    initDimsCanvas(); // dimensions ring (slide 11)
   }
   if (idx === 11) {
-    animateSlide9(); // RPA time rings (slide 12)
+    initGoalsCanvas(); // smart goals (slide 12)
   }
   if (idx === 12) {
-    animateTimeline(); // sensing radar (slide 13)
+    animateSlide9(); // RPA time rings (slide 13)
   }
   if (idx === 13) {
-    initCoreMapCanvas(); // AI core map (slide 14)
+    animateTimeline(); // sensing radar (slide 14)
   }
   if (idx === 14) {
-    animateSlide12(); // entities (slide 15)
+    initCoreMapCanvas(); // AI core map (slide 15)
   }
   if (idx === 15) {
-    animateSlide13(); // github (slide 16)
+    animateSlide12(); // entities (slide 16)
   }
   if (idx === 16) {
-    animateSlide14(); // dialog (slide 17)
+    animateSlide13(); // github (slide 17)
   }
   if (idx === 17) {
-    animateSlide17(); // coworker (slide 18)
+    animateSlide14(); // dialog (slide 18)
   }
   if (idx === 18) {
-    animateSlide18(); // closing (slide 19)
+    animateSlide17(); // coworker (slide 19)
+  }
+  if (idx === 19) {
+    animateSlide18(); // closing (slide 20)
+  }
+  if (idx === 20) {
+    initSleepCanvas(); // sleep 100-day timeline (slide 21)
   }
 }
 
@@ -2139,7 +2172,7 @@ function animateSlide4() {
     ring.setAttribute('stroke-dashoffset', '0');
 
     // Animate counter
-    animateCounter(document.getElementById('totalNum'), 0, 158, 2000);
+    animateCounter(document.getElementById('totalNum'), 0, 163, 2000);
 
     // Animate bars
     rows.forEach((row, i) => {
@@ -2200,6 +2233,74 @@ spendingData.forEach(d => {
   if (size < 75) { el.querySelector('.bubble-name').style.fontSize = '8px'; el.querySelector('.bubble-amount').style.fontSize = '9px'; }
   bubbleChart.appendChild(el);
 });
+
+// ─── Food bubble chart (slide 8) ───
+const foodTileData = [
+  {cat: "Drinks", color: "#5abade", items: [
+    {name: "Kombucha Original", count: 37}, {name: "Kombucha Framboesa", count: 18},
+    {name: "Kombucha Zero", count: 12}, {name: "Chá Verde Limão", count: 11},
+    {name: "Limonada", count: 10}, {name: "Kombucha Bio 400ml", count: 8},
+  ]},
+  {cat: "Fish", color: "#4acaaa", items: [
+    {name: "Robalo Grelhada", count: 22}, {name: "Dourada Grelhada", count: 11},
+    {name: "Choco Frito", count: 11}, {name: "Salmão", count: 6},
+    {name: "Har Gow", count: 5}, {name: "Pataniscas Bacalhau", count: 4},
+  ]},
+  {cat: "Fruit", color: "#5ac9a0", items: [
+    {name: "Bananas", count: 17}, {name: "Banana Frita", count: 13},
+    {name: "Baby Food Banana", count: 9}, {name: "Baby Food Maçã", count: 9},
+    {name: "Mirtilos", count: 9},
+  ]},
+  {cat: "Sweets", color: "#c95a8a", items: [
+    {name: "Cadbury Caramelo", count: 13}, {name: "Marmelada", count: 9},
+    {name: "Sandwich Nata", count: 7}, {name: "Mini Stracciatella", count: 6},
+    {name: "Bolo Kartoshka", count: 5}, {name: "Brownie Bite", count: 4},
+  ]},
+  {cat: "Snacks", color: "#e8955f", items: [
+    {name: "Tyrrell's Cheddar", count: 22}, {name: "Bifana", count: 12},
+    {name: "Sandes Panado", count: 6}, {name: "Rollo Vegetarian", count: 4},
+    {name: "Fit Rollo", count: 4}, {name: "Rollo Greek", count: 4},
+  ]},
+  {cat: "Asian", color: "#8a7ac9", items: [
+    {name: "Bún Nem Chay", count: 14}, {name: "Tofu Crocante", count: 12},
+    {name: "Pãozinhos Nozes", count: 9}, {name: "Arroz Frito", count: 4},
+  ]},
+  {cat: "Salads", color: "#7aa2d4", items: [
+    {name: "Hummus & Pita", count: 8}, {name: "Salada Mista", count: 3},
+    {name: "Salada Ibérica", count: 3}, {name: "Prato Fit", count: 2},
+  ]},
+  {cat: "Meat", color: "#da7060", items: [
+    {name: "Bife", count: 10}, {name: "Arroz c/ Frango", count: 4},
+    {name: "Frango Bowl", count: 2},
+  ]},
+  {cat: "Pizza", color: "#d4a030", items: [
+    {name: "Margherita", count: 14}, {name: "Ravioli", count: 1},
+    {name: "Rigatone", count: 1},
+  ]},
+];
+const foodGrid = document.getElementById('foodGrid');
+foodTileData.forEach(cat => {
+  const label = document.createElement('div');
+  label.className = 'health-cat-label';
+  label.style.color = cat.color;
+  label.textContent = cat.cat;
+  foodGrid.appendChild(label);
+  cat.items.forEach(item => {
+    const tile = document.createElement('div');
+    tile.className = 'health-tile';
+    tile.style.borderLeftColor = cat.color;
+    tile.innerHTML = `<div class="health-tile-name">${item.name}</div><div class="health-tile-val" style="color:${cat.color}">${item.count}</div>`;
+    foodGrid.appendChild(tile);
+  });
+});
+
+function animateFood() {
+  const tiles = foodGrid.querySelectorAll('.health-tile, .health-cat-label');
+  tiles.forEach(t => t.classList.remove('visible'));
+  tiles.forEach((t, i) => {
+    setTimeout(() => t.classList.add('visible'), i * 40);
+  });
+}
 
 // ─── Health indicator tiles (slide 7) ───
 const healthData = [
@@ -2338,7 +2439,7 @@ function animateHealth() {
   });
 }
 
-// ─── Smart Goals concentric rings (slide 10) ───
+// ─── Smart Goals concentric rings (slide 11) ───
 // 3-ring hierarchy matching dashboard: hOS categories → dimensions → goals
 const goalsRingData = [
   {cat:'Health',color:'#4acaaa',dims:[
@@ -2589,7 +2690,7 @@ function initGoalsCanvas() {
   }
 
   function frame(ts) {
-    if (!slides[10].classList.contains('active')) { goalsAnimId = null; return; }
+    if (!slides[11].classList.contains('active')) { goalsAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
@@ -2819,6 +2920,7 @@ function initOrbitalCanvas() {
     {
       speed: 0.00007, items: [
         { label: 'Millennium', emoji: '🏦', color: COLORS.batch },
+        { label: 'Uber Eats', emoji: '🍔', color: COLORS.batch },
         { label: 'Hospital da Luz', emoji: '🏥', color: COLORS.batch },
         { label: 'Brex', emoji: '💳', color: COLORS.batch },
         { label: 'Web access', emoji: '🌐', color: COLORS.network },
@@ -2938,7 +3040,7 @@ function animateInfra() {
   initOrbitalCanvas();
 }
 
-// ─── Timeline (slide 8) ───
+// ─── Timeline (slide 9) ───
 // ─── Extended slide enter handlers ───
 function animateSpending() {
   const bubbles = bubbleChart.querySelectorAll('.bubble');
@@ -2950,8 +3052,8 @@ function animateSpending() {
   });
 }
 
-// ─── Sensing Radar (slide 13) ───
-// ─── Sensing channels on time rings (slide 13) ───
+// ─── Sensing Radar (slide 14) ───
+// ─── Sensing channels on time rings (slide 14) ───
 // Passive = always-streaming data (teal arcs), Active = periodic probes (orange pulsing)
 const sensingChannels = [
   // Passive — on daily ring (hour positions)
@@ -3073,7 +3175,7 @@ function initRadarCanvas() {
   });
 
   function frame(ts) {
-    if (!slides[12].classList.contains('active')) { radarAnimId = null; return; }
+    if (!slides[13].classList.contains('active')) { radarAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
@@ -3254,7 +3356,7 @@ function stopRadar() {
 
 function animateTimeline() { initRadarCanvas(); }
 
-// ─── RPA Time Rings (slide 13) ───
+// ─── RPA Time Rings (slide 14) ───
 // Jobs positioned on concentric time rings: daily (24h), monthly (31 days), yearly (12 months)
 const rpaJobs = [
   // Daily ring (hour position 0-23)
@@ -3374,7 +3476,7 @@ function initRpaCanvas() {
   }
 
   function frame(ts) {
-    if (!slides[11].classList.contains('active')) { rpaAnimId = null; return; }
+    if (!slides[12].classList.contains('active')) { rpaAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
@@ -3518,7 +3620,7 @@ function stopRpa() {
 
 function animateSlide9() { initRpaCanvas(); }
 
-// ─── AI Core Map (slide 13) ───
+// ─── AI Core Map (slide 14) ───
 let coreMapAnimId = null, coreMapInitialized = false;
 
 function initCoreMapCanvas() {
@@ -3618,7 +3720,7 @@ function initCoreMapCanvas() {
   }
 
   function frame(ts) {
-    if (!slides[13].classList.contains('active')) { coreMapAnimId = null; return; }
+    if (!slides[14].classList.contains('active')) { coreMapAnimId = null; return; }
     if (!geomReady) {
       geomReady = computeGeom();
       if (!geomReady) { coreMapAnimId = requestAnimationFrame(frame); return; }
@@ -3840,7 +3942,7 @@ function stopCoreMap() {
   coreMapInitialized = false;
 }
 
-// ─── People rings (slide 10) ───
+// ─── People rings (slide 11) ───
 const peopleData = [
   // Ring 1: spouse
   { name: "Anastasiia", role: "Wife", color: "#d47ab0", ring: 1 },
@@ -3945,7 +4047,7 @@ function animateSlide10() {
   });
 }
 
-// ─── Dimensions constellation (slide 11) ───
+// ─── Dimensions constellation (slide 12) ───
 const dimensions = [
   "Advocacy & Social Justice", "Budgeting & Spending Management", "Career & Professional Life",
   "Caregiving & Family Support", "Community Building & Civic Participation", "Compassion & Lovingkindness",
@@ -4099,7 +4201,7 @@ function initDimsCanvas() {
   const HIGHLIGHT_DURATION = 1100;
 
   function frame(ts) {
-    if (!slides[9].classList.contains('active')) { dimsAnimId = null; return; }
+    if (!slides[10].classList.contains('active')) { dimsAnimId = null; return; }
     if (!animStart) animStart = ts;
     const t = ts - animStart;
     ctx.clearRect(0, 0, W, H);
@@ -4219,7 +4321,7 @@ function animateSlide11() {
   initDimsCanvas();
 }
 
-// ─── Entity roster (slide 12) ───
+// ─── Entity roster (slide 13) ───
 const entities = [
   // Core (9)
   { name: "Scientist", role: "Builds quality benchmarks for data tables", jobs: 5, color: "#5aafcf", type: "core" },
@@ -4297,7 +4399,7 @@ function animateSlide12() {
   });
 }
 
-// ─── GitHub issues (slide 13) ───
+// ─── GitHub issues (slide 14) ───
 const ghIssuesData = [
   { title: "§6.1 — 8 goals have empty evidence arrays", tag: "HIGH", closed: false },
   { title: "§3.2 — 2 goals describe activities, not outcomes", tag: "HIGH", closed: false },
@@ -4333,7 +4435,7 @@ function animateSlide13() {
   });
 }
 
-// ─── Dialog (slide 14) ───
+// ─── Dialog (slide 15) ───
 const dialogData = [
   { entity: "Scientist", text: "Benchmark v1.2 for user_model_history: §3.2 requires all items have evidence arrays with at least one entry...", color: "#5aafcf" },
   { entity: "Evaluator", text: "Grading user_model_history against benchmark v1.2. Found 8 items with empty evidence. Filing issue [HIGH] §6.1...", color: "#d4a030" },
@@ -4356,7 +4458,7 @@ function animateSlide14() {
   });
 }
 
-// ─── Notifications (slide 15) ───
+// ─── Notifications (slide 16) ───
 const remindersData = [
   { icon: "💊", text: "Apply Cicaplast cream to surgery sites", time: "10:00 AM", color: "#4acaaa" },
   { icon: "📄", text: "Get document at Largo Machado de Assis", time: "Tomorrow 9:30", color: "#7aa2d4" },
@@ -4375,11 +4477,11 @@ const remindersData = [
 
 // animateSlide16 removed (Big Tech comparison slide removed)
 
-// ─── Role cards (slide 17) ───
+// ─── Role cards (slide 18) ───
 const rolesData = [
   { role: "Life admin", example: "33 automated jobs running bills, reminders, tracking", color: "#5ac9a0" },
   { role: "Memory", example: "Knows more about me than I remember myself", color: "#d4845a" },
-  { role: "Data analyst", example: "176 metrics, 3,280 data points from my life", color: "#8a7ac9" },
+  { role: "Data analyst", example: "185 metrics, 3,509 data points from my life", color: "#8a7ac9" },
   { role: "Advisor", example: "Flags blind spots, challenges my assumptions", color: "#d4a030" },
   { role: "Internet gateway", example: "Searches, fetches, monitors — my eyes on the web", color: "#5aafcf" },
   { role: "Journal / Diary", example: "Captures thoughts, decisions, context every day", color: "#d47ab0" },
@@ -4403,7 +4505,7 @@ function animateSlide17() {
   });
 }
 
-// ─── Closing (slide 18) ───
+// ─── Closing (slide 19) ───
 const loopWords = ['Sense', 'Compute', 'Deliver', 'Measure', 'Learn'];
 const loopDiagram = document.getElementById('loopDiagram');
 const loopWordColors = ['#d4845a', '#4acaaa', '#8a7ac9', '#d4a030', '#5aafcf', '#c95a8a'];
@@ -4439,7 +4541,7 @@ gapsData.forEach(g => {
 });
 
 function animateSlide18() {
-  const title = document.querySelector('#slide19 h1');
+  const title = document.querySelector('#slide20 h1');
   const loop = loopDiagram;
   const words = loop.querySelectorAll('.loop-word');
   const arrows = loop.querySelectorAll('.loop-arrow');
@@ -4470,6 +4572,309 @@ function animateSlide18() {
     // Closing note
     setTimeout(() => note.classList.add('visible'), gapStart + gaps.length * 200 + 400);
   });
+}
+
+// ─── Sleep 100-day Timeline (slide 21) ───
+let sleepAnimId = null, sleepInitialized = false;
+
+function initSleepCanvas() {
+  if (sleepInitialized) {
+    if (!sleepAnimId) sleepAnimId = requestAnimationFrame(sleepLoop);
+    return;
+  }
+  sleepInitialized = true;
+
+  const canvas = document.getElementById('sleepCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    const r = canvas.parentElement.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Timeline data
+  const startDate = new Date('2026-03-11');
+  const endDate = new Date('2026-06-18');
+  const totalDays = Math.round((endDate - startDate) / 86400000);
+
+  function dayToX(dayOffset) {
+    const margin = W * 0.08;
+    return margin + (dayOffset / totalDays) * (W - margin * 2);
+  }
+
+  function dateToDay(dateStr) {
+    return Math.round((new Date(dateStr) - startDate) / 86400000);
+  }
+
+  // Key date markers on the timeline
+  const dateMarkers = [
+    { day: 0, label: 'Mar 11', sub: 'Start' },
+    { day: 18, label: 'Mar 29', sub: 'DST' },
+    { day: 30, label: 'Apr 10', sub: '30 days' },
+    { day: 60, label: 'May 10', sub: '60 days' },
+    { day: 90, label: 'Jun 9', sub: '90 days' },
+    { day: 99, label: 'Jun 18', sub: '100 days' },
+  ];
+
+  // Sleep issues from sleep_evaluator — positioned along timeline day 0 (all opened Mar 11)
+  const sleepIssues = [
+    { num: 336, sev: 'CRITICAL', title: 'No sleep blocks in 30+ day schedules', color: '#da4a3a', goalLabel: '100-day sleep coverage' },
+    { num: 337, sev: 'HIGH', title: 'Only 3 nights tracked in 2+ weeks', color: '#e8955f', goalLabel: 'Consistent sleep tracking' },
+    { num: 338, sev: 'HIGH', title: 'REM < 20% target', color: '#e8955f', goalLabel: 'REM optimization' },
+    { num: 339, sev: 'HIGH', title: 'Snoring/apnea unaddressed', color: '#e8955f', goalLabel: 'Apnea screening' },
+    { num: 340, sev: 'HIGH', title: 'Missing bedtime & efficiency metrics', color: '#e8955f', goalLabel: 'Sleep metrics baseline' },
+    { num: 341, sev: 'MEDIUM', title: 'No morning light on weekends', color: '#d4a030', goalLabel: 'Morning light routine' },
+    { num: 342, sev: 'MEDIUM', title: 'DST strategy incomplete', color: '#d4a030', goalLabel: 'DST transition plan' },
+    { num: 343, sev: 'MEDIUM', title: 'No chronotype/caffeine data', color: '#d4a030', goalLabel: 'Sleep profile data' },
+    { num: 344, sev: 'LOW', title: 'Missing thermoregulation detail', color: '#5abade', goalLabel: 'Sleep hygiene detail' },
+    { num: 358, sev: 'MEDIUM', title: 'Near-term missing hygiene blocks', color: '#d4a030', goalLabel: 'Hygiene consistency' },
+  ];
+
+  // Animation state
+  let animStart = 0;
+  const TIMELINE_DRAW_MS = 1500;
+  const ISSUE_START_MS = 2000;
+  const ISSUE_STAGGER_MS = 400;
+  const ISSUE_FLY_MS = 800;
+  const INTEGRATE_DELAY_MS = 600;
+  const INTEGRATE_MS = 600;
+
+  // Colors
+  const GLOW_COLOR = '#5abade';
+  const TIMELINE_COLOR = '#5abade';
+
+  function drawGlowLine(x1, y1, x2, y2, color, alpha, width) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    // Outer glow
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 20;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    // Inner bright line
+    ctx.shadowBlur = 8;
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = width * 0.3;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    ctx.restore();
+  }
+
+  function frame(ts) {
+    if (!slides[20].classList.contains('active')) { sleepAnimId = null; return; }
+    if (!animStart) animStart = ts;
+    const t = ts - animStart;
+    ctx.clearRect(0, 0, W, H);
+
+    const tlY = H * 0.45;
+    const tlLeft = dayToX(0);
+    const tlRight = dayToX(totalDays);
+
+    // ── Title text ──
+    const titleAlpha = Math.min(1, t / 800);
+    ctx.globalAlpha = titleAlpha;
+    ctx.font = `300 ${Math.min(42, W * 0.028)}px 'Rajdhani', sans-serif`;
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    ctx.fillText('Sleep Agent — 100-Day Plan', W * 0.08, H * 0.06);
+    ctx.font = `${Math.min(16, W * 0.012)}px 'Share Tech Mono', monospace`;
+    ctx.fillStyle = '#6a8090';
+    ctx.fillText('sleep_scientist → sleep_evaluator → scheduler + workers → GitHub issues', W * 0.08, H * 0.06 + 48);
+
+    // ── Timeline glow line (draws progressively) ──
+    const tlProgress = Math.min(1, Math.max(0, t / TIMELINE_DRAW_MS));
+    const tlEase = 1 - Math.pow(1 - tlProgress, 3);
+    const tlEndX = tlLeft + (tlRight - tlLeft) * tlEase;
+
+    drawGlowLine(tlLeft, tlY, tlEndX, tlY, GLOW_COLOR, 0.9, 3);
+
+    // Pulsing glow along the drawn portion
+    if (tlProgress > 0) {
+      const pulseX = tlLeft + ((ts / 3000) % 1) * (tlEndX - tlLeft);
+      ctx.save();
+      ctx.globalAlpha = 0.15 + 0.1 * Math.sin(ts / 300);
+      const pg = ctx.createRadialGradient(pulseX, tlY, 0, pulseX, tlY, 60);
+      pg.addColorStop(0, GLOW_COLOR);
+      pg.addColorStop(1, 'transparent');
+      ctx.fillStyle = pg;
+      ctx.beginPath(); ctx.arc(pulseX, tlY, 60, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+
+    // ── Date markers ──
+    dateMarkers.forEach(dm => {
+      const mx = dayToX(dm.day);
+      if (mx > tlEndX + 5) return;
+      const markerAlpha = Math.min(1, (tlEndX - mx + 30) / 60);
+      ctx.globalAlpha = markerAlpha;
+
+      // Tick
+      ctx.strokeStyle = TIMELINE_COLOR;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(mx, tlY - 10); ctx.lineTo(mx, tlY + 10); ctx.stroke();
+
+      // Date label
+      ctx.font = `600 ${Math.min(13, W * 0.01)}px 'Rajdhani', sans-serif`;
+      ctx.fillStyle = TIMELINE_COLOR;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillText(dm.label, mx, tlY + 14);
+
+      // Sub label
+      ctx.font = `${Math.min(10, W * 0.008)}px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = '#6a8090';
+      ctx.fillText(dm.sub, mx, tlY + 30);
+
+      // Dot
+      ctx.fillStyle = TIMELINE_COLOR;
+      ctx.beginPath(); ctx.arc(mx, tlY, 4, 0, Math.PI * 2); ctx.fill();
+    });
+
+    // ── Issues flying in and integrating ──
+    sleepIssues.forEach((issue, i) => {
+      const issueStartT = ISSUE_START_MS + i * ISSUE_STAGGER_MS;
+      const issueAge = t - issueStartT;
+      if (issueAge < 0) return;
+
+      // Phase 1: fly in from right (card appears)
+      const flyProgress = Math.min(1, issueAge / ISSUE_FLY_MS);
+      const flyEase = 1 - Math.pow(1 - flyProgress, 3);
+
+      // Phase 2: integrate into timeline (card morphs to label)
+      const integrateStartT = ISSUE_FLY_MS + INTEGRATE_DELAY_MS;
+      const integrateAge = issueAge - integrateStartT;
+      const integrateProgress = integrateAge > 0 ? Math.min(1, integrateAge / INTEGRATE_MS) : 0;
+      const intEase = integrateProgress > 0 ? 1 - Math.pow(1 - integrateProgress, 2) : 0;
+
+      // Card position: starts from right edge, flies to a staging area above timeline
+      const cardTargetX = tlLeft + 30 + (i % 5) * ((tlRight - tlLeft - 60) / 5);
+      const cardStartX = W + 200;
+      const cardStartY = H * 0.15 + (i % 3) * 25;
+      const cardTargetY = tlY - 70 - (i % 2) * 35;
+
+      const cardX = cardStartX + (cardTargetX - cardStartX) * flyEase;
+      const cardY = cardStartY + (cardTargetY - cardStartY) * flyEase;
+
+      // After integration, card fades and goal label appears on timeline
+      const cardAlpha = flyProgress * (1 - intEase * 0.85);
+      const labelAlpha = intEase;
+
+      // Draw issue card
+      if (cardAlpha > 0.01) {
+        ctx.save();
+        ctx.globalAlpha = cardAlpha;
+
+        // Card background
+        const cw = Math.min(200, W * 0.14);
+        const ch = 42;
+        const cx = cardX - cw / 2;
+        const cy = cardY - ch / 2;
+        ctx.fillStyle = 'rgba(10, 15, 26, 0.85)';
+        ctx.strokeStyle = issue.color + '88';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(cx, cy, cw, ch, 4);
+        ctx.fill(); ctx.stroke();
+
+        // Issue number
+        ctx.font = `600 ${Math.min(11, W * 0.009)}px 'Share Tech Mono', monospace`;
+        ctx.fillStyle = issue.color;
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.fillText(`#${issue.num} [${issue.sev}]`, cx + 8, cy + 6);
+
+        // Issue title
+        ctx.font = `${Math.min(10, W * 0.008)}px 'Rajdhani', sans-serif`;
+        ctx.fillStyle = '#c0c8d0';
+        const titleTrunc = issue.title.length > 30 ? issue.title.slice(0, 29) + '…' : issue.title;
+        ctx.fillText(titleTrunc, cx + 8, cy + 22);
+
+        // Connecting line from card to timeline
+        if (flyProgress > 0.8) {
+          const lineAlpha = (flyProgress - 0.8) / 0.2 * cardAlpha * 0.3;
+          ctx.globalAlpha = lineAlpha;
+          ctx.strokeStyle = issue.color;
+          ctx.lineWidth = 0.8;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(cardX, cardY + ch / 2);
+          ctx.lineTo(cardTargetX, tlY);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        ctx.restore();
+      }
+
+      // Draw goal label on timeline (appears as issue integrates)
+      if (labelAlpha > 0.01) {
+        ctx.save();
+        ctx.globalAlpha = labelAlpha;
+
+        const lx = cardTargetX;
+        const ly = tlY + 50 + (i % 3) * 22;
+
+        // Small glow dot on timeline
+        ctx.fillStyle = issue.color;
+        ctx.shadowColor = issue.color;
+        ctx.shadowBlur = 12 * labelAlpha;
+        ctx.beginPath(); ctx.arc(lx, tlY, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Connection to label
+        ctx.strokeStyle = issue.color + '66';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.moveTo(lx, tlY + 5); ctx.lineTo(lx, ly - 6); ctx.stroke();
+
+        // Goal label
+        ctx.font = `500 ${Math.min(11, W * 0.009)}px 'Rajdhani', sans-serif`;
+        ctx.fillStyle = issue.color;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        ctx.fillText(issue.goalLabel, lx, ly);
+
+        // Checkmark
+        ctx.font = `${Math.min(10, W * 0.008)}px sans-serif`;
+        ctx.fillStyle = '#5ac9a0';
+        ctx.fillText('✓', lx + ctx.measureText(issue.goalLabel).width / 2 + 8, ly);
+
+        ctx.restore();
+      }
+    });
+
+    // ── Stats at bottom ──
+    const statsAlpha = Math.min(1, Math.max(0, (t - ISSUE_START_MS - sleepIssues.length * ISSUE_STAGGER_MS - ISSUE_FLY_MS) / 800));
+    if (statsAlpha > 0) {
+      ctx.globalAlpha = statsAlpha;
+      ctx.font = `${Math.min(14, W * 0.011)}px 'Share Tech Mono', monospace`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+
+      const statsY = H * 0.92;
+      ctx.fillStyle = GLOW_COLOR;
+      ctx.fillText('10 issues filed → 10 addressed → 10 closed', W / 2, statsY);
+      ctx.font = `${Math.min(12, W * 0.009)}px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = '#6a8090';
+      ctx.fillText('sleep_scientist benchmark v1.2  ·  99 days scheduled  ·  all within 48 hours', W / 2, statsY + 20);
+    }
+
+    ctx.globalAlpha = 1;
+    sleepAnimId = requestAnimationFrame(frame);
+  }
+
+  sleepLoop = frame;
+  sleepAnimId = requestAnimationFrame(frame);
+}
+let sleepLoop = null;
+
+function stopSleep() {
+  if (sleepAnimId) { cancelAnimationFrame(sleepAnimId); sleepAnimId = null; }
+  sleepInitialized = false;
 }
 
 // Init
